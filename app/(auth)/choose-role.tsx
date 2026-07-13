@@ -15,6 +15,8 @@ type RoleCardProps = {
   variant: "customer" | "artist";
   selected: boolean;
   onPress: () => void;
+  minHeight: number;
+  onLayout: (event: any) => void;
 };
 
 const RoleCard = ({
@@ -24,6 +26,8 @@ const RoleCard = ({
   variant,
   onPress,
   selected,
+  minHeight,
+  onLayout,
 }: RoleCardProps) => {
   const isSelected = selected;
 
@@ -31,10 +35,15 @@ const RoleCard = ({
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={onPress}
-      className={`flex-1 rounded-[12px] p-2.5 border-2
+      onLayout={onLayout}
+      className={`flex-1 rounded-[12px] p-2.5
     ${isSelected ? "border-[#B57EDC] bg-[#F4E4FF]" : "border-[#ECECEC] bg-white"}
   `}
-      style={
+      style={[
+        {
+          borderWidth: 1,
+          minHeight,
+        },
         isSelected
           ? {
               shadowColor: "#F2447D",
@@ -49,17 +58,24 @@ const RoleCard = ({
               shadowRadius: 8,
               shadowOffset: { width: 0, height: 3 },
               elevation: 2,
-            }
-      }
+            },
+      ]}
     >
       <Image
         source={image}
         className="w-full h-48 rounded-[14px]"
         resizeMode="cover"
       />
+
       <View className="mt-3 px-2 pb-1.5 items-center">
-        <Text className="text-2xl font-bold text-black">{title}</Text>
-        <Text className="text-sm text-center leading-4 text-gray-500 mt-2">
+        <Text className="text-2xl font-bold text-black text-center">
+          {title}
+        </Text>
+
+        <Text
+          className="mt-2 text-sm text-center leading-4 text-gray-500"
+          style={{ minHeight: 36 }}
+        >
           {subtitle}
         </Text>
       </View>
@@ -71,6 +87,8 @@ export default function ChooseRoleScreen({ navigation }: any) {
   const [selectedRole, setSelectedRole] = useState<"customer" | "artist">(
     "customer",
   );
+
+  const [cardHeight, setCardHeight] = useState(0);
 
   const handleSelectCustomer = () => {
     setSelectedRole("customer");
@@ -100,7 +118,11 @@ export default function ChooseRoleScreen({ navigation }: any) {
 
   return (
     <LinearGradient
-      colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
+      colors={[
+        COLORS.backGradient1,
+        COLORS.backGradient2,
+        COLORS.backGradient3,
+      ]}
       start={{ x: 0.2, y: 0 }}
       end={{ x: 0.8, y: 1 }}
       className="flex-1"
@@ -159,6 +181,13 @@ export default function ChooseRoleScreen({ navigation }: any) {
             subtitle="Book professional beauty services near you."
             variant="customer"
             selected={selectedRole === "customer"}
+            minHeight={cardHeight}
+            onLayout={(e) => {
+              const height = e.nativeEvent.layout.height;
+              if (height > cardHeight) {
+                setCardHeight(height);
+              }
+            }}
             onPress={handleSelectCustomer}
           />
           <RoleCard
@@ -167,6 +196,13 @@ export default function ChooseRoleScreen({ navigation }: any) {
             subtitle="Grow your business and manage bookings easy"
             variant="artist"
             selected={selectedRole === "artist"}
+            minHeight={cardHeight}
+            onLayout={(e) => {
+              const height = e.nativeEvent.layout.height;
+              if (height > cardHeight) {
+                setCardHeight(height);
+              }
+            }}
             onPress={handleSelectArtist}
           />
         </View>

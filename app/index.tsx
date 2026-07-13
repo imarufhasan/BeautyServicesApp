@@ -1,17 +1,16 @@
 import { COLORS } from "@/constants/colors";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
 import { Image, Text, View } from "react-native";
 
 export default function SplashScreen() {
-  useEffect(() => {
+  useFocusEffect(() => {
     const timer = setTimeout(() => {
       router.push("/(auth)/welcome");
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  });
 
   return (
     <View className="flex-1 bg-[#FFF8FA] items-center justify-center">

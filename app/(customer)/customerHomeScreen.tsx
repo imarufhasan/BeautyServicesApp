@@ -1,36 +1,77 @@
+import DateModal from "@/components/common/DateModal";
 import GradientButton from "@/components/common/GradientButton";
+import {
+  LocationOption,
+  ServiceOption,
+  TimeSlot,
+} from "@/components/common/homeSearchApi";
+import LocationModal from "@/components/common/LocationModal";
+import PeopleModal from "@/components/common/PeopleModal";
+import ServiceModal from "@/components/common/ServiceModal";
+import TimeModal from "@/components/common/TimeModal";
+
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import { router } from "expo-router";
+import React, { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // ---------- Local assets ----------
-const HERO_IMAGE = require("../../assets/images/home/hero-model.png");
-const STORY_1_IMAGE = require("../../assets/images/home/story-1.png");
-const STORY_2_IMAGE = require("../../assets/images/home/story-2.png");
-const INSPO_WEDDING = require("../../assets/images/home/inspo-wedding.png");
-const INSPO_FORMAL = require("../../assets/images/home/inspo-formal.png");
-const INSPO_NATURAL = require("../../assets/images/home/inspo-formal.png");
-const INSPO_PARTY = require("../../assets/images/home/inspo-formal.png");
-const INSPO_BRIDAL = require("../../assets/images/home/inspo-wedding.png");
-const INSPO_LUXURY = require("../../assets/images/home/inspo-wedding.png");
-const INSPO_FESTIVAL = require("../../assets/images/home/inspo-wedding.png");
-const INSPO_EXTRA = require("../../assets/images/home/inspo-wedding.png");
+const HERO_IMAGE = require("../../assets/images/home/pic5.png");
+const STORY_1_IMAGE = require("../../assets/images/home/pic2.png");
+const STORY_2_IMAGE = require("../../assets/images/home/pic3.png");
+const INSPO_WEDDING = require("../../assets/images/home/pic4.png");
+const INSPO_FORMAL = require("../../assets/images/home/pic1.png");
+const INSPO_NATURAL = require("../../assets/images/home/pic2.png");
+const INSPO_PARTY = require("../../assets/images/home/pic3.png");
+const INSPO_BRIDAL = require("../../assets/images/home/pic4.png");
+const INSPO_LUXURY = require("../../assets/images/home/pic1.png");
+const INSPO_FESTIVAL = require("../../assets/images/home/pic2.png");
+const INSPO_EXTRA = require("../../assets/images/home/pic3.png");
+
+// ---------- Types ----------
+type FilterKey = "location" | "date" | "time" | "service" | "people";
 
 // ---------- Data ----------
-const FIND_ROWS = [
+const FIND_ROWS: {
+  key: FilterKey;
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  placeholder: string;
+}[] = [
   {
+    key: "location",
     icon: "location-outline",
     label: "LOCATION",
     placeholder: "Where are you?",
   },
-  { icon: "calendar-outline", label: "DATE", placeholder: "When?" },
-  { icon: "time-outline", label: "TIME", placeholder: "What time?" },
-  { icon: "cut-outline", label: "SERVICE", placeholder: "What service?" },
-  { icon: "people-outline", label: "PEOPLE", placeholder: "1 guest" },
-] as const;
+  {
+    key: "date",
+    icon: "calendar-outline",
+    label: "DATE",
+    placeholder: "When?",
+  },
+  {
+    key: "time",
+    icon: "time-outline",
+    label: "TIME",
+    placeholder: "What time?",
+  },
+  {
+    key: "service",
+    icon: "cut-outline",
+    label: "SERVICE",
+    placeholder: "What service?",
+  },
+  {
+    key: "people",
+    icon: "people-outline",
+    label: "PEOPLE",
+    placeholder: "1 guest",
+  },
+];
 
 const WHY_CARDS = [
   {
@@ -105,16 +146,21 @@ const StarRow = ({ rating }: { rating: number }) => (
 const FindRow = ({
   icon,
   label,
+  value,
   placeholder,
   isLast,
+  onPress,
 }: {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
+  value: string | null;
   placeholder: string;
   isLast?: boolean;
+  onPress: () => void;
 }) => (
   <TouchableOpacity
     activeOpacity={0.7}
+    onPress={onPress}
     className={`flex-row items-center py-3.5 ${
       isLast ? "" : "border-b border-[#F1EFF3]"
     }`}
@@ -126,16 +172,53 @@ const FindRow = ({
       <Text className="text-[11px] font-bold tracking-[1px] text-[#9A94A0]">
         {label}
       </Text>
-      <Text className="text-[15px] text-[#B7B2BC] mt-0.5">{placeholder}</Text>
+      <Text
+        className="text-[15px] mt-0.5"
+        style={{ color: value ? "#161119" : "#B7B2BC" }}
+      >
+        {value ?? placeholder}
+      </Text>
     </View>
     <Ionicons name="chevron-forward" size={18} color="#C9C4CF" />
   </TouchableOpacity>
 );
 
 export default function CustomerHomeScreen() {
+  const [activeModal, setActiveModal] = useState<FilterKey | null>(null);
+
+  // Raw + display state for each filter. Display strings are what's rendered
+  // in the row; raw values (dateISO) are kept around because later filters
+  // (Time) depend on them.
+  const [locationValue, setLocationValue] = useState<LocationOption | null>(
+    null,
+  );
+  const [dateISO, setDateISO] = useState<string | null>(null);
+  const [dateLabel, setDateLabel] = useState<string | null>(null);
+  const [timeValue, setTimeValue] = useState<TimeSlot | null>(null);
+  const [serviceValue, setServiceValue] = useState<ServiceOption | null>(null);
+  const [peopleCount, setPeopleCount] = useState<number | null>(null);
+
+  const displayValues: Record<FilterKey, string | null> = {
+    location: locationValue
+      ? `${locationValue.name}, ${locationValue.region}`
+      : null,
+    date: dateLabel,
+    time: timeValue ? timeValue.label : null,
+    service: serviceValue ? serviceValue.name : null,
+    people: peopleCount
+      ? `${peopleCount} ${peopleCount === 1 ? "guest" : "guests"}`
+      : null,
+  };
+
+  const closeModal = () => setActiveModal(null);
+
   return (
     <LinearGradient
-      colors={["#FDEFF4", "#FFFFFF", "#EAF6F5"]}
+      colors={[
+        COLORS.backGradient1,
+        COLORS.backGradient2,
+        COLORS.backGradient3,
+      ]}
       start={{ x: 0.1, y: 0 }}
       end={{ x: 0.9, y: 1 }}
       className="flex-1"
@@ -203,34 +286,50 @@ export default function CustomerHomeScreen() {
             </Text>
             {FIND_ROWS.map((row, idx) => (
               <FindRow
-                key={row.label}
+                key={row.key}
                 icon={row.icon}
                 label={row.label}
                 placeholder={row.placeholder}
+                value={displayValues[row.key]}
                 isLast={idx === FIND_ROWS.length - 1}
+                onPress={() => {
+                  setActiveModal(row.key);
+                }}
               />
             ))}
 
-            {/* <TouchableOpacity
-              activeOpacity={0.85}
-              //onPress={() => router.push("/(customer)/search-results")}
-              className="mt-4"
-            >
-              <LinearGradient
-                colors={["#FF5FA2", "#FFA35C"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                className="rounded-full py-4 flex-row items-center justify-center"
-              >
-                <Ionicons name="search" size={17} color="#FFFFFF" />
-                <Text className="text-white text-base font-bold ml-2">
-                  Find My Artist
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity> */}
-            <GradientButton
+            {/* <GradientButton
               label="Find My Artist"
               // onPress={() => router.push("/(auth)/choose-role")}
+              search={true}
+              style={{ marginTop: 40 }}
+            /> */}
+            <GradientButton
+              label="Find My Artist"
+              onPress={() => {
+                const params: Record<string, string> = {};
+
+                if (locationValue) {
+                  params.location = `${locationValue.name}, ${locationValue.region}`;
+                }
+                if (dateLabel) {
+                  params.date = dateLabel;
+                }
+                if (timeValue?.label) {
+                  params.time = timeValue.label;
+                }
+                if (serviceValue?.name) {
+                  params.service = serviceValue.name;
+                }
+                if (peopleCount) {
+                  params.people = String(peopleCount);
+                }
+
+                router.push({
+                  pathname: "/ArtistListScreen", // adjust to match the actual file path under app/, minus route group parens
+                  params,
+                });
+              }}
               search={true}
               style={{ marginTop: 40 }}
             />
@@ -394,6 +493,43 @@ export default function CustomerHomeScreen() {
           </View>
         </ScrollView>
       </SafeAreaView>
+
+      {/* ---------- Filter modals ---------- */}
+      <LocationModal
+        visible={activeModal === "location"}
+        onClose={closeModal}
+        onSelect={setLocationValue}
+      />
+
+      <DateModal
+        visible={activeModal === "date"}
+        onClose={closeModal}
+        initialDateISO={dateISO}
+        onSelect={(iso: any, label: any) => {
+          setDateISO(iso);
+          setDateLabel(label);
+        }}
+      />
+
+      <TimeModal
+        visible={activeModal === "time"}
+        onClose={closeModal}
+        dateISO={dateISO}
+        onSelect={setTimeValue}
+      />
+
+      <ServiceModal
+        visible={activeModal === "service"}
+        onClose={closeModal}
+        onSelect={setServiceValue}
+      />
+
+      <PeopleModal
+        visible={activeModal === "people"}
+        onClose={closeModal}
+        initialCount={peopleCount}
+        onSelect={setPeopleCount}
+      />
     </LinearGradient>
   );
 }
