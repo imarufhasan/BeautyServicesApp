@@ -1,13 +1,14 @@
 import { COLORS } from "@/constants/colors";
-import { Ionicons } from "@expo/vector-icons";
+import { Fontisto, Ionicons } from "@expo/vector-icons";
+import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
-    Image,
-    ImageSourcePropType,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ImageSourcePropType,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export type Artist = {
@@ -42,7 +43,7 @@ const Badge = ({
 }) => (
   <View
     className="flex-row items-center rounded-full px-2 py-1 mr-1.5"
-    style={{ backgroundColor: bg }}
+    style={{ backgroundColor: bg, borderColor: color, borderWidth: 1 }}
   >
     <Ionicons name={icon} size={11} color={color} style={{ marginRight: 3 }} />
     <Text style={{ color, fontSize: 10 }} className="font-bold">
@@ -89,23 +90,23 @@ export default function ArtistCard({
               <Badge
                 icon="checkmark-circle-outline"
                 label="Verified"
-                bg="rgba(255,255,255,0.92)"
-                color="#2FA773"
+                bg="#BAF1E4"
+                color="#1A5A52"
               />
             )}
             {artist.availableToday && (
               <Badge
                 icon="ellipse"
                 label="Available Today"
-                bg="rgba(255,255,255,0.62)"
-                color="#E08A2E"
+                bg="#FFA23026"
+                color="#FFA230"
               />
             )}
             {artist.topRated && (
               <Badge
                 icon="ribbon-outline"
                 label="Top Rated"
-                bg="rgba(255,255,255,0.92)"
+                bg="#FFFBEB"
                 color="#E17100"
               />
             )}
@@ -113,19 +114,19 @@ export default function ArtistCard({
 
           <TouchableOpacity
             onPress={() => onToggleFavorite?.(artist)}
-            className="w-8 h-8 rounded-full bg-white/90 items-center justify-center"
+            className="w-8 h-8 rounded-full bg-white/80 items-center justify-center"
           >
             <Ionicons
               name={artist.isFavorite ? "heart" : "heart-outline"}
               size={16}
-              color={artist.isFavorite ? "#E0558C" : "#B57EDC"}
+              color={artist.isFavorite ? "#B57EDC" : "#B57EDC"}
             />
           </TouchableOpacity>
         </View>
 
         {/* Price badge */}
         <View
-          className="absolute bottom-3 right-3 bg-white rounded-full items-center justify-center px-3 py-2"
+          className="absolute bottom-3 right-3 bg-white rounded-2xl items-center justify-center px-3 py-2"
           style={{
             shadowColor: "#000",
             shadowOpacity: 0.1,
@@ -148,19 +149,39 @@ export default function ArtistCard({
             <Text className="text-[16px] font-extrabold text-[#161119]">
               {artist.name}
             </Text>
-            <Text
+            {/* <Text
               style={{ color: COLORS.baseColor1 }}
               className="text-xs font-bold mt-0.5"
             >
               {artist.specialty}
-            </Text>
+            </Text> */}
+            <MaskedView
+              maskElement={
+                <Text className="text-xs font-bold mt-0.5">
+                  {artist.specialty}
+                </Text>
+              }
+            >
+              <LinearGradient
+                colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Text
+                  className="text-xs font-bold mt-0.5"
+                  style={{ opacity: 0 }}
+                >
+                  {artist.specialty}
+                </Text>
+              </LinearGradient>
+            </MaskedView>
             <Text className="text-xs text-[#8A8590] mt-0.5">
               {artist.category}
             </Text>
           </View>
 
           <View className="flex-row items-center bg-[#FBF2E4] rounded-full px-2 py-1">
-            <Ionicons name="star" size={12} color="#E0A324" />
+            <Fontisto name="star" size={12} color="#FC6C8C" />
             <Text className="text-xs font-extrabold text-[#161119] ml-1">
               {artist.rating.toFixed(1)}
             </Text>
@@ -176,7 +197,7 @@ export default function ArtistCard({
           <Text className="text-xs text-[#8A8590] ml-1 mr-3">
             {artist.yearsExperience} yrs
           </Text>
-          <Ionicons name="navigate-outline" size={13} color="#9A94A0" />
+          <Ionicons name="navigate-outline" size={13} color="#48B9A8" />
           <Text className="text-xs text-[#8A8590] ml-1">
             {artist.radiusKm} km radius
           </Text>
@@ -238,7 +259,7 @@ export default function ArtistCard({
             activeOpacity={0.85}
             onPress={() => onViewProfile?.(artist)}
             className="flex-1 py-3 items-center rounded-full border"
-            style={{ borderColor: "#F0DFF7" }}
+            style={{ borderColor: COLORS.borderColor }}
           >
             <Text
               style={{ color: COLORS.baseColor }}

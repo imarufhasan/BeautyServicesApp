@@ -95,7 +95,7 @@ export default function ChooseRoleScreen({ navigation }: any) {
 
     setTimeout(() => {
       router.push({
-        pathname: "/(customer)/customerHomeScreen",
+        pathname: "/(customer)/(tabs)/home",
         params: {
           role: "customer",
         },

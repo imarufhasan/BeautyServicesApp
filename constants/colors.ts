@@ -16,4 +16,7 @@ export const COLORS = {
   backGradient1: "#FFF0F4",
   backGradient2: "#FAFAFA",
   backGradient3: "#F0FAF8",
+
+  borderColor: "#FC6C8C4D",
+  perpelColor: "#F4E4FF",
 };

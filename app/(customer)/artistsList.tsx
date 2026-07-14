@@ -2,7 +2,7 @@ import ArtistCard, { Artist } from "@/components/common/ArtistCard";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -95,31 +95,37 @@ export default function ArtistListScreen() {
 
   const screenTitle = params.service || "Find My Artist";
 
-  // Replace this with your real API call using params.location / date / time / service / people
-  // const artists = useMemo(() => MOCK_ARTISTS, []);
+  // 🔧 New: artists now live in state, not a static const
+  const [artistsData, setArtistsData] = useState<Artist[]>(MOCK_ARTISTS);
+
   const artists = useMemo(() => {
     const serviceQuery = params.service?.toLowerCase().trim();
     const locationQuery = params.location?.toLowerCase().trim();
 
-    return MOCK_ARTISTS.filter((artist) => {
+    return artistsData.filter((artist) => {
       const matchesService = serviceQuery
         ? artist.specialty.toLowerCase().includes(serviceQuery) ||
           artist.category.toLowerCase().includes(serviceQuery)
         : true;
-
-      // Mock data has no location field yet — placeholder until the real
-      // API returns artist location/radius so this can be a real match.
       const matchesLocation = locationQuery ? true : true;
-
       return matchesService && matchesLocation;
     });
   }, [
+    artistsData,
     params.service,
     params.location,
     params.date,
-    params.time,
     params.people,
   ]);
+
+  // 🔧 New: proper immutable toggle
+  const handleToggleFavorite = (artist: Artist) => {
+    setArtistsData((prev) =>
+      prev.map((a) =>
+        a.id === artist.id ? { ...a, isFavorite: !a.isFavorite } : a,
+      ),
+    );
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-[#FBF9FC]" edges={["top"]}>
@@ -178,12 +184,12 @@ export default function ArtistListScreen() {
               {}
             }
             onViewProfile={(artist) =>
-              //   router.push({
-              //     pathname: "/artist/[id]",
-              //     params: { id: artist.id },
-              //   })
-              {}
+              router.push({
+                pathname: "/artist-details",
+                params: { id: artist.id },
+              })
             }
+            onToggleFavorite={handleToggleFavorite}
           />
         )}
         ListEmptyComponent={
