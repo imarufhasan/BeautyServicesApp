@@ -13,8 +13,8 @@ import TimeModal from "@/components/common/TimeModal";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
-import React, { useState } from "react";
+import { router, useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -185,18 +185,26 @@ const FindRow = ({
 
 export default function CustomerHomeScreen() {
   const [activeModal, setActiveModal] = useState<FilterKey | null>(null);
-
-  // Raw + display state for each filter. Display strings are what's rendered
-  // in the row; raw values (dateISO) are kept around because later filters
-  // (Time) depend on them.
+  const [serviceValues, setServiceValues] = useState<ServiceOption[]>([]);
   const [locationValue, setLocationValue] = useState<LocationOption | null>(
     null,
   );
+
   const [dateISO, setDateISO] = useState<string | null>(null);
   const [dateLabel, setDateLabel] = useState<string | null>(null);
   const [timeValue, setTimeValue] = useState<TimeSlot | null>(null);
-  const [serviceValue, setServiceValue] = useState<ServiceOption | null>(null);
+  //const [serviceValue, setServiceValue] = useState<ServiceOption | null>(null);
   const [peopleCount, setPeopleCount] = useState<number | null>(null);
+
+  const resetFilters = () => {
+    setLocationValue(null);
+    setDateISO(null);
+    setDateLabel(null);
+    setTimeValue(null);
+    setServiceValues([]);
+    setPeopleCount(null);
+    setActiveModal(null);
+  };
 
   const displayValues: Record<FilterKey, string | null> = {
     location: locationValue
@@ -204,13 +212,21 @@ export default function CustomerHomeScreen() {
       : null,
     date: dateLabel,
     time: timeValue ? timeValue.label : null,
-    service: serviceValue ? serviceValue.name : null,
+    service: serviceValues.length
+      ? serviceValues.map((s) => s.name).join(", ")
+      : null,
     people: peopleCount
       ? `${peopleCount} ${peopleCount === 1 ? "guest" : "guests"}`
       : null,
   };
 
   const closeModal = () => setActiveModal(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      resetFilters();
+    }, []),
+  );
 
   return (
     <LinearGradient
@@ -299,7 +315,7 @@ export default function CustomerHomeScreen() {
             ))}
 
             <GradientButton
-              label="Find My Artist 33"
+              label="Find My Artist"
               onPress={() => {
                 const params: Record<string, string> = {};
 
@@ -312,8 +328,8 @@ export default function CustomerHomeScreen() {
                 if (timeValue?.label) {
                   params.time = timeValue.label;
                 }
-                if (serviceValue?.name) {
-                  params.service = serviceValue.name;
+                if (serviceValues.length) {
+                  params.service = serviceValues.map((s) => s.name).join(", ");
                 }
                 if (peopleCount) {
                   params.people = String(peopleCount);
@@ -515,7 +531,8 @@ export default function CustomerHomeScreen() {
       <ServiceModal
         visible={activeModal === "service"}
         onClose={closeModal}
-        onSelect={setServiceValue}
+        onSelect={setServiceValues}
+        initialSelected={serviceValues}
       />
 
       <PeopleModal

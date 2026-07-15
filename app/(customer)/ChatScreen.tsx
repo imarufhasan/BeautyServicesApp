@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // ---------------------------------------------------------------------------
@@ -304,58 +305,71 @@ export default function ChatScreen({
       )}
 
       {/* Message list */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 12 }}
-      >
-        {groupedEntries.map((group) => (
-          <View key={group.dateGroup}>
-            <DateSeparator label={group.dateGroup} />
-            {group.items.map((message) => (
-              <MessageBubble
-                key={message.id}
-                message={message}
-                avatar={params.avatar}
-              />
-            ))}
-          </View>
-        ))}
-      </ScrollView>
 
-      {/* Input bar */}
-      <View
-        className="flex-row items-center px-4 py-3"
-        style={{ borderTopWidth: 1, borderTopColor: "#EFEAF3" }}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior="padding"
+        keyboardVerticalOffset={0}
       >
-        <TouchableOpacity className="w-9 h-9 items-center justify-center">
-          <Ionicons name="happy-outline" size={20} color="#B0AAB6" />
-        </TouchableOpacity>
+        <ScrollView
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            paddingBottom: 20,
+            flexGrow: 1,
+          }}
+        >
+          {groupedEntries.map((group) => (
+            <View key={group.dateGroup}>
+              <DateSeparator label={group.dateGroup} />
+              {group.items.map((message) => (
+                <MessageBubble
+                  key={message.id}
+                  message={message}
+                  avatar={params.avatar}
+                />
+              ))}
+            </View>
+          ))}
+        </ScrollView>
 
+        {/* Input bar */}
         <View
-          className="flex-1 flex-row items-center bg-[#F5F2F7] rounded-full px-4 mx-2"
-          style={{ height: 44 }}
+          className="flex-row items-center px-4 py-3 bg-gray-100"
+          style={{ borderTopWidth: 1, borderTopColor: "#EFEAF3" }}
         >
-          <TextInput
-            value={draft}
-            onChangeText={setDraft}
-            placeholder="Type a message..."
-            placeholderTextColor="#B0AAB6"
-            className="flex-1 text-sm text-[#161119]"
-            multiline
-          />
+          <TouchableOpacity className="w-9 h-9 items-center justify-center">
+            <Ionicons name="happy-outline" size={20} color="#B0AAB6" />
+          </TouchableOpacity>
+
+          <View
+            className="flex-1 flex-row items-center bg-white rounded-full px-4 mx-2"
+            style={{ height: 44 }}
+          >
+            <TextInput
+              value={draft}
+              onChangeText={setDraft}
+              placeholder="Type a message..."
+              placeholderTextColor="#B0AAB6"
+              className="flex-1 text-sm text-[#161119]"
+              multiline
+            />
+          </View>
+
+          <TouchableOpacity className="w-9 h-9 items-center justify-center mr-1">
+            <Ionicons name="attach-outline" size={20} color="#B0AAB6" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={handleSend}
+            className="w-10 h-10 rounded-full items-center justify-center bg-[#EFEAF3]"
+          >
+            <Ionicons name="send" size={16} color="#8A8590" />
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity className="w-9 h-9 items-center justify-center mr-1">
-          <Ionicons name="attach-outline" size={20} color="#B0AAB6" />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleSend}
-          className="w-10 h-10 rounded-full items-center justify-center bg-[#EFEAF3]"
-        >
-          <Ionicons name="send" size={16} color="#8A8590" />
-        </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

@@ -6,7 +6,6 @@ import React, { useMemo, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// ---------- Local assets (swap for your real portfolio/hero photos) ----------
 const HERO_1 = require("../../assets/images/home/pic1.png");
 const HERO_2 = require("../../assets/images/home/pic2.png");
 const HERO_3 = require("../../assets/images/home/pic3.png");
@@ -15,13 +14,22 @@ const THUMB_1 = require("../../assets/images/home/pic1.png");
 const THUMB_2 = require("../../assets/images/home/pic2.png");
 const THUMB_3 = require("../../assets/images/home/pic3.png");
 
-// ---------- Mock data (replace with your API results) ----------
-const MOCK_ARTISTS: Artist[] = [
+type ArtistWithFilters = Artist & {
+  services: string[];
+  location: string;
+  availableToday?: boolean;
+  rating: number;
+  priceFrom: number;
+};
+
+const MOCK_ARTISTS: ArtistWithFilters[] = [
   {
     id: "1",
     name: "Sofia Marchetti",
     specialty: "Makeup Artist",
     category: "Bridal & Editorial",
+    services: ["Bridal Makeup", "Editorial Makeup", "Party Makeup"],
+    location: "Sydney, NSW",
     yearsExperience: 8,
     radiusKm: 15,
     rating: 4.9,
@@ -39,6 +47,8 @@ const MOCK_ARTISTS: Artist[] = [
     name: "Amara Osei",
     specialty: "Hair Stylist",
     category: "Natural & Textured Hair",
+    services: ["Hair Styling", "Natural Hair", "Braiding"],
+    location: "Melbourne, VIC",
     yearsExperience: 6,
     radiusKm: 10,
     rating: 4.8,
@@ -54,6 +64,8 @@ const MOCK_ARTISTS: Artist[] = [
     name: "Leila Farouk",
     specialty: "Hair Stylist",
     category: "Cut & Colour",
+    services: ["Hair Styling", "Hair Colour", "Party Makeup"],
+    location: "Brisbane, QLD",
     yearsExperience: 6,
     radiusKm: 12,
     rating: 4.9,
@@ -69,6 +81,8 @@ const MOCK_ARTISTS: Artist[] = [
     name: "Isabelle Renaud",
     specialty: "Formal Expert",
     category: "Skincare & Glow Treatments",
+    services: ["Skincare", "Formal Makeup", "Bridal Makeup"],
+    location: "Sydney, NSW",
     yearsExperience: 10,
     radiusKm: 20,
     rating: 4.7,
@@ -80,11 +94,26 @@ const MOCK_ARTISTS: Artist[] = [
     availableToday: true,
     topRated: true,
   },
+  {
+    id: "5",
+    name: "Priya Nair",
+    specialty: "Makeup Artist",
+    category: "Festival & Party",
+    services: ["Party Makeup", "Festival Look", "Hair Styling"],
+    location: "Perth, WA",
+    yearsExperience: 5,
+    radiusKm: 18,
+    rating: 4.6,
+    reviewCount: 298,
+    priceFrom: 75,
+    heroImage: HERO_1,
+    portfolioImages: [THUMB_1, THUMB_2, THUMB_3],
+    verified: true,
+    availableToday: false,
+  },
 ];
 
 export default function ArtistListScreen() {
-  // Pulls whatever filters were passed from the Home screen search card
-
   const params = useLocalSearchParams<{
     location?: string;
     date?: string;
@@ -94,31 +123,69 @@ export default function ArtistListScreen() {
   }>();
 
   const screenTitle = params.service || "Find My Artist";
+  const [searchText, setSearchText] = useState("");
+  const [onlyAvailable, setOnlyAvailable] = useState(false);
+  const [sortType, setSortType] = useState<"rating" | "price">("rating");
 
-  // 🔧 New: artists now live in state, not a static const
-  const [artistsData, setArtistsData] = useState<Artist[]>(MOCK_ARTISTS);
+  const [artistsData, setArtistsData] =
+    useState<ArtistWithFilters[]>(MOCK_ARTISTS);
 
   const artists = useMemo(() => {
-    const serviceQuery = params.service?.toLowerCase().trim();
+    const selectedServices = params.service
+      ? params.service
+          .split(",")
+          .map((s) => s.trim().toLowerCase())
+          .filter(Boolean)
+      : [];
+
     const locationQuery = params.location?.toLowerCase().trim();
 
-    return artistsData.filter((artist) => {
-      const matchesService = serviceQuery
-        ? artist.specialty.toLowerCase().includes(serviceQuery) ||
-          artist.category.toLowerCase().includes(serviceQuery)
-        : true;
-      const matchesLocation = locationQuery ? true : true;
-      return matchesService && matchesLocation;
-    });
+    return artistsData
+      .filter((artist) => {
+        // Service filter
+        const matchesService =
+          selectedServices.length === 0 ||
+          artist.services.some((service) =>
+            selectedServices.includes(service.toLowerCase()),
+          );
+
+        // Location filter
+        const matchesLocation =
+          !locationQuery ||
+          artist.location.toLowerCase().includes(locationQuery);
+
+        // Search filter
+        const matchesSearch =
+          !searchText ||
+          artist.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          artist.specialty.toLowerCase().includes(searchText.toLowerCase());
+
+        // Availability filter
+        const matchesAvailability = !onlyAvailable || artist.availableToday;
+
+        return (
+          matchesService &&
+          matchesLocation &&
+          matchesSearch &&
+          matchesAvailability
+        );
+      })
+      .sort((a, b) => {
+        if (sortType === "rating") {
+          return b.rating - a.rating;
+        }
+
+        return a.priceFrom - b.priceFrom;
+      });
   }, [
     artistsData,
     params.service,
     params.location,
-    params.date,
-    params.people,
+    searchText,
+    onlyAvailable,
+    sortType,
   ]);
 
-  // 🔧 New: proper immutable toggle
   const handleToggleFavorite = (artist: Artist) => {
     setArtistsData((prev) =>
       prev.map((a) =>
@@ -129,7 +196,6 @@ export default function ArtistListScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-[#FBF9FC]" edges={["top"]}>
-      {/* Header */}
       <View className="flex-row items-center justify-between px-5 py-3">
         <TouchableOpacity
           onPress={() => router.back()}
@@ -144,7 +210,7 @@ export default function ArtistListScreen() {
           <Ionicons name="chevron-back" size={18} color="#161119" />
         </TouchableOpacity>
 
-        <Text className="text-base font-extrabold text-[#161119]">
+        <Text className="text-base mx-2 font-extrabold text-[#161119]">
           {screenTitle}
         </Text>
 
@@ -176,13 +242,7 @@ export default function ArtistListScreen() {
         renderItem={({ item }) => (
           <ArtistCard
             artist={item}
-            onQuickBook={(artist) =>
-              //   router.push({
-              //     pathname: "/booking/quick-book",
-              //     params: { artistId: artist.id },
-              //   })
-              {}
-            }
+            onQuickBook={() => {}}
             onViewProfile={(artist) =>
               router.push({
                 pathname: "/artist-details",

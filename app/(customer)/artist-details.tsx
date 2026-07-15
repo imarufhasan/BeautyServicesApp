@@ -854,6 +854,9 @@ export default function ArtistProfileScreen({
       >
         <TouchableOpacity
           className="w-14 h-14 rounded-2xl items-center justify-center bg-[#F4E4FF]"
+          onPress={() => {
+            router.push("/ChatScreen");
+          }}
           style={{
             shadowColor: "#000",
             shadowOpacity: 0.08,
@@ -895,7 +898,7 @@ export default function ArtistProfileScreen({
             end={{ x: 1, y: 0 }}
             className="py-4 items-center rounded-full"
           >
-            <Text className="text-white text-xl font-extrabold">Book Now</Text>
+            <Text className="text-white text-lg font-extrabold">Book Now</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

@@ -32,7 +32,7 @@ export default function GradientButton({
   search,
   height = 50,
   borderRadius = 12,
-  textSize = 18,
+  textSize = 16,
   colors = [COLORS.baseColor1, COLORS.baseColor2],
 }: GradientButtonProps) {
   return (

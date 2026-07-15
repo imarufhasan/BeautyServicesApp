@@ -3,7 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Tabs } from "expo-router";
 import React from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // ---------------------------------------------------------------------------
 // Custom tab icon: active tab gets a gradient circle behind the icon,
@@ -53,6 +54,16 @@ const TabIcon = ({
 };
 
 export default function CustomerTabsLayout() {
+  const insets = useSafeAreaInsets();
+
+  // Base content height for icon + label, independent of device.
+  const TAB_BAR_CONTENT_HEIGHT = 58;
+
+  // On Android, insets.bottom is usually 0 for gesture-less devices,
+  // so we still guarantee a minimum breathing room there.
+  const bottomPadding =
+    Platform.OS === "ios" ? insets.bottom : Math.max(insets.bottom, 10);
+
   return (
     <Tabs
       screenOptions={{
@@ -61,13 +72,13 @@ export default function CustomerTabsLayout() {
         tabBarActiveTintColor: COLORS.baseColor,
         tabBarInactiveTintColor: "#8A8590",
         tabBarStyle: {
-          height: 68,
+          height: TAB_BAR_CONTENT_HEIGHT + bottomPadding,
           paddingTop: 6,
-          paddingBottom: 10,
+          paddingBottom: bottomPadding,
           borderTopWidth: 1,
           borderTopColor: "#EFEAF3",
           backgroundColor: "#fff",
-          marginBottom: 50,
+          position: "absolute",
         },
         tabBarLabelStyle: {
           fontSize: 11,
