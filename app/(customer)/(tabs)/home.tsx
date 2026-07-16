@@ -30,6 +30,144 @@ const INSPO_BRIDAL = require("../../../assets/images/home/pic4.png");
 const INSPO_LUXURY = require("../../../assets/images/home/pic1.png");
 const INSPO_FESTIVAL = require("../../../assets/images/home/pic2.png");
 const INSPO_EXTRA = require("../../../assets/images/home/pic3.png");
+const USER_AVATAR = require("../../../assets/images/home/pic1.png");
+const ARTIST_1 = require("../../../assets/images/home/pic1.png");
+const ARTIST_2 = require("../../../assets/images/home/pic2.png");
+const ARTIST_3 = require("../../../assets/images/home/pic3.png");
+const ARTIST_4 = require("../../../assets/images/home/pic4.png");
+
+// ---------- Header mock data — replace with real auth/user + notifications API ----------
+const CURRENT_USER = { name: "Naz", avatar: USER_AVATAR };
+const UNREAD_NOTIFICATIONS_COUNT = 1;
+
+// ---------- Artist preview types + mock data — replace with real API ----------
+type ArtistPreview = {
+  id: string;
+  name: string;
+  specialty: string;
+  rating: number;
+  reviewCount: number;
+  yearsExperience: number;
+  distanceKm: number;
+  priceFrom: number;
+  image: any;
+  verified: boolean;
+  isFavorite?: boolean;
+};
+
+const FEATURED_ARTISTS: ArtistPreview[] = [
+  {
+    id: "f1",
+    name: "Emma Richards",
+    specialty: "Bridal & Editorial",
+    rating: 4.9,
+    reviewCount: 312,
+    yearsExperience: 8,
+    distanceKm: 2.3,
+    priceFrom: 180,
+    image: ARTIST_1,
+    verified: true,
+  },
+  {
+    id: "f2",
+    name: "Aria Zhang",
+    specialty: "Hair & Color Specialist",
+    rating: 4.8,
+    reviewCount: 248,
+    yearsExperience: 6,
+    distanceKm: 3.1,
+    priceFrom: 150,
+    image: ARTIST_2,
+    verified: true,
+  },
+  {
+    id: "f3",
+    name: "Sophie Anderson",
+    specialty: "Luxury Makeup Artist",
+    rating: 5.0,
+    reviewCount: 421,
+    yearsExperience: 10,
+    distanceKm: 4.5,
+    priceFrom: 220,
+    image: ARTIST_3,
+    verified: true,
+  },
+  {
+    id: "f4",
+    name: "Isabella Moore",
+    specialty: "Celebrity Makeup & Styling",
+    rating: 4.9,
+    reviewCount: 356,
+    yearsExperience: 9,
+    distanceKm: 5.2,
+    priceFrom: 250,
+    image: ARTIST_4,
+    verified: true,
+  },
+];
+
+const NEARBY_ARTISTS: ArtistPreview[] = [
+  {
+    id: "n1",
+    name: "Maya Patel",
+    specialty: "Natural & Organic Makeup",
+    rating: 4.9,
+    reviewCount: 201,
+    yearsExperience: 7,
+    distanceKm: 0.8,
+    priceFrom: 145,
+    image: ARTIST_3,
+    verified: true,
+  },
+  {
+    id: "n2",
+    name: "Zara Williams",
+    specialty: "Hair Styling & Updos",
+    rating: 4.8,
+    reviewCount: 178,
+    yearsExperience: 5,
+    distanceKm: 1.2,
+    priceFrom: 135,
+    image: ARTIST_4,
+    verified: true,
+  },
+  {
+    id: "n3",
+    name: "Olivia Bennett",
+    specialty: "Bridal Hair Specialist",
+    rating: 4.7,
+    reviewCount: 145,
+    yearsExperience: 6,
+    distanceKm: 1.5,
+    priceFrom: 120,
+    image: ARTIST_1,
+    verified: true,
+  },
+  {
+    id: "n4",
+    name: "Chloe Martin",
+    specialty: "Party Makeup & Glam",
+    rating: 4.8,
+    reviewCount: 189,
+    yearsExperience: 4,
+    distanceKm: 2.1,
+    priceFrom: 110,
+    image: ARTIST_2,
+    verified: false,
+  },
+  {
+    id: "n5",
+    name: "Ava Thompson",
+    specialty: "Hair Coloring Expert",
+    rating: 4.9,
+    reviewCount: 267,
+    yearsExperience: 8,
+    distanceKm: 2.8,
+    priceFrom: 160,
+    image: ARTIST_3,
+    verified: true,
+  },
+];
 
 // ---------- Types ----------
 type FilterKey = "location" | "date" | "time" | "service" | "people";
@@ -183,7 +321,123 @@ const FindRow = ({
   </TouchableOpacity>
 );
 
+const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
+  const [isFavorite, setIsFavorite] = useState(!!artist.isFavorite);
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.9}
+      onPress={() =>
+        router.push({
+          pathname: "/artist-details",
+          params: { id: artist.id },
+        })
+      }
+      className="bg-white rounded-[20px] overflow-hidden mr-3.5"
+      style={{
+        width: 168,
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
+        elevation: 2,
+      }}
+    >
+      <View>
+        <Image
+          source={artist.image}
+          style={{ width: "100%", height: 150 }}
+          resizeMode="cover"
+        />
+
+        {artist.verified && (
+          <View className="absolute top-2.5 left-2.5 flex-row items-center bg-[#DDF3E7] rounded-full px-2 py-1">
+            <Ionicons name="checkmark-circle" size={11} color="#2FA773" />
+            <Text
+              className="text-[10px] font-bold ml-1"
+              style={{ color: "#2FA773" }}
+            >
+              Verified
+            </Text>
+          </View>
+        )}
+
+        <TouchableOpacity
+          onPress={() => setIsFavorite((v) => !v)}
+          className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/90 items-center justify-center"
+        >
+          <Ionicons
+            name={isFavorite ? "heart" : "heart-outline"}
+            size={14}
+            color="#B57EDC"
+          />
+        </TouchableOpacity>
+
+        <View className="absolute bottom-2.5 right-2.5 flex-row items-center bg-black/50 rounded-full px-2 py-1">
+          <Ionicons name="location-outline" size={10} color="#fff" />
+          <Text className="text-[10px] text-white font-semibold ml-1">
+            {artist.distanceKm} km
+          </Text>
+        </View>
+      </View>
+
+      <View className="p-3">
+        <Text
+          className="text-sm font-extrabold text-[#161119]"
+          numberOfLines={1}
+        >
+          {artist.name}
+        </Text>
+        <Text className="text-xs text-[#8A8590] mt-0.5" numberOfLines={1}>
+          {artist.specialty}
+        </Text>
+
+        <View className="flex-row items-center mt-1.5">
+          <Ionicons name="star" size={12} color={COLORS.baseColor} />
+          <Text className="text-xs font-bold text-[#161119] ml-1">
+            {artist.rating.toFixed(1)}
+          </Text>
+          <Text className="text-[11px] text-[#8A8590] ml-1">
+            ({artist.reviewCount})
+          </Text>
+          <Text className="text-[11px] text-[#8A8590] ml-2">
+            · {artist.yearsExperience} yrs
+          </Text>
+        </View>
+
+        <View className="flex-row items-center justify-between mt-2.5">
+          <View>
+            <Text className="text-[10px] text-[#9A94A0]">From</Text>
+            <Text className="text-sm font-extrabold text-[#161119]">
+              ${artist.priceFrom}
+            </Text>
+          </View>
+
+          <TouchableOpacity activeOpacity={0.85}>
+            <LinearGradient
+              colors={[COLORS.baseColor1, COLORS.baseColor2]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                borderRadius: 999,
+                paddingHorizontal: 12,
+                paddingVertical: 7,
+              }}
+            >
+              <Text className="text-[11px] font-bold text-white">Book Now</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 export default function CustomerHomeScreen() {
+  const userName = CURRENT_USER.name;
+  const userAvatar = CURRENT_USER.avatar;
+  const unreadNotifications = UNREAD_NOTIFICATIONS_COUNT;
+
   const [activeModal, setActiveModal] = useState<FilterKey | null>(null);
   const [serviceValues, setServiceValues] = useState<ServiceOption[]>([]);
   const [locationValue, setLocationValue] = useState<LocationOption | null>(
@@ -246,17 +500,66 @@ export default function CustomerHomeScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
-          <View className="mt-3">
-            <Text className="text-lg font-semibold text-black">
-              Me
-              <Text style={{ color: COLORS.baseColor }}>millennial</Text>
-            </Text>
-            <Text className="text-4xl font-extrabold text-[#161119] mt-1">
-              Hi Beautiful!
-            </Text>
-            <Text className="text-sm text-[#8A8590] mt-1">
-              Let&apos;s find your perfect beauty artist.
-            </Text>
+          <View className="mt-3 flex-row items-center justify-between">
+            <View className="flex-1 pr-2">
+              <Text className="text-lg font-semibold text-black">
+                Me
+                <Text style={{ color: COLORS.baseColor }}>millennial</Text>
+              </Text>
+              <Text className="text-3xl font-extrabold text-[#161119] mt-1">
+                Hi, {userName}
+              </Text>
+              <Text className="text-sm text-[#8A8590] mt-1">
+                Let&apos;s find your perfect beauty artist.
+              </Text>
+            </View>
+
+            <View className="flex-row items-center" style={{ gap: 10 }}>
+              <TouchableOpacity
+                // onPress={() => router.push("/(customer)/(tabs)/notifications")}
+                className="w-11 h-11 rounded-full bg-white items-center justify-center"
+                style={{
+                  shadowColor: "#000",
+                  shadowOpacity: 0.06,
+                  shadowRadius: 6,
+                  elevation: 1,
+                }}
+              >
+                <Ionicons
+                  name="notifications-outline"
+                  size={19}
+                  color="#161119"
+                />
+                {unreadNotifications > 0 && (
+                  <View
+                    className="absolute top-1.5 right-2 rounded-full"
+                    style={{
+                      width: 8,
+                      height: 8,
+                      backgroundColor: "#E0405B",
+                      borderWidth: 1.5,
+                      borderColor: "#fff",
+                    }}
+                  />
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => router.push("/(customer)/(tabs)/profile")}
+              >
+                <Image
+                  source={userAvatar}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 22,
+                    borderWidth: 2,
+                    borderColor: "#fff",
+                  }}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           {/* Hero banner */}
@@ -383,7 +686,10 @@ export default function CustomerHomeScreen() {
             <Text className="text-xl font-extrabold text-[#161119]">
               Customer Stories
             </Text>
-            <TouchableOpacity className="flex-row items-center">
+            <TouchableOpacity
+              onPress={() => router.push("/(customer)/customer-stories")}
+              className="flex-row items-center"
+            >
               <Text
                 style={{ color: COLORS.baseColor }}
                 className="text-sm font-semibold mr-0.5"
@@ -457,6 +763,66 @@ export default function CustomerHomeScreen() {
             ))}
           </ScrollView>
 
+          {/* Featured Artists */}
+          <View className="flex-row items-center justify-between mt-7 mb-3">
+            <Text className="text-xl font-extrabold text-[#161119]">
+              Featured Artists
+            </Text>
+            <TouchableOpacity className="flex-row items-center">
+              <Text
+                style={{ color: COLORS.baseColor }}
+                className="text-sm font-semibold mr-0.5"
+              >
+                See All
+              </Text>
+              <Ionicons
+                name="chevron-forward"
+                size={14}
+                color={COLORS.baseColor}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingRight: 20, paddingBottom: 10 }}
+          >
+            {FEATURED_ARTISTS?.slice(0, 3)?.map((artist) => (
+              <ArtistPreviewCard key={artist.id} artist={artist} />
+            ))}
+          </ScrollView>
+
+          {/* Nearby Artists */}
+          <View className="flex-row items-center justify-between mt-7 mb-3">
+            <Text className="text-xl font-extrabold text-[#161119]">
+              Nearby Artists
+            </Text>
+            <TouchableOpacity className="flex-row items-center">
+              <Text
+                style={{ color: COLORS.baseColor }}
+                className="text-sm font-semibold mr-0.5"
+              >
+                See All
+              </Text>
+              <Ionicons
+                name="chevron-forward"
+                size={14}
+                color={COLORS.baseColor}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingRight: 20, paddingBottom: 10 }}
+          >
+            {NEARBY_ARTISTS?.slice(0, 3)?.map((artist) => (
+              <ArtistPreviewCard key={artist.id} artist={artist} />
+            ))}
+          </ScrollView>
+
           {/* Beauty Inspiration */}
           <View className="flex-row items-center justify-between mt-7 mb-3">
             <Text className="text-xl font-extrabold text-[#161119]">
@@ -477,7 +843,7 @@ export default function CustomerHomeScreen() {
             </TouchableOpacity>
           </View>
 
-          <View className="flex-row flex-wrap justify-between">
+          <View className="flex-row flex-wrap justify-between mb-20">
             {INSPIRATION.map((item) => (
               <TouchableOpacity
                 key={item.label}

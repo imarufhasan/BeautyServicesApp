@@ -1,6 +1,7 @@
+import LogoutModal from "@/components/profile/LogoutModal";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -146,9 +147,6 @@ const LOGOUT_ROW: SettingsRow = {
   danger: true,
 };
 
-// ---------------------------------------------------------------------------
-// Small building blocks
-// ---------------------------------------------------------------------------
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <Text className="text-[11px] font-bold text-[#9A94A0] tracking-wide mb-2 mt-5">
     {children}
@@ -214,9 +212,6 @@ const RowCard = ({
   </View>
 );
 
-// ---------------------------------------------------------------------------
-// Screen
-// ---------------------------------------------------------------------------
 export default function ProfileScreen({
   user = MOCK_USER,
 }: {
@@ -224,8 +219,7 @@ export default function ProfileScreen({
 }) {
   const handleRowPress = (row: SettingsRow) => {
     if (row.danger) {
-      // TODO: wire to real logout — clear auth token/session, then redirect
-      // e.g. dispatch(logout()); router.replace("/(auth)/login");
+      setShowLogoutModal(true);
       return;
     }
     if (row.route) {
@@ -233,11 +227,22 @@ export default function ProfileScreen({
     }
   };
 
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const handleLogout = () => {
+    setShowLogoutModal(false);
+
+    // Clear token/session here
+    // dispatch(logout());
+
+    router.replace("/(auth)/LoginScreen");
+  };
+
   return (
-    <SafeAreaView className="flex-1 bg-[#FBF9FC]" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-[#FBF9FC]">
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 30 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 100 }}
       >
         {/* Header */}
         <View className="flex-row items-center justify-between pt-3 pb-2">
@@ -312,6 +317,11 @@ export default function ProfileScreen({
           <RowCard rows={[LOGOUT_ROW]} onPress={handleRowPress} />
         </View>
       </ScrollView>
+      <LogoutModal
+        visible={showLogoutModal}
+        onCancel={() => setShowLogoutModal(false)}
+        onConfirm={handleLogout}
+      />
     </SafeAreaView>
   );
 }

@@ -1,7 +1,7 @@
 import { COLORS } from "@/constants/colors";
 import { Fontisto } from "@expo/vector-icons";
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 export type StarsProps = {
   rating: number;
@@ -27,6 +27,7 @@ export default function Stars({
           style={{ marginRight: 2 }}
         />
       ))}
+      <Text className="text-sm text-[#8A8590] ml-2">{rating.toFixed(1)}</Text>
     </View>
   );
 }
