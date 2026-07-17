@@ -215,7 +215,7 @@ export default function BookingDetailsScreen({
       <View className="flex-row items-center px-5 pt-4 pb-3">
         <TouchableOpacity
           onPress={() => router.back()}
-          className="w-10 h-10 rounded-2xl bg-white items-center justify-center mr-3"
+          className="w-10 h-10 rounded-full bg-white items-center justify-center mr-3"
           style={{
             shadowColor: "#000",
             shadowOpacity: 0.06,
@@ -225,7 +225,7 @@ export default function BookingDetailsScreen({
         >
           <Ionicons name="chevron-back" size={18} color="#161119" />
         </TouchableOpacity>
-        <Text className="text-lg font-extrabold text-[#161119]">
+        <Text className="text-xl font-extrabold text-[#161119]">
           Booking Details
         </Text>
       </View>
@@ -633,7 +633,7 @@ export default function BookingDetailsScreen({
           <TouchableOpacity
             activeOpacity={0.85}
             onPress={handleCancelBooking}
-            className="rounded-full overflow-hidden mt-4"
+            className="rounded-full overflow-hidden mt-8"
           >
             <LinearGradient
               colors={[COLORS.baseColor1, COLORS.baseColor2]}
@@ -641,7 +641,7 @@ export default function BookingDetailsScreen({
               end={{ x: 1, y: 0 }}
               className="py-4 items-center rounded-full"
             >
-              <Text className="text-white text-base font-extrabold">
+              <Text className="text-white text-lg font-extrabold">
                 Cancel Booking
               </Text>
             </LinearGradient>

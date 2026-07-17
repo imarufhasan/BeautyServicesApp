@@ -27,7 +27,7 @@ export default function Stars({
           style={{ marginRight: 2 }}
         />
       ))}
-      <Text className="text-sm text-[#8A8590] ml-2">{rating.toFixed(1)}</Text>
+      <Text className="text-sm text-[#8A8590] ml-1">{rating.toFixed(1)}</Text>
     </View>
   );
 }

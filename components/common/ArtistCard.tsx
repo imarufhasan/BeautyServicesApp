@@ -94,13 +94,20 @@ export default function ArtistCard({
                 color="#1A5A52"
               />
             )}
-            {artist.availableToday && (
+            {/* {artist.availableToday && (
               <Badge
                 icon="ellipse"
                 label="Available Today"
                 bg="#FFA23026"
                 color="#FFA230"
               />
+            )} */}
+            {artist.availableToday && (
+              <View className="bg-[#FFE9A8] px-3 py-1 rounded-full">
+                <Text className="text-[11px] text-[#D48A00] font-bold">
+                  ● Available Today
+                </Text>
+              </View>
             )}
             {artist.topRated && (
               <Badge

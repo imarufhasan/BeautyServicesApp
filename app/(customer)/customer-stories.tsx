@@ -59,9 +59,9 @@ export default function CustomerStoriesScreen() {
       <View className="flex-row items-center px-5 py-4 border-b border-[#F1EFF3]">
         <TouchableOpacity
           onPress={() => router.back()}
-          className="w-8 h-8 rounded-full bg-[#FFF7FA] items-center justify-center"
+          className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center"
         >
-          <Ionicons name="chevron-back" size={18} color="#161119" />
+          <Ionicons name="chevron-back" size={22} color="#161119" />
         </TouchableOpacity>
 
         <Text className="text-xl font-extrabold text-[#161119] ml-3">

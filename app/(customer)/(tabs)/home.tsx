@@ -1,4 +1,5 @@
 import DateModal from "@/components/common/DateModal";
+import FullScreenImageViewer from "@/components/common/FullScreenImageViewer";
 import GradientButton from "@/components/common/GradientButton";
 import {
   LocationOption,
@@ -230,31 +231,72 @@ const WHY_CARDS = [
 
 const STORIES = [
   {
+    id: "s1",
     image: STORY_1_IMAGE,
     rating: 5,
     quote:
-      "Emma transformed me for my wedding day — I felt like absolute royalty. Every single guest was asking about my",
+      "Emma transformed me for my wedding day — I felt like absolute royalty. Every single guest was asking about my makeup.",
     name: "Olivia Bennett",
     location: "Sydney, NSW · Bridal Makeup",
   },
   {
+    id: "s2",
     image: STORY_2_IMAGE,
     rating: 4.5,
-    quote: "Booked beyond perfect, through and through",
+    quote:
+      "The whole experience was incredible. My makeup lasted all day and looked even better than I imagined.",
     name: "Priya Sharma",
-    location: "Melbourne, VIC",
+    location: "Melbourne, VIC · Event Makeup",
+  },
+  {
+    id: "s3",
+    image: STORY_1_IMAGE,
+    rating: 5,
+    quote:
+      "I booked a makeup artist for my engagement party and the results were absolutely stunning. Highly recommended!",
+    name: "Charlotte Wilson",
+    location: "Brisbane, QLD · Party Glam",
+  },
+  {
+    id: "s4",
+    image: STORY_2_IMAGE,
+    rating: 4.8,
+    quote:
+      "Professional, friendly, and extremely talented. She understood exactly the look I wanted for my special day.",
+    name: "Amelia Thompson",
+    location: "Perth, WA · Wedding Makeup",
+  },
+  {
+    id: "s5",
+    image: STORY_1_IMAGE,
+    rating: 5,
+    quote:
+      "My bridal look was flawless from start to finish. The artist was amazing and made me feel so confident.",
+    name: "Sophie Mitchell",
+    location: "Adelaide, SA · Bridal Makeup",
+  },
+  {
+    id: "s6",
+    image: STORY_2_IMAGE,
+    rating: 4.7,
+    quote:
+      "Amazing service and beautiful results. I received so many compliments throughout the evening.",
+    name: "Isabella Brown",
+    location: "Canberra, ACT · Formal Makeup",
   },
 ];
 
+// height varies per item on purpose — this is what creates the staggered
+// (Pinterest-style) masonry look instead of a flat uniform grid
 const INSPIRATION = [
-  { image: INSPO_WEDDING, label: "Wedding" },
-  { image: INSPO_FORMAL, label: "Formal" },
-  { image: INSPO_NATURAL, label: "Natural" },
-  { image: INSPO_PARTY, label: "Party" },
-  { image: INSPO_BRIDAL, label: "Bridal" },
-  { image: INSPO_LUXURY, label: "Luxury Glam" },
-  { image: INSPO_FESTIVAL, label: "Festival" },
-  { image: INSPO_EXTRA, label: "Editorial" },
+  { image: INSPO_WEDDING, label: "Wedding", height: 220 },
+  { image: INSPO_FORMAL, label: "Formal", height: 160 },
+  { image: INSPO_NATURAL, label: "Natural", height: 150 },
+  { image: INSPO_PARTY, label: "Party", height: 210 },
+  { image: INSPO_BRIDAL, label: "Bridal", height: 140 },
+  { image: INSPO_LUXURY, label: "Luxury Glam", height: 175 },
+  { image: INSPO_FESTIVAL, label: "Festival", height: 200 },
+  { image: INSPO_EXTRA, label: "Editorial", height: 120 },
 ];
 
 // ---------- Small components ----------
@@ -333,7 +375,7 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
           params: { id: artist.id },
         })
       }
-      className="bg-white rounded-[20px] overflow-hidden mr-3.5"
+      className="bg-white rounded-[15px] overflow-hidden mr-3.5"
       style={{
         width: 168,
         shadowColor: "#000",
@@ -424,7 +466,18 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
                 paddingVertical: 7,
               }}
             >
-              <Text className="text-[11px] font-bold text-white">Book Now</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({
+                    pathname: "/artist-details",
+                    params: { id: artist.id },
+                  })
+                }
+              >
+                <Text className="text-[11px] font-bold text-white">
+                  Book Now
+                </Text>
+              </TouchableOpacity>
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -443,6 +496,19 @@ export default function CustomerHomeScreen() {
   const [locationValue, setLocationValue] = useState<LocationOption | null>(
     null,
   );
+
+  // ---------- Fullscreen image viewer state ----------
+  // Generic: holds whichever image array was tapped (Stories, Inspiration, etc.)
+  // plus the tapped index, so one viewer + one modal instance serves every grid.
+  const [viewerVisible, setViewerVisible] = useState(false);
+  const [viewerImages, setViewerImages] = useState<any[]>([]);
+  const [viewerIndex, setViewerIndex] = useState(0);
+
+  const openViewer = (images: any[], index: number) => {
+    setViewerImages(images);
+    setViewerIndex(index);
+    setViewerVisible(true);
+  };
 
   const [dateISO, setDateISO] = useState<string | null>(null);
   const [dateLabel, setDateLabel] = useState<string | null>(null);
@@ -516,7 +582,7 @@ export default function CustomerHomeScreen() {
 
             <View className="flex-row items-center" style={{ gap: 10 }}>
               <TouchableOpacity
-                // onPress={() => router.push("/(customer)/(tabs)/notifications")}
+                onPress={() => router.push("/NotificationsScreen")}
                 className="w-11 h-11 rounded-full bg-white items-center justify-center"
                 style={{
                   shadowColor: "#000",
@@ -567,7 +633,7 @@ export default function CustomerHomeScreen() {
             colors={[COLORS.baseColor1, COLORS.baseColor2]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
-            className="mt-5 rounded-[24px] p-5 overflow-hidden flex-row"
+            className="mt-5 rounded-[15px] p-5 overflow-hidden flex-row"
           >
             <View className="flex-1 pr-2">
               <Text
@@ -585,13 +651,13 @@ export default function CustomerHomeScreen() {
             </View>
             <Image
               source={HERO_IMAGE}
-              className="w-28 h-full rounded-[18px]"
+              className="w-28 h-full rounded-[15px]"
               resizeMode="cover"
             />
           </LinearGradient>
 
           <View
-            className="bg-white rounded-[22px] p-5 mt-5"
+            className="bg-white rounded-[15px] p-5 mt-5"
             style={{
               shadowColor: "#000",
               shadowOpacity: 0.05,
@@ -656,7 +722,7 @@ export default function CustomerHomeScreen() {
             {WHY_CARDS.map((card) => (
               <View
                 key={card.title}
-                className="flex-1 bg-white rounded-[18px] p-4"
+                className="flex-1 bg-white rounded-[15px] p-4"
                 style={{
                   shadowColor: "#000",
                   shadowOpacity: 0.04,
@@ -666,7 +732,7 @@ export default function CustomerHomeScreen() {
                 }}
               >
                 <View
-                  className="w-10 h-10 rounded-[12px] items-center justify-center mb-3"
+                  className="w-10 h-10 rounded-[15px] items-center justify-center mb-3"
                   style={{ backgroundColor: card.iconBg }}
                 >
                   <Ionicons name={card.icon} size={18} color={card.iconColor} />
@@ -709,10 +775,10 @@ export default function CustomerHomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingRight: 20, paddingBottom: 10 }}
           >
-            {STORIES.map((story) => (
+            {STORIES.map((story, storyIndex) => (
               <View
-                key={story.name}
-                className="bg-white rounded-[18px] mr-3.5 overflow-hidden"
+                key={story.id}
+                className="bg-white rounded-[15px] mr-3.5 overflow-hidden"
                 style={{
                   width: 260,
                   shadowColor: "#000",
@@ -722,11 +788,23 @@ export default function CustomerHomeScreen() {
                   elevation: 2,
                 }}
               >
-                <Image
-                  source={story.image}
-                  style={{ width: "100%", height: 160 }}
-                  resizeMode="cover"
-                />
+                {/* Tap the photo to open it fullscreen with pinch-zoom */}
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={() =>
+                    openViewer(
+                      STORIES.map((s) => s.image),
+                      storyIndex,
+                    )
+                  }
+                >
+                  <Image
+                    source={story.image}
+                    style={{ width: "100%", height: 160 }}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
+
                 <View className="p-3.5">
                   <StarRow rating={story.rating} />
                   <Text
@@ -744,7 +822,10 @@ export default function CustomerHomeScreen() {
                         {story.location}
                       </Text>
                     </View>
-                    <TouchableOpacity className="flex-row items-center">
+                    <TouchableOpacity
+                      onPress={() => router.push("/customer-story-details")}
+                      className="flex-row items-center"
+                    >
                       <Text
                         style={{ color: COLORS.baseColor }}
                         className="text-xs font-semibold mr-0.5"
@@ -768,7 +849,15 @@ export default function CustomerHomeScreen() {
             <Text className="text-xl font-extrabold text-[#161119]">
               Featured Artists
             </Text>
-            <TouchableOpacity className="flex-row items-center">
+            <TouchableOpacity
+              className="flex-row items-center"
+              onPress={() =>
+                router.push({
+                  pathname: "/artistsList",
+                  params: { type: "featured" },
+                })
+              }
+            >
               <Text
                 style={{ color: COLORS.baseColor }}
                 className="text-sm font-semibold mr-0.5"
@@ -798,7 +887,15 @@ export default function CustomerHomeScreen() {
             <Text className="text-xl font-extrabold text-[#161119]">
               Nearby Artists
             </Text>
-            <TouchableOpacity className="flex-row items-center">
+            <TouchableOpacity
+              className="flex-row items-center"
+              onPress={() =>
+                router.push({
+                  pathname: "/artistsList",
+                  params: { type: "nearby" },
+                })
+              }
+            >
               <Text
                 style={{ color: COLORS.baseColor }}
                 className="text-sm font-semibold mr-0.5"
@@ -843,29 +940,76 @@ export default function CustomerHomeScreen() {
             </TouchableOpacity>
           </View>
 
-          <View className="flex-row flex-wrap justify-between mb-20">
-            {INSPIRATION.map((item) => (
-              <TouchableOpacity
-                key={item.label}
-                activeOpacity={0.85}
-                style={{ width: "48.5%" }}
-                className="mb-3.5 rounded-[16px] overflow-hidden"
-              >
-                <Image
-                  source={item.image}
-                  style={{ width: "100%", height: 170 }}
-                  resizeMode="cover"
-                />
-                <LinearGradient
-                  colors={["transparent", "rgba(0,0,0,0.55)"]}
-                  className="absolute bottom-0 left-0 right-0 h-16 justify-end px-3 pb-2.5"
-                >
-                  <Text className="text-white text-sm font-bold">
-                    {item.label}
-                  </Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            ))}
+          <View className="flex-row mb-20" style={{ gap: 14 }}>
+            {/* Left column: even-indexed items */}
+            <View style={{ flex: 1 }}>
+              {INSPIRATION.filter((_, i) => i % 2 === 0).map((item) => {
+                const originalIndex = INSPIRATION.indexOf(item);
+                return (
+                  <TouchableOpacity
+                    key={item.label}
+                    activeOpacity={0.9}
+                    className="rounded-[15px] overflow-hidden mb-3.5"
+                    style={{ height: item.height }}
+                    onPress={() =>
+                      openViewer(
+                        INSPIRATION.map((i) => i.image),
+                        originalIndex,
+                      )
+                    }
+                  >
+                    <Image
+                      source={item.image}
+                      style={{ width: "100%", height: "100%" }}
+                      resizeMode="cover"
+                    />
+                    <LinearGradient
+                      colors={["transparent", "rgba(0,0,0,0.55)"]}
+                      className="absolute bottom-0 left-0 right-0 h-16 justify-end px-3 pb-2.5"
+                    >
+                      <Text className="text-white text-sm font-bold">
+                        {item.label}
+                      </Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            {/* Right column: odd-indexed items */}
+            <View style={{ flex: 1 }}>
+              {INSPIRATION.filter((_, i) => i % 2 !== 0).map((item) => {
+                const originalIndex = INSPIRATION.indexOf(item);
+                return (
+                  <TouchableOpacity
+                    key={item.label}
+                    activeOpacity={0.9}
+                    className="rounded-[15px] overflow-hidden mb-3.5"
+                    style={{ height: item.height }}
+                    onPress={() =>
+                      openViewer(
+                        INSPIRATION.map((i) => i.image),
+                        originalIndex,
+                      )
+                    }
+                  >
+                    <Image
+                      source={item.image}
+                      style={{ width: "100%", height: "100%" }}
+                      resizeMode="cover"
+                    />
+                    <LinearGradient
+                      colors={["transparent", "rgba(0,0,0,0.55)"]}
+                      className="absolute bottom-0 left-0 right-0 h-16 justify-end px-3 pb-2.5"
+                    >
+                      <Text className="text-white text-sm font-bold">
+                        {item.label}
+                      </Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -885,6 +1029,13 @@ export default function CustomerHomeScreen() {
           setDateISO(iso);
           setDateLabel(label);
         }}
+      />
+
+      <FullScreenImageViewer
+        visible={viewerVisible}
+        images={viewerImages}
+        initialIndex={viewerIndex}
+        onClose={() => setViewerVisible(false)}
       />
 
       <TimeModal

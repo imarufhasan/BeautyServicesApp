@@ -4,11 +4,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -143,7 +143,7 @@ export default function BookingSetupScreen({
       <View className="flex-row items-center px-5 pt-4 pb-3">
         <TouchableOpacity
           onPress={() => router.back()}
-          className="w-10 h-10 rounded-2xl bg-white items-center justify-center mr-3"
+          className="w-10 h-10 rounded-full bg-white items-center justify-center mr-3"
           style={{
             shadowColor: "#000",
             shadowOpacity: 0.06,
@@ -153,7 +153,7 @@ export default function BookingSetupScreen({
         >
           <Ionicons name="arrow-back" size={18} color="#161119" />
         </TouchableOpacity>
-        <Text className="text-lg font-extrabold text-[#161119]">
+        <Text className="text-xl items-center font-extrabold text-[#161119]">
           Booking Setup
         </Text>
       </View>
