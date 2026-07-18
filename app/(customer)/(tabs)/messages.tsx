@@ -203,20 +203,18 @@ export default function MessagesScreen({
     <SafeAreaView className="flex-1 bg-[#FBF9FC]" edges={["top"]}>
       {/* Header */}
       <View className="flex-row items-center justify-center px-5 pt-3 pb-2">
-        <Text className="text-lg font-extrabold text-[#161119]">Messages</Text>
+        <Text className="text-2xl font-extrabold text-[#161119]">Messages</Text>
         {totalUnread > 0 && (
           <View
             className="items-center justify-center rounded-full ml-2"
             style={{
-              minWidth: 20,
-              height: 20,
+              minWidth: 22,
+              height: 22,
               paddingHorizontal: 5,
               backgroundColor: "#E0405B",
             }}
           >
-            <Text className="text-[10px] font-bold text-white">
-              {totalUnread}
-            </Text>
+            <Text className="text-sm font-bold text-white">{totalUnread}</Text>
           </View>
         )}
       </View>

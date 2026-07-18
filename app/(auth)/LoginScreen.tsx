@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
@@ -12,7 +13,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthBrandHeader from "./AuthBrandHeader";
 

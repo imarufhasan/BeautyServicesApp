@@ -53,7 +53,7 @@ const ACCOUNT_ROWS: SettingsRow[] = [
     icon: "create-outline",
     iconBg: "#F4E4FF",
     iconColor: "#B57EDC",
-    route: "/profile/edit",
+    route: "/profile/edit-profile",
   },
   {
     id: "saved-artist",
@@ -61,7 +61,7 @@ const ACCOUNT_ROWS: SettingsRow[] = [
     icon: "heart-outline",
     iconBg: "#FDEDF1",
     iconColor: "#FC6C8C",
-    route: "/profile/saved-artists",
+    route: "/profile/saved-addresses",
   },
   {
     id: "saved-addresses",
@@ -69,7 +69,7 @@ const ACCOUNT_ROWS: SettingsRow[] = [
     icon: "location-outline",
     iconBg: "#F4E4FF",
     iconColor: "#B57EDC",
-    route: "/profile/addresses",
+    route: "/profile/add-address",
   },
   {
     id: "transaction-history",
@@ -77,7 +77,7 @@ const ACCOUNT_ROWS: SettingsRow[] = [
     icon: "cash-outline",
     iconBg: "#EAF7F3",
     iconColor: "#1A5A52",
-    route: "/profile/transactions",
+    route: "/profile/transaction-history",
   },
 ];
 
@@ -99,7 +99,7 @@ const SUPPORT_ROWS: SettingsRow[] = [
     icon: "help-circle-outline",
     iconBg: "#F4E4FF",
     iconColor: "#B57EDC",
-    route: "/support/faq",
+    route: "/profile/faq",
   },
   {
     id: "contact-support",
@@ -107,7 +107,7 @@ const SUPPORT_ROWS: SettingsRow[] = [
     icon: "chatbubble-ellipses-outline",
     iconBg: "#EAF7F3",
     iconColor: "#1A5A52",
-    route: "/support/contact",
+    route: "/contact-support",
   },
   {
     id: "report-issue",
@@ -115,7 +115,7 @@ const SUPPORT_ROWS: SettingsRow[] = [
     icon: "alert-circle-outline",
     iconBg: "#FFF3E0",
     iconColor: "#E17100",
-    route: "/support/report",
+    route: "/profile/report-issue",
   },
 ];
 
@@ -126,7 +126,7 @@ const LEGAL_ROWS: SettingsRow[] = [
     icon: "shield-checkmark-outline",
     iconBg: "#F4E4FF",
     iconColor: "#B57EDC",
-    route: "/legal/privacy",
+    route: "/profile/privacy-policy",
   },
   {
     id: "terms",
@@ -134,7 +134,7 @@ const LEGAL_ROWS: SettingsRow[] = [
     icon: "document-text-outline",
     iconBg: "#EAF7F3",
     iconColor: "#1A5A52",
-    route: "/legal/terms",
+    route: "/profile/terms-conditions",
   },
 ];
 
@@ -246,9 +246,11 @@ export default function ProfileScreen({
       >
         {/* Header */}
         <View className="flex-row items-center justify-between pt-3 pb-2">
-          <Text className="text-xl font-extrabold text-[#161119]">Profile</Text>
+          <Text className="text-2xl font-extrabold text-[#161119]">
+            Profile
+          </Text>
           <TouchableOpacity
-            // onPress={() => router.push("/profile/settings")}
+            onPress={() => router.push("/profile/settings")}
             className="w-9 h-9 rounded-full bg-white items-center justify-center"
             style={{
               shadowColor: "#000",

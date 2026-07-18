@@ -1,114 +1,38 @@
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { COLORS } from "@/constants/colors";
+import { MOCK_BOOKINGS } from "@/mock/bookings";
+import { BookingListItem, BookingStatus } from "@/types/booking";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
-import {
-  FlatList,
-  Image,
-  ImageSourcePropType,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-export type BookingStatus = "upcoming" | "completed" | "cancelled" | "pending";
-
-export type BookingListItem = {
-  id: string;
-  artistName: string;
-  artistAvatar: ImageSourcePropType;
-  specialty: string;
-  status: BookingStatus;
-  dateLabel: string; // e.g. "Jul 12, 2025"
-  timeLabel: string; // e.g. "10:00 AM"
-  visitType: string; // e.g. "Mobile Visit"
-  total: number;
-};
-
-// ---------------------------------------------------------------------------
-// Mock data — replace with real API data (RTK Query) keyed by customer id
-// ---------------------------------------------------------------------------
-const AVATAR = require("../../../assets/images/home/pic1.png");
-const AVATAR_2 = require("../../../assets/images/home/pic2.png");
-const AVATAR_3 = require("../../../assets/images/home/pic3.png");
-const AVATAR_4 = require("../../../assets/images/home/pic4.png");
-
-const MOCK_BOOKINGS: BookingListItem[] = [
-  {
-    id: "BK-2025-07124",
-    artistName: "Sofia Laurent",
-    artistAvatar: AVATAR,
-    specialty: "Bridal Makeup",
-    status: "upcoming",
-    dateLabel: "Jul 12, 2025",
-    timeLabel: "10:00 AM",
-    visitType: "Mobile Visit",
-    total: 285.4,
-  },
-  {
-    id: "BK-2025-06981",
-    artistName: "Amara Osei",
-    artistAvatar: AVATAR_2,
-    specialty: "Hair Styling",
-    status: "pending",
-    dateLabel: "Jul 18, 2025",
-    timeLabel: "2:00 PM",
-    visitType: "Home Studio",
-    total: 120,
-  },
-  {
-    id: "BK-2025-05320",
-    artistName: "Leila Farouk",
-    artistAvatar: AVATAR_3,
-    specialty: "Cut & Colour",
-    status: "completed",
-    dateLabel: "Jun 30, 2025",
-    timeLabel: "11:30 AM",
-    visitType: "Home Studio",
-    total: 95,
-  },
-  {
-    id: "BK-2025-04117",
-    artistName: "Isabelle Renaud",
-    artistAvatar: AVATAR_4,
-    specialty: "Facial Treatment",
-    status: "cancelled",
-    dateLabel: "Jun 20, 2025",
-    timeLabel: "9:00 AM",
-    visitType: "Mobile Visit",
-    total: 150,
-  },
-];
-
-// ---------------------------------------------------------------------------
-// Status styling
-// ---------------------------------------------------------------------------
 const STATUS_STYLES: Record<
   BookingStatus,
   { label: string; bg: string; color: string }
 > = {
-  upcoming: { label: "Upcoming", bg: "#EAF7F3", color: "#1A5A52" },
+  upcoming: { label: "Upcoming", bg: "#BAF1E480", color: "#1A8073" },
   pending: { label: "Pending", bg: "#FFF3E0", color: "#E17100" },
-  completed: { label: "Completed", bg: "#EAF0FF", color: "#2F5FDB" },
   cancelled: { label: "Cancelled", bg: "#FDEDF1", color: "#E0405B" },
+  completed: { label: "Completed", bg: "#EAF0FF", color: "#2F5FDB" },
 };
 
 const FILTERS: { id: BookingStatus; label: string }[] = [
   { id: "upcoming", label: "Upcoming" },
-  { id: "completed", label: "Completed" },
-  { id: "cancelled", label: "Cancelled" },
   { id: "pending", label: "Pending" },
+  { id: "cancelled", label: "Cancelled" },
+  { id: "completed", label: "Completed" },
 ];
 
-// ---------------------------------------------------------------------------
-// Booking card
-// ---------------------------------------------------------------------------
-const BookingCard = ({ booking }: { booking: BookingListItem }) => {
+const BookingCard = ({
+  booking,
+  handleCancelBooking,
+}: {
+  booking: BookingListItem;
+  handleCancelBooking: (booking: BookingListItem) => void;
+}) => {
   const statusStyle = STATUS_STYLES[booking.status];
   const canCancel =
     booking.status === "upcoming" || booking.status === "pending";
@@ -120,16 +44,16 @@ const BookingCard = ({ booking }: { booking: BookingListItem }) => {
     >
       <View className="flex-row items-center">
         <Image
-          source={booking.artistAvatar}
+          source={booking.artist.avatar}
           style={{ width: 44, height: 44, borderRadius: 12 }}
           resizeMode="cover"
         />
         <View className="flex-1 ml-3">
           <Text className="text-sm font-extrabold text-[#161119]">
-            {booking.artistName}
+            {booking.artist.name}
           </Text>
           <Text className="text-xs text-[#8A8590] mt-0.5">
-            {booking.specialty}
+            {booking.artist.specialty}
           </Text>
         </View>
         <View
@@ -155,19 +79,21 @@ const BookingCard = ({ booking }: { booking: BookingListItem }) => {
         <View className="flex-row items-center">
           <Ionicons name="calendar-outline" size={13} color="#8A8590" />
           <Text className="text-[11px] text-[#8A8590] ml-1">
-            {booking.dateLabel}
+            {booking.schedule.date}
           </Text>
         </View>
         <View className="flex-row items-center">
           <Ionicons name="time-outline" size={13} color="#8A8590" />
           <Text className="text-[11px] text-[#8A8590] ml-1">
-            {booking.timeLabel}
+            {booking.schedule.startTime}
           </Text>
         </View>
         <View className="flex-row items-center">
           <Ionicons name="location-outline" size={13} color="#8A8590" />
           <Text className="text-[11px] text-[#8A8590] ml-1">
-            {booking.visitType}
+            {booking.location.type === "mobile"
+              ? "Mobile Visit"
+              : "Home Studio"}
           </Text>
         </View>
       </View>
@@ -177,19 +103,25 @@ const BookingCard = ({ booking }: { booking: BookingListItem }) => {
       <View className="flex-row items-center justify-between mb-3">
         <Text className="text-xs text-[#8A8590]">Total</Text>
         <Text className="text-base font-extrabold text-[#161119]">
-          ${booking.total.toFixed(2)}
+          ${booking.payment.total.toFixed(2)}
         </Text>
       </View>
 
       <View className="flex-row" style={{ gap: 10 }}>
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={() =>
+          onPress={() => {
+            // router.push({
+            //   pathname: "/booking-details",
+            //   params: { bookingData: JSON.stringify(booking) },
+            // });
             router.push({
               pathname: "/booking-details",
-              params: { id: booking.id },
-            })
-          }
+              params: {
+                bookingData: JSON.stringify(booking),
+              },
+            });
+          }}
           className="flex-1 rounded-full overflow-hidden"
         >
           <LinearGradient
@@ -205,9 +137,7 @@ const BookingCard = ({ booking }: { booking: BookingListItem }) => {
         {canCancel && (
           <TouchableOpacity
             activeOpacity={0.85}
-            onPress={() => {
-              // TODO: wire to real cancel-booking mutation for booking.id
-            }}
+            onPress={() => handleCancelBooking(booking)}
             className="flex-1 justify-center items-center rounded-full h-[40px] border"
             style={{ borderColor: COLORS.borderColor }}
           >
@@ -224,14 +154,16 @@ const BookingCard = ({ booking }: { booking: BookingListItem }) => {
   );
 };
 
-// ---------------------------------------------------------------------------
-// Screen
-// ---------------------------------------------------------------------------
 export default function MyBookingsScreen({
   bookings = MOCK_BOOKINGS,
 }: {
   bookings?: BookingListItem[];
 }) {
+  const [cancelModalVisible, setCancelModalVisible] = useState(false);
+
+  const [selectedBooking, setSelectedBooking] =
+    useState<BookingListItem | null>(null);
+
   const [selectedFilter, setSelectedFilter] =
     useState<BookingStatus>("upcoming");
 
@@ -240,14 +172,31 @@ export default function MyBookingsScreen({
     [bookings, selectedFilter],
   );
 
+  const handleCancelBooking = (booking: BookingListItem) => {
+    setSelectedBooking(booking);
+    setCancelModalVisible(true);
+  };
+
+  const confirmCancelBooking = () => {
+    if (!selectedBooking) return;
+
+    console.log("Cancel booking:", selectedBooking.id);
+
+    // TODO API:
+    // await cancelBookingMutation(selectedBooking.id)
+
+    setCancelModalVisible(false);
+    setSelectedBooking(null);
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-[#FBF9FC]" edges={["top"]}>
       {/* Header */}
-      <View className="px-5 pt-3 pb-2">
-        <Text className="text-xl font-extrabold text-[#161119]">
+      <View className="px-5 pt-4 pb-2">
+        <Text className="text-2xl font-extrabold text-[#161119]">
           My Bookings
         </Text>
-        <Text className="text-xs text-[#8A8590] mt-1">
+        <Text className="text-sm text-[#8A8590] mt-1">
           Manage all your appointments
         </Text>
       </View>
@@ -301,7 +250,12 @@ export default function MyBookingsScreen({
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 30 }}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <BookingCard booking={item} />}
+        renderItem={({ item }) => (
+          <BookingCard
+            booking={item}
+            handleCancelBooking={handleCancelBooking}
+          />
+        )}
         ListEmptyComponent={
           <View className="items-center justify-center mt-20">
             <Ionicons name="calendar-outline" size={36} color="#D9D3E0" />
@@ -311,6 +265,23 @@ export default function MyBookingsScreen({
             </Text>
           </View>
         }
+      />
+
+      <ConfirmationModal
+        visible={cancelModalVisible}
+        title="Cancel Booking?"
+        message={
+          selectedBooking
+            ? `Are you sure you want to cancel your ${selectedBooking.status} booking with ${selectedBooking.artist.name}? This option is only available before your appointment begins.`
+            : ""
+        }
+        confirmText="Yes, Cancel"
+        cancelText="Keep Booking"
+        onConfirm={confirmCancelBooking}
+        onCancel={() => {
+          setCancelModalVisible(false);
+          setSelectedBooking(null);
+        }}
       />
     </SafeAreaView>
   );

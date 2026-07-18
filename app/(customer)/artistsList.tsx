@@ -1,3 +1,4 @@
+import AppHeader from "@/components/common/AppHeader";
 import ArtistCard, { Artist } from "@/components/common/ArtistCard";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -42,7 +43,7 @@ const MOCK_ARTISTS: ArtistWithFilters[] = [
     yearsExperience: 8,
     radiusKm: 15,
     distanceKm: 1.8,
-    rating: 4.9,
+    rating: 4.1,
     reviewCount: 847,
     priceFrom: 120,
     heroImage: HERO_1,
@@ -64,7 +65,7 @@ const MOCK_ARTISTS: ArtistWithFilters[] = [
     yearsExperience: 6,
     radiusKm: 10,
     distanceKm: 2.6,
-    rating: 4.8,
+    rating: 4.2,
     reviewCount: 610,
     priceFrom: 95,
     heroImage: HERO_2,
@@ -85,7 +86,7 @@ const MOCK_ARTISTS: ArtistWithFilters[] = [
     yearsExperience: 6,
     radiusKm: 12,
     distanceKm: 4.2,
-    rating: 4.9,
+    rating: 4.3,
     reviewCount: 524,
     priceFrom: 85,
     heroImage: HERO_3,
@@ -105,7 +106,7 @@ const MOCK_ARTISTS: ArtistWithFilters[] = [
     yearsExperience: 10,
     radiusKm: 20,
     distanceKm: 1.2,
-    rating: 4.7,
+    rating: 4.4,
     reviewCount: 381,
     priceFrom: 150,
     heroImage: HERO_4,
@@ -126,7 +127,7 @@ const MOCK_ARTISTS: ArtistWithFilters[] = [
     yearsExperience: 5,
     radiusKm: 18,
     distanceKm: 2.1,
-    rating: 4.6,
+    rating: 4.5,
     reviewCount: 298,
     priceFrom: 75,
     heroImage: HERO_1,
@@ -470,26 +471,7 @@ export default function ArtistListScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-[#FBF9FC]" edges={["top"]}>
-      <View className="flex-row items-center justify-between px-5 py-3">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="w-10 h-10 rounded-full bg-white items-center justify-center"
-          style={{
-            shadowColor: COLORS.baseColor,
-            shadowOpacity: 0.06,
-            shadowRadius: 6,
-            elevation: 1,
-          }}
-        >
-          <Ionicons name="chevron-back" size={20} color="#161119" />
-        </TouchableOpacity>
-
-        <Text className="text-xl mx-2 font-extrabold text-[#161119]">
-          {screenTitle}
-        </Text>
-
-        <View className="w-9 h-9" />
-      </View>
+      <AppHeader title="Find Artist" />
 
       <FlatList
         data={artists}

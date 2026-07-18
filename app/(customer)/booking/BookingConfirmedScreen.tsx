@@ -17,22 +17,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Types
 // ---------------------------------------------------------------------------
 export type BookingConfirmedParams = {
-  bookingId: string; // e.g. "BK-2025-07124"
+  bookingId: string;
   artistName: string;
   artistAvatar: ImageSourcePropType;
-  serviceSummary: string; // e.g. "Bridal Makeup · Hair Styling & Updo"
+  serviceSummary: string;
   dateLabel: string;
   timeLabel: string;
   visitType: string;
   location: string;
-  paymentMethodLabel: string; // e.g. "Visa •••• 4242"
+  paymentMethodLabel: string;
   amountPaid: number;
 };
 
-// ---------------------------------------------------------------------------
-// Dummy/default data — used only when this screen is opened standalone.
-// Real usage should always pass `params` from the checkout flow.
-// ---------------------------------------------------------------------------
 const AVATAR = require("../../../assets/images/home/pic1.png");
 
 const DUMMY_PARAMS: BookingConfirmedParams = {

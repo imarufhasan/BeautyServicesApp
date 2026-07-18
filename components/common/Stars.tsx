@@ -8,6 +8,7 @@ export type StarsProps = {
   size?: number;
   activeColor?: string;
   inactiveColor?: string;
+  showValue?: boolean;
 };
 
 export default function Stars({
@@ -15,19 +16,53 @@ export default function Stars({
   size = 12,
   activeColor = COLORS.baseColor,
   inactiveColor = "#E8E4EC",
+  showValue = true,
 }: StarsProps) {
   return (
     <View className="flex-row items-center">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Fontisto
-          key={i}
-          name="star"
-          size={size}
-          color={i < Math.round(rating) ? activeColor : inactiveColor}
-          style={{ marginRight: 2 }}
-        />
-      ))}
-      <Text className="text-sm text-[#8A8590] ml-1">{rating.toFixed(1)}</Text>
+      {Array.from({ length: 5 }).map((_, i) => {
+        const fillPercentage = Math.min(Math.max(rating - i, 0), 1);
+
+        return (
+          <View
+            key={i}
+            style={{
+              width: size,
+              height: size,
+              marginRight: 2,
+            }}
+          >
+            {/* Empty star */}
+            <Fontisto
+              name="star"
+              size={size}
+              color={inactiveColor}
+              style={{
+                position: "absolute",
+              }}
+            />
+
+            {/* Filled star */}
+            {fillPercentage > 0 && (
+              <View
+                style={{
+                  width: size * fillPercentage,
+                  overflow: "hidden",
+                  position: "absolute",
+                }}
+              >
+                <Fontisto name="star" size={size} color={activeColor} />
+              </View>
+            )}
+          </View>
+        );
+      })}
+
+      {showValue && (
+        <Text style={{ fontSize: size }} className="text-[#8A8590] ml-1">
+          {rating.toFixed(1)}
+        </Text>
+      )}
     </View>
   );
 }

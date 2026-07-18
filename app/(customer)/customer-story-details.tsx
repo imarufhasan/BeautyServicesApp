@@ -223,8 +223,20 @@ export default function CustomerStoryDetails() {
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
       <View className="flex-row items-center justify-between px-5 py-4">
-        <TouchableOpacity onPress={() => router.back()} hitSlop={10}>
+        {/* <TouchableOpacity onPress={() => router.back()} hitSlop={10}>
           <Ionicons name="chevron-back" size={22} color="#161119" />
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="w-10 h-10 rounded-full bg-white items-center justify-center"
+          style={{
+            shadowColor: "#000",
+            shadowOpacity: 0.06,
+            shadowRadius: 6,
+            elevation: 1,
+          }}
+        >
+          <Ionicons name="chevron-back" size={18} color="#161119" />
         </TouchableOpacity>
 
         <Text className="text-xl font-bold text-[#161119]">Customer Story</Text>

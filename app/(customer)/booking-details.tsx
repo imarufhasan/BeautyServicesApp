@@ -1,8 +1,10 @@
+import ConfirmationModal from "@/components/common/ConfirmationModal";
+import GradientButton from "@/components/common/GradientButton";
 import { COLORS } from "@/constants/colors";
 import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
-import React from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useMemo, useState } from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -14,9 +16,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
 export type BookingStatus = "upcoming" | "completed" | "cancelled" | "pending";
 
 export type TimelineStep = {
@@ -60,66 +59,6 @@ export type BookingDetails = {
   total: number;
 };
 
-// ---------------------------------------------------------------------------
-// Dummy/default data
-// ---------------------------------------------------------------------------
-const AVATAR = require("../../assets/images/home/pic1.png");
-
-const DUMMY_BOOKING: BookingDetails = {
-  bookingId: "BK-2025-07124",
-  status: "upcoming",
-  timeline: [
-    {
-      id: "t1",
-      label: "Booking Requested",
-      timestamp: "Jul 10, 9:42 AM",
-      completed: true,
-    },
-    {
-      id: "t2",
-      label: "Artist Confirmed",
-      timestamp: "Jul 10, 10:15 AM",
-      completed: true,
-    },
-    {
-      id: "t3",
-      label: "Payment Processed",
-      timestamp: "Jul 10, 10:16 AM",
-      completed: true,
-    },
-    {
-      id: "t4",
-      label: "Appointment Date",
-      timestamp: "Jul 12, 10:00 AM",
-      completed: false,
-    },
-  ],
-  artistName: "Sofia Laurent",
-  artistAvatar: AVATAR,
-  artistSpecialty: "Bridal & Beauty Artist",
-  artistRating: 4.9,
-  artistReviewCount: 284,
-  artistPhone: "+1 (212) 555-0189",
-  serviceTags: ["Bridal Makeup", "Hair Styling & Updo"],
-  bookingDate: "Saturday, July 12, 2025",
-  bookingTime: "10:00 AM",
-  duration: "3 hours",
-  visitType: "Mobile — At Your Location",
-  address: "47 Park Avenue, New York, NY 10016",
-  travelFee: 25,
-  paymentMethod: "Visa •••• 4242",
-  transactionId: "TXN-8847291035",
-  receiptNo: "RCP-20250712-001",
-  paymentStatus: "Paid",
-  paidAmount: 85.4,
-  yourNotes: "Please use long-lasting products. The ceremony starts at 2 PM.",
-  artistNotes:
-    "I'll arrive 15 minutes early to set up. Please have a well-lit space available.",
-  subtotal: 40,
-  discount: 0,
-  total: 85.4,
-};
-
 const STATUS_STYLES: Record<
   BookingStatus,
   { label: string; bg: string; color: string }
@@ -130,9 +69,6 @@ const STATUS_STYLES: Record<
   cancelled: { label: "Cancelled", bg: "#FDEDF1", color: "#E0405B" },
 };
 
-// ---------------------------------------------------------------------------
-// Small building blocks
-// ---------------------------------------------------------------------------
 const CardTitle = ({ children }: { children: React.ReactNode }) => (
   <Text className="text-[11px] font-bold text-[#9A94A0] tracking-wide mb-3">
     {children}
@@ -172,14 +108,106 @@ const Stars = ({ rating }: { rating: number }) => (
   </View>
 );
 
-// ---------------------------------------------------------------------------
-// Screen
-// ---------------------------------------------------------------------------
-export default function BookingDetailsScreen({
-  booking = DUMMY_BOOKING,
-}: {
-  booking?: BookingDetails;
-}) {
+export default function BookingDetailsScreen() {
+  const [cancelModalVisible, setCancelModalVisible] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<BookingDetails | null>(
+    null,
+  );
+
+  const { bookingData } = useLocalSearchParams<{
+    bookingData?: string;
+  }>();
+
+  const booking: BookingDetails | null = useMemo(() => {
+    if (!bookingData) {
+      return null;
+    }
+
+    try {
+      const item = JSON.parse(bookingData);
+
+      return {
+        bookingId: item.bookingNumber,
+        status: item.status,
+
+        timeline: [
+          {
+            id: "1",
+            label: "Booking Requested",
+            timestamp: item.createdAt,
+            completed: true,
+          },
+          {
+            id: "2",
+            label: "Artist Confirmed",
+            completed: item.status !== "pending" && item.status !== "cancelled",
+          },
+          {
+            id: "3",
+            label: "Payment Processed",
+            completed:
+              item.status === "upcoming" || item.status === "completed",
+          },
+          {
+            id: "4",
+            label: "Appointment Date",
+            timestamp: `${item.schedule.date} ${item.schedule.startTime}`,
+            completed: item.status === "completed",
+          },
+        ],
+
+        artistName: item.artist.name,
+        artistAvatar: item.artist.avatar,
+        artistSpecialty: item.artist.specialty,
+        artistRating: item.artist.rating,
+        artistReviewCount: item.artist.totalReviews,
+        artistPhone: "+1 555 555 5555",
+
+        serviceTags: [item.service.name],
+
+        bookingDate: item.schedule.date,
+        bookingTime: item.schedule.startTime,
+        duration: item.service.duration,
+
+        visitType:
+          item.location.type === "mobile"
+            ? "Mobile — At Your Location"
+            : "Home Studio",
+
+        address: item.location.address,
+
+        travelFee: item.payment.serviceFee,
+
+        paymentMethod: "Visa •••• 4242",
+        transactionId: "TXN-" + item.id,
+        receiptNo: "RCP-" + item.id,
+
+        paymentStatus: item.status === "cancelled" ? "Refunded" : "Paid",
+
+        paidAmount: item.payment.total,
+
+        subtotal: item.payment.subtotal,
+        discount: 0,
+        total: item.payment.total,
+
+        yourNotes: "",
+        artistNotes: "",
+      };
+    } catch (error) {
+      console.log("Booking parse error:", error);
+      return null;
+    }
+  }, [bookingData]);
+  console.log("booking: ", booking?.status);
+
+  if (!booking) {
+    return (
+      <SafeAreaView className="flex-1 bg-[#FBF9FC] items-center justify-center">
+        <Text className="text-sm text-[#8A8590]">Booking not found</Text>
+      </SafeAreaView>
+    );
+  }
+
   const statusStyle = STATUS_STYLES[booking.status];
 
   const handleCall = () => {
@@ -187,10 +215,7 @@ export default function BookingDetailsScreen({
   };
 
   const handleMessage = () => {
-    // router.push({
-    //   pathname: "/messages/[id]",
-    //   params: { id: booking.bookingId },
-    // });
+    router.push("/ChatScreen");
   };
 
   const handleReschedule = () => {
@@ -198,15 +223,27 @@ export default function BookingDetailsScreen({
   };
 
   const handleBookAgain = () => {
-    // TODO: navigate back to artist profile / booking setup pre-filled
+    router.push("/artist-details");
   };
 
   const handleDownloadReceipt = () => {
     // TODO: generate/download PDF receipt
   };
 
+  // const handleCancelBooking = () => {
+  //   setCancelModalVisible(true);
+  // };
   const handleCancelBooking = () => {
-    // TODO: confirm + call cancel-booking mutation for booking.bookingId
+    setSelectedBooking(booking);
+    setCancelModalVisible(true);
+  };
+
+  const confirmCancelBooking = () => {
+    if (!selectedBooking) return;
+    console.log("Cancel booking:", selectedBooking);
+    setCancelModalVisible(false);
+    setSelectedBooking(null);
+    router.push("/cancellation-refund");
   };
 
   return (
@@ -239,7 +276,7 @@ export default function BookingDetailsScreen({
           className="bg-white rounded-[20px] p-4 mt-1"
           style={{ borderColor: "#EFEAF3", borderWidth: 1 }}
         >
-          <View className="flex-row items-start justify-between">
+          <View className="flex-row items-start justify-between mb-2">
             <View>
               <Text className="text-[11px] text-[#8A8590]">Booking Status</Text>
               <View
@@ -399,7 +436,7 @@ export default function BookingDetailsScreen({
                   colors={[COLORS.baseColor1, COLORS.baseColor2]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
-                  className="py-3 items-center rounded-full flex-row justify-center"
+                  className="py-3 h-[40px] items-center rounded-full flex-row justify-center"
                 >
                   <Ionicons
                     name="chatbubble-outline"
@@ -407,7 +444,7 @@ export default function BookingDetailsScreen({
                     color="#fff"
                     style={{ marginRight: 6 }}
                   />
-                  <Text className="text-xs font-bold text-white">Message</Text>
+                  <Text className="text-sm font-bold text-white">Message</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -570,24 +607,29 @@ export default function BookingDetailsScreen({
 
         {/* Quick actions */}
         <View className="flex-row mt-5" style={{ gap: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.85}
-            onPress={handleReschedule}
-            className="flex-1 items-center rounded-full py-3 border"
-            style={{ borderColor: "#E9D5F7", backgroundColor: "#FAF3FF" }}
-          >
-            <View className="flex-row items-center">
-              <Ionicons
-                name="calendar-outline"
-                size={13}
-                color="#B57EDC"
-                style={{ marginRight: 5 }}
-              />
-              <Text className="text-xs font-bold" style={{ color: "#B57EDC" }}>
-                Reschedule
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {(booking.status === "upcoming" || booking.status === "pending") && (
+            <TouchableOpacity
+              activeOpacity={0.85}
+              onPress={handleReschedule}
+              className="flex-1 items-center rounded-full py-3 border"
+              style={{ borderColor: "#E9D5F7", backgroundColor: "#FAF3FF" }}
+            >
+              <View className="flex-row items-center">
+                <Ionicons
+                  name="calendar-outline"
+                  size={13}
+                  color="#B57EDC"
+                  style={{ marginRight: 5 }}
+                />
+                <Text
+                  className="text-xs font-bold"
+                  style={{ color: "#B57EDC" }}
+                >
+                  Reschedule
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity
             activeOpacity={0.85}
@@ -630,24 +672,70 @@ export default function BookingDetailsScreen({
 
         {/* Cancel booking */}
         {(booking.status === "upcoming" || booking.status === "pending") && (
+          // <TouchableOpacity
+          //   activeOpacity={0.85}
+          //   onPress={handleCancelBooking}
+          //   className="rounded-full overflow-hidden mt-8"
+          // >
+          //   <LinearGradient
+          //     colors={[COLORS.baseColor1, COLORS.baseColor2]}
+          //     start={{ x: 0, y: 0 }}
+          //     end={{ x: 1, y: 0 }}
+          //     className="py-4 items-center rounded-full"
+          //   >
+          //     <Text className="text-white text-lg font-extrabold">
+          //       Cancel Booking
+          //     </Text>
+          //   </LinearGradient>
+          // </TouchableOpacity>
+          <GradientButton
+            label="Cancel Booking"
+            onPress={handleCancelBooking}
+            style={{ marginTop: 20, borderRadius: 100 }}
+          />
+        )}
+        {booking.status === "completed" && (
           <TouchableOpacity
             activeOpacity={0.85}
-            onPress={handleCancelBooking}
-            className="rounded-full overflow-hidden mt-8"
+            onPress={() => router.push("/ReviewScreen")}
+            className="flex-1 mt-4 items-center rounded-full py-4 border"
+            style={{
+              borderColor: "#F6C9D6",
+              backgroundColor: "#FCEBEF",
+            }}
           >
-            <LinearGradient
-              colors={[COLORS.baseColor1, COLORS.baseColor2]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              className="py-4 items-center rounded-full"
-            >
-              <Text className="text-white text-lg font-extrabold">
-                Cancel Booking
+            <View className="flex-row items-center">
+              <Ionicons
+                name="star-outline"
+                size={13}
+                color="#FC6C8C"
+                style={{ marginRight: 5 }}
+              />
+
+              <Text className="text-sm font-bold" style={{ color: "#FC6C8C" }}>
+                Review
               </Text>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
         )}
       </ScrollView>
+
+      <ConfirmationModal
+        visible={cancelModalVisible}
+        title="Cancel Booking?"
+        message={
+          selectedBooking
+            ? `Are you sure you want to cancel your ${selectedBooking.status} booking with ${selectedBooking.artistName}? This option is only available before your appointment begins.`
+            : ""
+        }
+        confirmText="Yes, Cancel"
+        cancelText="Keep Booking"
+        onConfirm={confirmCancelBooking}
+        onCancel={() => {
+          setCancelModalVisible(false);
+          setSelectedBooking(null);
+        }}
+      />
     </SafeAreaView>
   );
 }

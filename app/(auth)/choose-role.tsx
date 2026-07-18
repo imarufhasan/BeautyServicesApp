@@ -84,9 +84,7 @@ const RoleCard = ({
 };
 
 export default function ChooseRoleScreen({ navigation }: any) {
-  const [selectedRole, setSelectedRole] = useState<"customer" | "artist">(
-    "customer",
-  );
+  const [selectedRole, setSelectedRole] = useState<"customer" | "artist">();
 
   const [cardHeight, setCardHeight] = useState(0);
 
@@ -100,7 +98,7 @@ export default function ChooseRoleScreen({ navigation }: any) {
       //     role: "customer",
       //   },
       // });
-      router.replace("/(auth)/LoginScreen");
+      router.replace("/(auth)/homeWithOutLogin");
     }, 300);
   };
 

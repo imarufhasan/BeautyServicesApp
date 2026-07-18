@@ -9,6 +9,10 @@ export const COLORS = {
   baseColor: "#FF3D71",
   baseColor1: "#FFA3FF",
   baseColor2: "#FFB172",
+  //FFC8EF
+  baseColor11: "#FFC8EF",
+  baseColor22: "#FCD5B8",
+
   textColor1: "#101828",
   textColor2: "#FC6C8C",
 

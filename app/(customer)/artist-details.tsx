@@ -293,7 +293,7 @@ export default function ArtistProfileScreen({
         <View className="flex-row items-center justify-between px-5 pt-4 pb-4">
           <TouchableOpacity
             onPress={() => router.back()}
-            className="w-10 h-10 rounded-2xl p-2 bg-white items-center justify-center"
+            className="w-10 h-10 rounded-full p-2 bg-white items-center justify-center"
             style={{
               shadowColor: "#000",
               shadowOpacity: 0.06,
@@ -386,10 +386,6 @@ export default function ArtistProfileScreen({
               <View className="items-end">
                 <View className="flex-row items-center">
                   <Stars rating={profile.rating} size={11} />
-                  <Text className="font-extrabold text-[#161119]">
-                    {" "}
-                    {profile.rating.toFixed(1)}
-                  </Text>
                 </View>
                 <Text className="text-xs text-[#8A8590] mt-1">
                   {profile.reviewCount} reviews

@@ -1,5 +1,5 @@
 import { COLORS } from "@/constants/colors";
-import { Fontisto, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Stars from "./Stars";
 
 export type Artist = {
   id: string;
@@ -188,10 +189,11 @@ export default function ArtistCard({
           </View>
 
           <View className="flex-row items-center bg-[#FBF2E4] rounded-full px-2 py-1">
-            <Fontisto name="star" size={12} color="#FC6C8C" />
+            {/* <Fontisto name="star" size={12} color="#FC6C8C" />
             <Text className="text-xs font-extrabold text-[#161119] ml-1">
               {artist.rating.toFixed(1)}
-            </Text>
+            </Text> */}
+            <Stars rating={artist.rating} size={11} />
             <Text className="text-[10px] text-[#9A94A0] ml-1">
               ({artist.reviewCount})
             </Text>

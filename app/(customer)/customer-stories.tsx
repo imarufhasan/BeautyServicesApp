@@ -1,3 +1,4 @@
+import AppHeader from "@/components/common/AppHeader";
 import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -56,10 +57,10 @@ export default function CustomerStoriesScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
-      <View className="flex-row items-center px-5 py-4 border-b border-[#F1EFF3]">
+      {/* <View className="flex-row items-center px-5 py-4 border-b border-[#F1EFF3]">
         <TouchableOpacity
           onPress={() => router.back()}
-          className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center"
+          className="w-12 h-12 rounded-full bg-gray-100 items-center justify-center"
         >
           <Ionicons name="chevron-back" size={22} color="#161119" />
         </TouchableOpacity>
@@ -67,7 +68,8 @@ export default function CustomerStoriesScreen() {
         <Text className="text-xl font-extrabold text-[#161119] ml-3">
           Customer Stories
         </Text>
-      </View>
+      </View> */}
+      <AppHeader title="Customer Stories" />
 
       <ScrollView
         showsVerticalScrollIndicator={false}

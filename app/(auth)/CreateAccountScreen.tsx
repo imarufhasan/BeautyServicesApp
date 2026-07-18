@@ -5,13 +5,13 @@ import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthBrandHeader from "./AuthBrandHeader";
 
@@ -51,11 +51,7 @@ export default function CreateAccountScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-[#FFF8F9]" edges={["top"]}>
-      <KeyboardAwareScrollView
-        bottomOffset={40}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 80 }}
-      >
+      <KeyboardAvoidingView contentContainerStyle={{ paddingBottom: 80 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 80 }}
@@ -275,7 +271,7 @@ export default function CreateAccountScreen() {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

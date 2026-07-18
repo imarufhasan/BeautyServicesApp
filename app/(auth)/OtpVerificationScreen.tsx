@@ -1,3 +1,4 @@
+import AppHeader from "@/components/common/AppHeader";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -92,23 +93,7 @@ export default function OtpVerificationScreen() {
   return (
     <SafeAreaView className="flex-1 bg-[#FFF8F9]" edges={["top"]}>
       {/* Header */}
-      <View className="flex-row items-center px-5 pt-4 pb-3">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="w-12 h-12 rounded-full bg-white items-center justify-center mr-3"
-          style={{
-            shadowColor: "#000",
-            shadowOpacity: 0.06,
-            shadowRadius: 6,
-            elevation: 1,
-          }}
-        >
-          <Ionicons name="arrow-back" size={18} color="#161119" />
-        </TouchableOpacity>
-        <Text className="text-2xl font-extrabold text-[#161119]">
-          OTP Verification
-        </Text>
-      </View>
+      <AppHeader title="OTP Verification" />
 
       <View className="px-5 items-center mt-4">
         <LinearGradient

@@ -9,7 +9,6 @@ import {
 import LocationModal from "@/components/common/LocationModal";
 import PeopleModal from "@/components/common/PeopleModal";
 import ServiceModal from "@/components/common/ServiceModal";
-import Stars from "@/components/common/Stars";
 import TimeModal from "@/components/common/TimeModal";
 
 import { COLORS } from "@/constants/colors";
@@ -21,22 +20,24 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // ---------- Local assets ----------
-const HERO_IMAGE = require("../../../assets/images/home/pic5.png");
-const STORY_1_IMAGE = require("../../../assets/images/home/pic2.png");
-const STORY_2_IMAGE = require("../../../assets/images/home/pic3.png");
-const INSPO_WEDDING = require("../../../assets/images/home/pic4.png");
-const INSPO_FORMAL = require("../../../assets/images/home/pic1.png");
-const INSPO_NATURAL = require("../../../assets/images/home/pic2.png");
-const INSPO_PARTY = require("../../../assets/images/home/pic3.png");
-const INSPO_BRIDAL = require("../../../assets/images/home/pic4.png");
-const INSPO_LUXURY = require("../../../assets/images/home/pic1.png");
-const INSPO_FESTIVAL = require("../../../assets/images/home/pic2.png");
-const INSPO_EXTRA = require("../../../assets/images/home/pic3.png");
-const USER_AVATAR = require("../../../assets/images/home/pic1.png");
-const ARTIST_1 = require("../../../assets/images/home/pic1.png");
-const ARTIST_2 = require("../../../assets/images/home/pic2.png");
-const ARTIST_3 = require("../../../assets/images/home/pic3.png");
-const ARTIST_4 = require("../../../assets/images/home/pic4.png");
+const HERO_IMAGE = require("@/assets/images/home/pic5.png");
+const STORY_1_IMAGE = require("@/assets/images/home/pic2.png");
+const STORY_2_IMAGE = require("@/assets/images/home/pic3.png");
+const INSPO_WEDDING = require("@/assets/images/home/pic4.png");
+const INSPO_FORMAL = require("@/assets/images/home/pic1.png");
+const INSPO_NATURAL = require("@/assets/images/home/pic2.png");
+const INSPO_PARTY = require("@/assets/images/home/pic4.png");
+//INSPO_BRIDAL
+const INSPO_BRIDAL = require("@/assets/images/home/pic4.png");
+
+const INSPO_LUXURY = require("@/assets/images/home/pic1.png");
+const INSPO_FESTIVAL = require("@/assets/images/home/pic2.png");
+const INSPO_EXTRA = require("@/assets/images/home/pic3.png");
+const USER_AVATAR = require("@/assets/images/home/pic1.png");
+const ARTIST_1 = require("@/assets/images/home/pic1.png");
+const ARTIST_2 = require("@/assets/images/home/pic2.png");
+const ARTIST_3 = require("@/assets/images/home/pic3.png");
+const ARTIST_4 = require("@/assets/images/home/pic4.png");
 
 // ---------- Header mock data — replace with real auth/user + notifications API ----------
 const CURRENT_USER = { name: "Naz", avatar: USER_AVATAR };
@@ -62,7 +63,7 @@ const FEATURED_ARTISTS: ArtistPreview[] = [
     id: "f1",
     name: "Emma Richards",
     specialty: "Bridal & Editorial",
-    rating: 4,
+    rating: 4.9,
     reviewCount: 312,
     yearsExperience: 8,
     distanceKm: 2.3,
@@ -74,7 +75,7 @@ const FEATURED_ARTISTS: ArtistPreview[] = [
     id: "f2",
     name: "Aria Zhang",
     specialty: "Hair & Color Specialist",
-    rating: 4.5,
+    rating: 4.8,
     reviewCount: 248,
     yearsExperience: 6,
     distanceKm: 3.1,
@@ -300,6 +301,30 @@ const INSPIRATION = [
   { image: INSPO_EXTRA, label: "Editorial", height: 120 },
 ];
 
+// ---------- Small components ----------
+const StarRow = ({ rating }: { rating: number }) => (
+  <View className="flex-row items-center">
+    {[1, 2, 3, 4, 5].map((i) => (
+      <Ionicons
+        key={i}
+        name={
+          rating >= i
+            ? "star"
+            : rating >= i - 0.5
+              ? "star-half"
+              : "star-outline"
+        }
+        size={13}
+        color={COLORS.baseColor}
+        style={{ marginRight: 2 }}
+      />
+    ))}
+    <Text className="ml-1 text-xs font-semibold text-[#161119]">
+      {rating.toFixed(1)}
+    </Text>
+  </View>
+);
+
 const FindRow = ({
   icon,
   label,
@@ -412,11 +437,10 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
         </Text>
 
         <View className="flex-row items-center mt-1.5">
-          {/* <Ionicons name="star" size={12} color={COLORS.baseColor} /> */}
-          <Stars rating={artist.rating} />
-          {/* <Text className="text-xs font-bold text-[#161119] ml-1">
+          <Ionicons name="star" size={12} color={COLORS.baseColor} />
+          <Text className="text-xs font-bold text-[#161119] ml-1">
             {artist.rating.toFixed(1)}
-          </Text> */}
+          </Text>
           <Text className="text-[11px] text-[#8A8590] ml-1">
             ({artist.reviewCount})
           </Text>
@@ -551,58 +575,11 @@ export default function CustomerHomeScreen() {
                 <Text style={{ color: COLORS.baseColor }}>millennial</Text>
               </Text>
               <Text className="text-3xl font-extrabold text-[#161119] mt-1">
-                Hi, {userName}
+                Hi, Beautiful!
               </Text>
               <Text className="text-sm text-[#8A8590] mt-1">
                 Let&apos;s find your perfect beauty artist.
               </Text>
-            </View>
-
-            <View className="flex-row items-center" style={{ gap: 10 }}>
-              <TouchableOpacity
-                onPress={() => router.push("/NotificationsScreen")}
-                className="w-11 h-11 rounded-full bg-white items-center justify-center"
-                style={{
-                  shadowColor: "#000",
-                  shadowOpacity: 0.06,
-                  shadowRadius: 6,
-                  elevation: 1,
-                }}
-              >
-                <Ionicons
-                  name="notifications-outline"
-                  size={19}
-                  color="#161119"
-                />
-                {unreadNotifications > 0 && (
-                  <View
-                    className="absolute top-1.5 right-2 rounded-full"
-                    style={{
-                      width: 8,
-                      height: 8,
-                      backgroundColor: "#E0405B",
-                      borderWidth: 1.5,
-                      borderColor: "#fff",
-                    }}
-                  />
-                )}
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => router.push("/(customer)/(tabs)/profile")}
-              >
-                <Image
-                  source={userAvatar}
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 22,
-                    borderWidth: 2,
-                    borderColor: "#fff",
-                  }}
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
             </View>
           </View>
 
@@ -683,7 +660,7 @@ export default function CustomerHomeScreen() {
                 }
 
                 router.push({
-                  pathname: "/artistsList",
+                  pathname: "/LoginScreen",
                   params,
                 });
               }}
@@ -747,7 +724,6 @@ export default function CustomerHomeScreen() {
               />
             </TouchableOpacity>
           </View>
-
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -784,7 +760,7 @@ export default function CustomerHomeScreen() {
                 </TouchableOpacity>
 
                 <View className="p-3.5">
-                  <Stars rating={story.rating} />
+                  <StarRow rating={story.rating} />
                   <Text
                     numberOfLines={2}
                     className="text-sm text-[#161119] mt-2 leading-5"
@@ -819,82 +795,6 @@ export default function CustomerHomeScreen() {
                   </View>
                 </View>
               </View>
-            ))}
-          </ScrollView>
-
-          {/* Featured Artists */}
-          <View className="flex-row items-center justify-between mt-7 mb-3">
-            <Text className="text-xl font-extrabold text-[#161119]">
-              Featured Artists
-            </Text>
-            <TouchableOpacity
-              className="flex-row items-center"
-              onPress={() =>
-                router.push({
-                  pathname: "/artistsList",
-                  params: { type: "featured" },
-                })
-              }
-            >
-              <Text
-                style={{ color: COLORS.baseColor }}
-                className="text-sm font-semibold mr-0.5"
-              >
-                See All
-              </Text>
-              <Ionicons
-                name="chevron-forward"
-                size={14}
-                color={COLORS.baseColor}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 20, paddingBottom: 10 }}
-          >
-            {FEATURED_ARTISTS?.slice(0, 3)?.map((artist) => (
-              <ArtistPreviewCard key={artist.id} artist={artist} />
-            ))}
-          </ScrollView>
-
-          {/* Nearby Artists */}
-          <View className="flex-row items-center justify-between mt-7 mb-3">
-            <Text className="text-xl font-extrabold text-[#161119]">
-              Nearby Artists
-            </Text>
-            <TouchableOpacity
-              className="flex-row items-center"
-              onPress={() =>
-                router.push({
-                  pathname: "/artistsList",
-                  params: { type: "nearby" },
-                })
-              }
-            >
-              <Text
-                style={{ color: COLORS.baseColor }}
-                className="text-sm font-semibold mr-0.5"
-              >
-                See All
-              </Text>
-              <Ionicons
-                name="chevron-forward"
-                size={14}
-                color={COLORS.baseColor}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 20, paddingBottom: 10 }}
-          >
-            {NEARBY_ARTISTS?.slice(0, 3)?.map((artist) => (
-              <ArtistPreviewCard key={artist.id} artist={artist} />
             ))}
           </ScrollView>
 

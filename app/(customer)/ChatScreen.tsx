@@ -6,18 +6,15 @@ import React, { useState } from "react";
 import {
   Image,
   ImageSourcePropType,
+  KeyboardAvoidingView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
 export type ChatMessage = {
   id: string;
   text: string;
@@ -36,9 +33,6 @@ export type ChatParams = {
   linkedBookingTitle?: string; // e.g. "Full Glam Makeup"
 };
 
-// ---------------------------------------------------------------------------
-// Mock data — replace with real API/socket data
-// ---------------------------------------------------------------------------
 const AVATAR = require("../../assets/images/home/pic2.png");
 const MY_AVATAR = require("../../assets/images/home/pic1.png");
 
@@ -98,9 +92,6 @@ const MOCK_MESSAGES: ChatMessage[] = [
   },
 ];
 
-// ---------------------------------------------------------------------------
-// Small building blocks
-// ---------------------------------------------------------------------------
 const DateSeparator = ({ label }: { label: string }) => (
   <View className="items-center my-4">
     <Text className="text-[11px] font-bold text-[#B0AAB6]">{label}</Text>
@@ -176,9 +167,6 @@ const MessageBubble = ({
   );
 };
 
-// ---------------------------------------------------------------------------
-// Screen
-// ---------------------------------------------------------------------------
 export default function ChatScreen({
   params = DUMMY_PARAMS,
   messages: initialMessages = MOCK_MESSAGES,
@@ -189,7 +177,6 @@ export default function ChatScreen({
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [draft, setDraft] = useState("");
 
-  // Group messages by dateGroup while preserving order
   const groupedEntries: { dateGroup: string; items: ChatMessage[] }[] = [];
   for (const msg of messages) {
     const lastGroup = groupedEntries[groupedEntries.length - 1];
@@ -227,7 +214,7 @@ export default function ChatScreen({
       <View className="flex-row items-center px-5 pt-4 pb-3">
         <TouchableOpacity
           onPress={() => router.back()}
-          className="w-10 h-10 rounded-2xl bg-white items-center justify-center mr-3"
+          className="w-10 h-10 rounded-full bg-white items-center justify-center mr-3"
           style={{
             shadowColor: "#000",
             shadowOpacity: 0.06,
@@ -235,7 +222,7 @@ export default function ChatScreen({
             elevation: 1,
           }}
         >
-          <Ionicons name="arrow-back" size={18} color="#161119" />
+          <Ionicons name="chevron-back" size={20} color="#161119" />
         </TouchableOpacity>
 
         <Image
@@ -260,10 +247,10 @@ export default function ChatScreen({
             </View>
           )}
         </View>
-
+        {/* 
         <TouchableOpacity className="w-9 h-9 items-center justify-center">
           <Ionicons name="ellipsis-vertical" size={18} color="#161119" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Linked booking banner */}
