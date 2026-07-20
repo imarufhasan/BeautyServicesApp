@@ -903,7 +903,10 @@ export default function CustomerHomeScreen() {
             <Text className="text-xl font-extrabold text-[#161119]">
               Beauty Inspiration
             </Text>
-            <TouchableOpacity className="flex-row items-center">
+            <TouchableOpacity
+              onPress={() => router.push("/beautyInspirationScreen")}
+              className="flex-row items-center"
+            >
               <Text
                 style={{ color: COLORS.baseColor }}
                 className="text-sm font-semibold mr-0.5"

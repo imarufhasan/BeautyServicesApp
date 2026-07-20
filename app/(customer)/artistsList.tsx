@@ -343,9 +343,6 @@ export default function ArtistListScreen() {
     );
   };
 
-  // ---------------------------------------------
-  // Header content — three variants depending on how this screen was reached
-  // ---------------------------------------------
   const renderListHeader = () => {
     if (isFeatured) {
       return (
@@ -471,7 +468,7 @@ export default function ArtistListScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-[#FBF9FC]" edges={["top"]}>
-      <AppHeader title="Find Artist" />
+      <AppHeader title={screenTitle} />
 
       <FlatList
         data={artists}

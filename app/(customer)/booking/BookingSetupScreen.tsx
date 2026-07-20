@@ -1,3 +1,4 @@
+import AppHeader from "@/components/common/AppHeader";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -140,41 +141,7 @@ export default function BookingSetupScreen({
   return (
     <SafeAreaView className="flex-1 mb-10 bg-[#FBF9FC]" edges={["top"]}>
       {/* Header */}
-      {/* <View className="flex-row items-center px-5 pt-4 pb-3">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="w-10 h-10 rounded-full bg-white items-center justify-center mr-3"
-          style={{
-            shadowColor: "#000",
-            shadowOpacity: 0.06,
-            shadowRadius: 6,
-            elevation: 1,
-          }}
-        >
-          <Ionicons name="arrow-back" size={18} color="#161119" />
-        </TouchableOpacity>
-        <Text className="text-xl items-center font-extrabold text-[#161119]">
-          Booking Setup
-        </Text>
-      </View> */}
-
-      <View className="flex-row items-center px-5 pt-4 pb-3">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="w-12 h-12 rounded-full bg-white items-center justify-center"
-          style={{
-            shadowColor: COLORS.baseColor,
-            shadowOpacity: 0.06,
-            shadowRadius: 6,
-            elevation: 1,
-          }}
-        >
-          <Ionicons name="chevron-back" size={20} color="#161119" />
-        </TouchableOpacity>
-        <Text className="text-xl font-extrabold text-[#161119]">
-          Booking Setup
-        </Text>
-      </View>
+      <AppHeader title="Booking Setup" />
 
       <ScrollView
         showsVerticalScrollIndicator={false}

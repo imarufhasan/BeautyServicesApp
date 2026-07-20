@@ -235,7 +235,7 @@ export default function ProfileScreen({
     // Clear token/session here
     // dispatch(logout());
 
-    router.replace("/(auth)/LoginScreen");
+    router.replace("/choose-role");
   };
 
   return (
