@@ -4,16 +4,16 @@ import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
-    Image,
-    Modal,
-    Pressable,
-    ScrollView,
-    StatusBar,
-    Text,
-    View,
+  Image,
+  Modal,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -827,11 +827,17 @@ const AvailableActions = ({ type }: { type: BookingUpdateType }) => {
           <GradientActionButton
             title="Accept New Schedule"
             icon={<Ionicons name="checkmark" size={17} color="#FFFFFF" />}
-            onPress={() => setPendingAction("accept")}
+            onPress={() => {
+              setPendingAction("accept");
+              router.back();
+            }}
           />
           <OutlineButton
             label="Decline"
-            onPress={() => setPendingAction("decline")}
+            onPress={() => {
+              setPendingAction("decline");
+              router.back();
+            }}
           />
         </View>
 
@@ -856,7 +862,12 @@ const AvailableActions = ({ type }: { type: BookingUpdateType }) => {
         />
         <Pressable
           className="flex-row items-center justify-center mt-4"
-          onPress={() => console.log("contact support")}
+          onPress={() => {
+            router.push({
+              pathname: "/(customer)/contact-support",
+              params: { bookingId: "A123" },
+            });
+          }}
         >
           <Feather name="headphones" size={14} color="#6B7280" />
           <Text className="text-[13px] font-medium text-gray-500 ml-2">

@@ -1,103 +1,21 @@
 import GradientButton from "@/components/common/GradientButton";
+import { Field, SectionCard } from "@/components/FormField";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// ---------- Reusable field ----------
-type FieldProps = {
-  label: string;
-  placeholder: string;
-  value: string;
-  onChangeText: (v: string) => void;
-  secure?: boolean;
-  keyboardType?: "default" | "email-address" | "phone-pad" | "numeric";
-};
-
-const Field = ({
-  label,
-  placeholder,
-  value,
-  onChangeText,
-  secure,
-  keyboardType = "default",
-}: FieldProps) => {
-  const [hidden, setHidden] = useState(!!secure);
-
-  return (
-    <View className="mb-5">
-      <Text className="text-[15px] font-bold text-[#161119] mb-2">{label}</Text>
-      <View className="relative justify-center">
-        <TextInput
-          value={value}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          placeholderTextColor="#B7B2BC"
-          keyboardType={keyboardType}
-          secureTextEntry={secure ? hidden : false}
-          className="rounded-[14px] border border-[#ECECEC] px-4 py-3.5 text-[15px] text-[#161119]"
-        />
-        {secure && (
-          <TouchableOpacity
-            onPress={() => setHidden((h) => !h)}
-            className="absolute right-4"
-            hitSlop={10}
-          >
-            <Ionicons
-              name={hidden ? "eye-outline" : "eye-off-outline"}
-              size={20}
-              color="#8A8590"
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-    </View>
-  );
-};
-
-// ---------- Section card wrapper ----------
-const SectionCard = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <View
-    className="bg-white rounded-[20px] p-5 mb-5"
-    style={{
-      shadowColor: "#000",
-      shadowOpacity: 0.05,
-      shadowRadius: 10,
-      shadowOffset: { width: 0, height: 4 },
-      elevation: 2,
-    }}
-  >
-    <Text className="text-xs font-bold tracking-[1.5px] text-[#9A94A0] mb-4">
-      {title}
-    </Text>
-    {children}
-  </View>
-);
-
 export default function ProfessionalRegistrationScreen() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [abn, setAbn] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
@@ -107,11 +25,11 @@ export default function ProfessionalRegistrationScreen() {
   const canContinue = accepted;
 
   const handleContinue = () => {
-    if (!canContinue) return;
-    // router.push({
-    //   pathname: "/(auth)/professional-registration-step-2",
-    //   params: { fullName, email, mobile, businessName },
-    // });
+    //if (!canContinue) return;
+    router.push({
+      pathname: "/registration/IdentityVerificationScreen",
+      params: { businessName, abn, businessAddress, experience },
+    });
   };
 
   return (
@@ -133,19 +51,23 @@ export default function ProfessionalRegistrationScreen() {
           >
             {/* Logo */}
             <View className="flex-row items-center mt-6 mb-6">
-              {/* <LinearGradient
-                colors={["#FF5FA2", "#FFA35C"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                className="w-9 h-9 rounded-full items-center justify-center mr-2.5"
+              <View
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: 6,
+                  transform: [{ rotate: "45deg" }],
+                  marginRight: 10,
+                  overflow: "hidden",
+                }}
               >
-                <Ionicons name="sparkles" size={16} color="#FFFFFF" />
-              </LinearGradient> */}
-              <Image
-                source={require("@/assets/images/app_icon.png")}
-                className="w-12 h-12 rounded-full items-center justify-center mr-2.5"
-                resizeMode="contain"
-              />
+                <LinearGradient
+                  colors={["#FF5FA2", "#FFA35C"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={{ flex: 1 }}
+                />
+              </View>
               <Text
                 style={{ color: COLORS.baseColor }}
                 className="text-lg font-bold"
@@ -156,7 +78,7 @@ export default function ProfessionalRegistrationScreen() {
 
             {/* Heading */}
             <Text className="text-[28px] font-extrabold text-[#161119]">
-              Professional Registration 1111
+              Professional Registration
             </Text>
             <Text className="mt-2 text-[15px] text-[#8A8590]">
               Create your professional beauty profile.
@@ -179,46 +101,6 @@ export default function ProfessionalRegistrationScreen() {
                 Step 1 of 3
               </Text>
             </View>
-
-            {/* Personal Information */}
-            <SectionCard title="PERSONAL INFORMATION">
-              <Field
-                label="Full Name"
-                placeholder="Jane Smith"
-                value={fullName}
-                onChangeText={setFullName}
-              />
-              <Field
-                label="Email Address"
-                placeholder="jane@example.com"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-              />
-              <Field
-                label="Australian Mobile Number"
-                placeholder="04XX XXX XXX"
-                value={mobile}
-                onChangeText={setMobile}
-                keyboardType="phone-pad"
-              />
-              <Field
-                label="Password"
-                placeholder="Create a strong password"
-                value={password}
-                onChangeText={setPassword}
-                secure
-              />
-              <View className="mb-0">
-                <Field
-                  label="Confirm Password"
-                  placeholder="Re-enter your password"
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  secure
-                />
-              </View>
-            </SectionCard>
 
             {/* Business Information */}
             <SectionCard title="BUSINESS INFORMATION">
@@ -290,7 +172,8 @@ export default function ProfessionalRegistrationScreen() {
 
             <GradientButton
               label="Continue"
-              // onPress={() => router.push("/(auth)/choose-role")}
+              onPress={handleContinue}
+              // disabled={!canContinue}
               style={{ marginTop: 10 }}
             />
 

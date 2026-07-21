@@ -72,7 +72,7 @@ export default function WelcomeScreen() {
 
           <GradientButton
             label="Get Started"
-            onPress={() => router.replace("/(auth)/choose-role")}
+            onPress={() => router.push("/(auth)/choose-role")}
             style={{ marginTop: 40 }}
           />
         </View>

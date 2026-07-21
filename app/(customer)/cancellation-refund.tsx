@@ -6,12 +6,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-  Image,
-  ImageSourcePropType,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
+    Image,
+    ImageSourcePropType,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -219,7 +219,7 @@ export default function CancellationRefundScreen({
     // On success, navigate back or to a confirmation screen.
     setTimeout(() => {
       setSubmitting(false);
-      router.replace("/bookings");
+      router.push("/bookings");
     }, 600);
   };
 

@@ -851,7 +851,7 @@ export default function ArtistProfileScreen({
         <TouchableOpacity
           className="w-14 h-14 rounded-2xl items-center justify-center bg-[#F4E4FF]"
           onPress={() => {
-            router.push("/ChatScreen");
+            router.push("/chatScreen");
           }}
           style={{
             shadowColor: "#000",

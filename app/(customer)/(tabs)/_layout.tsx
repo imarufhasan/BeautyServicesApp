@@ -6,11 +6,6 @@ import React from "react";
 import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// ---------------------------------------------------------------------------
-// Custom tab icon: active tab gets a gradient circle behind the icon,
-// inactive tabs show a plain gray icon. Matches the "Bookings" active
-// state in the reference screenshot.
-// ---------------------------------------------------------------------------
 const TabIcon = ({
   focused,
   outlineName,
@@ -56,11 +51,8 @@ const TabIcon = ({
 export default function CustomerTabsLayout() {
   const insets = useSafeAreaInsets();
 
-  // Base content height for icon + label, independent of device.
   const TAB_BAR_CONTENT_HEIGHT = 58;
 
-  // On Android, insets.bottom is usually 0 for gesture-less devices,
-  // so we still guarantee a minimum breathing room there.
   const bottomPadding =
     Platform.OS === "ios" ? insets.bottom : Math.max(insets.bottom, 10);
 

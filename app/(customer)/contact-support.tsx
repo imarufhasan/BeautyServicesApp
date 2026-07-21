@@ -7,13 +7,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -77,7 +77,7 @@ export default function ContactSupportScreen() {
     // TODO: call support-ticket creation API with { subject, message, attachedFile, bookingId: params.bookingId }
     setTimeout(() => {
       setSubmitting(false);
-      //router.replace("/(customer)/(tabs)/bookings");
+      //router.push("/(customer)/(tabs)/bookings");
       router.back();
     }, 600);
   };

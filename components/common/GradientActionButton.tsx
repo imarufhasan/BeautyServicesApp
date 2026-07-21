@@ -1,6 +1,6 @@
 import { COLORS } from "@/constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
@@ -18,11 +18,26 @@ export default function GradientActionButton({
   disabled = false,
   icon,
 }: Props) {
+  const [showLoader, setShowLoader] = useState(false);
+
+  const handlePress = () => {
+    if (disabled || loading || showLoader) return;
+
+    setShowLoader(true);
+
+    setTimeout(() => {
+      setShowLoader(false);
+      onPress();
+    }, 2000);
+  };
+
+  const isLoading = loading || showLoader;
+
   return (
     <TouchableOpacity
       activeOpacity={0.85}
-      onPress={onPress}
-      disabled={disabled || loading}
+      onPress={handlePress}
+      disabled={disabled || isLoading}
       className="rounded-full overflow-hidden"
       style={{
         opacity: disabled ? 0.5 : 1,
@@ -35,7 +50,7 @@ export default function GradientActionButton({
         className="py-4 items-center justify-center rounded-full"
       >
         <View className="flex-row items-center justify-center">
-          {loading && (
+          {isLoading && (
             <ActivityIndicator
               size="small"
               color="#fff"
@@ -43,10 +58,10 @@ export default function GradientActionButton({
             />
           )}
 
-          {!loading && icon && <View style={{ marginRight: 6 }}>{icon}</View>}
+          {!isLoading && icon && <View style={{ marginRight: 6 }}>{icon}</View>}
 
           <Text className="text-white text-base font-extrabold">
-            {loading ? `${title}...` : title}
+            {isLoading ? `${title}...` : title}
           </Text>
         </View>
       </LinearGradient>

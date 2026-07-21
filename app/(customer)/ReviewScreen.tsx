@@ -353,7 +353,7 @@ export default function ReviewScreen({
         console.log("Submit review payload:", payload);
       }
       setSubmitModalVisible(false);
-      router.replace("/bookings");
+      router.push("/bookings");
     } catch (err) {
       console.warn("Failed to submit review:", err);
       setSubmitModalVisible(false);

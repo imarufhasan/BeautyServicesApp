@@ -1,16 +1,15 @@
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -149,7 +148,7 @@ export default function ProfessionalRegistrationScreen() {
 
             {/* Heading */}
             <Text className="text-[28px] font-extrabold text-[#161119]">
-              Professional Registration
+              Professional Registration 2222
             </Text>
             <Text className="mt-2 text-[15px] text-[#8A8590]">
               Create your professional beauty profile.
@@ -300,7 +299,7 @@ export default function ProfessionalRegistrationScreen() {
 
             {/* Login link */}
             <TouchableOpacity
-              onPress={() => router.push("/(auth)/login")}
+              //onPress={() => router.push("/(auth)/login")}
               className="mt-4 items-center"
             >
               <Text className="text-sm text-[#8A8590]">

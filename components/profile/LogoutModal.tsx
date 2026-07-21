@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import GradientActionButton from "../common/GradientActionButton";
 
 type Props = {
   visible: boolean;
@@ -64,13 +65,14 @@ export default function LogoutModal({ visible, onCancel, onConfirm }: Props) {
                 </TouchableOpacity>
 
                 {/* Logout */}
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={onConfirm}
-                  className="flex-1 h-12 rounded-full bg-[#FC6C8C] items-center justify-center"
-                >
-                  <Text className="text-sm font-bold text-white">Logout</Text>
-                </TouchableOpacity>
+                <View className="flex-1">
+                  <GradientActionButton
+                    title="Logout"
+                    onPress={() => {
+                      onConfirm();
+                    }}
+                  />
+                </View>
               </View>
             </View>
           </TouchableWithoutFeedback>

@@ -1,7 +1,7 @@
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -17,6 +17,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ForgotPasswordScreen() {
+  const { role } = useLocalSearchParams();
+  console.log("role 3: ", role);
+
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -28,8 +31,8 @@ export default function ForgotPasswordScreen() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       router.push({
-        pathname: "/(auth)/OtpVerificationScreen",
-        params: { email, flow: "reset-password" },
+        pathname: "/OtpVerificationScreen",
+        params: { email, flow: "reset-password", role: role },
       });
     } finally {
       setLoading(false);
@@ -150,7 +153,7 @@ export default function ForgotPasswordScreen() {
 
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => router.push("/(auth)/LoginScreen")}
+            onPress={() => router.back()}
             className="items-center mt-4 flex-row justify-center"
           >
             <Ionicons

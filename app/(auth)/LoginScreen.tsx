@@ -1,7 +1,7 @@
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -19,6 +19,9 @@ import AuthBrandHeader from "./AuthBrandHeader";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginScreen() {
+  const { role } = useLocalSearchParams();
+  console.log("user role: ", role);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +38,12 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.replace("/(customer)/(tabs)/home");
+      console.log("user role login screen: ", role);
+      if (role === "customer") {
+        router.push("/(customer)/(tabs)/home");
+      } else {
+        router.push("/(artist)/(tabs)/availability");
+      }
     } finally {
       setLoading(false);
     }
@@ -143,7 +151,14 @@ export default function LoginScreen() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => router.push("/(auth)/ForgotPasswordScreen")}
+                onPress={() => {
+                  router.push({
+                    pathname: "/ForgotPasswordScreen",
+                    params: {
+                      role: role,
+                    },
+                  });
+                }}
               >
                 <Text
                   className="text-sm font-bold"
@@ -196,7 +211,12 @@ export default function LoginScreen() {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                router.push("/CreateAccountScreen");
+                router.push({
+                  pathname: "/CreateAccountScreen",
+                  params: {
+                    role: role,
+                  },
+                });
               }}
             >
               <Text

@@ -1,11 +1,11 @@
 import AppHeader from "@/components/common/AppHeader";
 import { COLORS } from "@/constants/colors";
-import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
@@ -17,10 +17,13 @@ const OTP_LENGTH = 6;
 const RESEND_COOLDOWN_SECONDS = 30;
 
 export default function OtpVerificationScreen() {
-  const { email, flow } = useLocalSearchParams<{
+  const { email, flow, role } = useLocalSearchParams<{
     email?: string;
     flow?: string; // "register" | "reset-password"
+    role?: string;
   }>();
+
+  console.log("role 4: ", role);
 
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const [cooldown, setCooldown] = useState(RESEND_COOLDOWN_SECONDS);
@@ -29,6 +32,8 @@ export default function OtpVerificationScreen() {
 
   const otpValue = useMemo(() => digits.join(""), [digits]);
   const isComplete = otpValue.length === OTP_LENGTH;
+
+  const OTP_IMAGE = require("@/assets/images/home/otp_page_icon.png");
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -80,10 +85,15 @@ export default function OtpVerificationScreen() {
     setVerifying(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (flow === "reset-password") {
-        router.push("/(auth)/LoginScreen");
+      // if (flow === "reset-password") {
+      //   router.push("/(auth)/LoginScreen");
+      // } else {
+      //   router.push("/(customer)/(tabs)/home");
+      // }
+      if (role === "customer") {
+        router.push("/(customer)/(tabs)/home");
       } else {
-        router.replace("/(customer)/(tabs)/home");
+        router.push("/registration/ProfessionalRegistrationScreen");
       }
     } finally {
       setVerifying(false);
@@ -96,30 +106,16 @@ export default function OtpVerificationScreen() {
       <AppHeader title="OTP Verification" />
 
       <View className="px-5 items-center mt-4">
-        <LinearGradient
-          colors={[COLORS.baseColor1, COLORS.baseColor2]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{
-            width: 72,
-            height: 72,
-            borderRadius: 36,
-            alignItems: "center",
-            justifyContent: "center",
-            shadowColor: COLORS.baseColor1,
-            shadowOpacity: 0.35,
-            shadowRadius: 16,
-            elevation: 4,
-          }}
-        >
-          <Ionicons name="mail-open" size={26} color="#fff" />
-          <View
-            className="absolute -bottom-0.5 -right-0.5 items-center justify-center rounded-full bg-white"
-            style={{ width: 20, height: 20 }}
-          >
-            <Ionicons name="checkmark-circle" size={20} color="#3CC26B" />
-          </View>
-        </LinearGradient>
+        <View>
+          <Image
+            source={OTP_IMAGE}
+            style={{
+              width: 155,
+              height: 155,
+              resizeMode: "contain",
+            }}
+          />
+        </View>
 
         <Text className="text-sm text-[#8A8590] text-center mt-5 leading-5 px-6">
           Enter the 6-digit verification code sent to your{" "}

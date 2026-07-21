@@ -2,13 +2,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-  FlatList,
-  Image,
-  ImageSourcePropType,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    FlatList,
+    Image,
+    ImageSourcePropType,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -101,7 +101,7 @@ const ConversationRow = ({ conversation }: { conversation: Conversation }) => (
     activeOpacity={0.7}
     onPress={() =>
       router.push({
-        pathname: "/ChatScreen",
+        pathname: "/chatScreen",
         params: { id: conversation.id },
       })
     }

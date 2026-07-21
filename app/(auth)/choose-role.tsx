@@ -92,13 +92,12 @@ export default function ChooseRoleScreen({ navigation }: any) {
     setSelectedRole("customer");
 
     setTimeout(() => {
-      // router.push({
-      //   pathname: "/(customer)/(tabs)/home",
-      //   params: {
-      //     role: "customer",
-      //   },
-      // });
-      router.replace("/(auth)/homeWithOutLogin");
+      router.push({
+        pathname: "/homeWithOutLogin",
+        params: {
+          role: "customer",
+        },
+      });
     }, 300);
   };
 
@@ -106,8 +105,8 @@ export default function ChooseRoleScreen({ navigation }: any) {
     setSelectedRole("artist");
 
     setTimeout(() => {
-      router.replace({
-        pathname: "/(auth)/professional-registration",
+      router.push({
+        pathname: "/LoginScreen",
         params: {
           role: "artist",
         },

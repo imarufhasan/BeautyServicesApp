@@ -14,7 +14,7 @@ import TimeModal from "@/components/common/TimeModal";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router, useFocusEffect } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import React, { useCallback, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -288,8 +288,6 @@ const STORIES = [
   },
 ];
 
-// height varies per item on purpose — this is what creates the staggered
-// (Pinterest-style) masonry look instead of a flat uniform grid
 const INSPIRATION = [
   { image: INSPO_WEDDING, label: "Wedding", height: 220 },
   { image: INSPO_FORMAL, label: "Formal", height: 160 },
@@ -301,7 +299,6 @@ const INSPIRATION = [
   { image: INSPO_EXTRA, label: "Editorial", height: 120 },
 ];
 
-// ---------- Small components ----------
 const StarRow = ({ rating }: { rating: number }) => (
   <View className="flex-row items-center">
     {[1, 2, 3, 4, 5].map((i) => (
@@ -489,6 +486,9 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
 };
 
 export default function CustomerHomeScreen() {
+  const { role } = useLocalSearchParams();
+  console.log("user local 2: ", role);
+
   const userName = CURRENT_USER.name;
   const userAvatar = CURRENT_USER.avatar;
   const unreadNotifications = UNREAD_NOTIFICATIONS_COUNT;
@@ -661,7 +661,10 @@ export default function CustomerHomeScreen() {
 
                 router.push({
                   pathname: "/LoginScreen",
-                  params,
+                  params: {
+                    ...params,
+                    role: String(role),
+                  },
                 });
               }}
               search={true}

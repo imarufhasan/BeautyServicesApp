@@ -1,7 +1,7 @@
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -18,6 +18,9 @@ import AuthBrandHeader from "./AuthBrandHeader";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function CreateAccountScreen() {
+  const { role } = useLocalSearchParams();
+  console.log("role 4: ", role);
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,8 +45,12 @@ export default function CreateAccountScreen() {
     setLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      // await registerUser({ fullName, email, password }).unwrap();
-      router.replace("/(customer)/(tabs)/home");
+      router.push({
+        pathname: "/OtpVerificationScreen",
+        params: {
+          role: role,
+        },
+      });
     } finally {
       setLoading(false);
     }
