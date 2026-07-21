@@ -28,7 +28,7 @@ export default function GradientActionButton({
     setTimeout(() => {
       setShowLoader(false);
       onPress();
-    }, 2000);
+    }, 1000);
   };
 
   const isLoading = loading || showLoader;

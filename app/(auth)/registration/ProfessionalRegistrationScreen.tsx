@@ -1,5 +1,5 @@
+import { Field, SectionCard } from "@/components/(artist)/FormField";
 import GradientButton from "@/components/common/GradientButton";
-import { Field, SectionCard } from "@/components/FormField";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";

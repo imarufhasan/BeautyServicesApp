@@ -1,10 +1,13 @@
-import GradientButton from "@/components/common/GradientButton";
 import {
   DropdownField,
   PlainCard,
   ValidatedField,
-} from "@/components/FormField";
-import { StepHeader, StepProgressBar } from "@/components/StepProgress";
+} from "@/components/(artist)/FormField";
+import {
+  StepHeader,
+  StepProgressBar,
+} from "@/components/(artist)/StepProgress";
+import GradientButton from "@/components/common/GradientButton";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";

@@ -1,10 +1,15 @@
 import AppTabBar from "@/components/common/AppTabBar";
+import { PrimaryButton } from "@/components/common/PrimaryButton";
+import { COLORS } from "@/constants/colors";
 import { bookingInboxDummyResponse } from "@/constants/dummyData";
 import { Booking, BookingStatus } from "@/constants/types";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
+  FlatList,
   Image,
+  Modal,
   ScrollView,
   Text,
   TextInput,
@@ -13,12 +18,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-type FilterKey = "All" | "New Requests" | "Pending" | "Upcoming" | "Completed";
+type FilterKey = "All" | "New Requests" | "Upcoming" | "Pending" | "Completed";
+
 const FILTERS: FilterKey[] = [
   "All",
   "New Requests",
-  "Pending",
   "Upcoming",
+  "Pending",
   "Completed",
 ];
 
@@ -34,7 +40,7 @@ export default function BookingInboxScreen() {
   const { summary, bookings } = bookingInboxDummyResponse.data;
   const [activeFilter, setActiveFilter] = useState<FilterKey>("All");
   const [search, setSearch] = useState("");
-
+  const [declineBooking, setDeclineBooking] = useState<Booking | null>(null);
   const filtered = bookings.filter((b) => {
     const matchesFilter =
       activeFilter === "All" || STATUS_TO_FILTER[b.status] === activeFilter;
@@ -48,121 +54,155 @@ export default function BookingInboxScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-[#FAFAFA]" edges={["top"]}>
-      <ScrollView
+      <FlatList
+        data={filtered}
+        keyExtractor={(item) => item.id}
         className="flex-1 bg-rose-50/30"
-        contentContainerStyle={{ paddingBottom: 24 }}
-      >
-        <Text className="px-5 pt-4 text-2xl font-bold text-gray-900">
-          Booking Inbox
-        </Text>
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 120,
+        }}
 
-        <View
-          className="mx-5 h-12 mt-2 flex-row items-center rounded-2xl bg-white px-4 shadow-sm"
-          style={{
-            elevation: 2,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.08,
-            shadowRadius: 4,
-          }}
-        >
-          <Feather name="search" size={15} color="red" />
-
-          <TextInput
-            value={search}
-            onChangeText={(text) => setSearch(text)}
-            placeholder="Search"
-            placeholderTextColor="#9CA3AF"
-            className="ml-2 flex-1 text-base text-gray-700"
-          />
-
-          {search.trim().length > 0 && (
-            <TouchableOpacity
-              onPress={() => setSearch("")}
-              activeOpacity={0.7}
-              className="ml-2 h-6 w-6 items-center justify-center rounded-full bg-gray-200"
-            >
-              <Feather name="x" size={14} color="red" />
-            </TouchableOpacity>
-          )}
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          className="mt-4 pl-5"
-        >
-          <View className="flex-row" style={{ gap: 8 }}>
-            {FILTERS.map((f) => {
-              const active = f === activeFilter;
-              return (
-                <TouchableOpacity
-                  key={f}
-                  onPress={() => setActiveFilter(f)}
-                  className={`rounded-full px-4 py-2 ${active ? "bg-rose-400" : "bg-white"}`}
-                  style={
-                    !active
-                      ? { borderWidth: 1, borderColor: "#F3F4F6" }
-                      : undefined
-                  }
-                >
-                  <Text
-                    className={`text-xs font-semibold ${active ? "text-white" : "text-gray-500"}`}
-                  >
-                    {f}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </ScrollView>
-
-        {/* Summary */}
-        <View className="mx-5 mt-4 rounded-3xl bg-white p-4 shadow-sm">
-          <Text className="mb-3 text-[10px] font-semibold tracking-wider text-gray-400">
-            TODAY&apos;S SUMMARY
-          </Text>
-          <View className="flex-row justify-between">
-            <SummaryItem
-              value={String(summary.requests)}
-              label="Requests"
-              color="text-orange-400"
-            />
-            <SummaryItem
-              value={String(summary.pending)}
-              label="Pending"
-              color="text-amber-500"
-            />
-            <SummaryItem
-              value={String(summary.accepted)}
-              label="Accepted"
-              color="text-emerald-500"
-            />
-            <SummaryItem
-              value={`$${summary.earnings}`}
-              label="Earnings"
-              color="text-gray-900"
-            />
-          </View>
-        </View>
-
-        {/* Bookings list */}
-        <View className="mt-2 px-5">
-          {filtered.map((b) => (
-            <BookingCard key={b.id} booking={b} />
-          ))}
-          {filtered.length === 0 && (
-            <Text className="mt-8 text-center text-sm text-gray-400">
-              No bookings found.
+        ListHeaderComponent={
+          <>
+            <Text className="px-5 pt-4 text-2xl font-bold text-gray-900">
+              Booking Inbox
             </Text>
-          )}
-        </View>
-      </ScrollView>
+
+            {/* Search */}
+            <View
+              className="mx-5 h-12 mt-2 flex-row items-center rounded-2xl bg-white px-4 shadow-sm"
+              style={{
+                elevation: 2,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.08,
+                shadowRadius: 4,
+              }}
+            >
+              <Feather name="search" size={15} color="red" />
+
+              <TextInput
+                value={search}
+                onChangeText={setSearch}
+                placeholder="Search"
+                placeholderTextColor="#9CA3AF"
+                className="ml-2 flex-1 text-base text-gray-700"
+              />
+
+              {search.trim().length > 0 && (
+                <TouchableOpacity
+                  onPress={() => setSearch("")}
+                  className="ml-2 h-6 w-6 items-center justify-center rounded-full bg-gray-200"
+                >
+                  <Feather name="x" size={14} color="red" />
+                </TouchableOpacity>
+              )}
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className="mt-4"
+              contentContainerStyle={{
+                paddingLeft: 20,
+                paddingRight: 20,
+              }}
+            >
+              <View className="flex-row" style={{ gap: 8 }}>
+                {FILTERS.map((f) => {
+                  const active = f === activeFilter;
+
+                  return (
+                    <TouchableOpacity
+                      key={f}
+                      onPress={() => setActiveFilter(f)}
+                      activeOpacity={0.8}
+                    >
+                      {active ? (
+                        <LinearGradient
+                          colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 1 }}
+                          style={{
+                            borderRadius: 999,
+                          }}
+                          className="px-3 py-2"
+                        >
+                          <Text className="text-xs font-semibold text-white">
+                            {f}
+                          </Text>
+                        </LinearGradient>
+                      ) : (
+                        <View className="rounded-full border border-gray-100 bg-white px-3 py-2">
+                          <Text className="text-xs font-semibold text-gray-500">
+                            {f}
+                          </Text>
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </ScrollView>
+
+            {/* Summary */}
+            <View className="mx-5 mt-4 mb-4 rounded-3xl bg-white p-4 shadow-sm">
+              <Text className="mb-3 text-[10px] font-semibold tracking-wider text-gray-400">
+                TODAY&apos;S SUMMARY
+              </Text>
+
+              <View className="flex-row justify-between">
+                <SummaryItem
+                  value={String(summary.requests)}
+                  label="Requests"
+                  color="text-orange-400"
+                />
+
+                <SummaryItem
+                  value={String(summary.pending)}
+                  label="Pending"
+                  color="text-amber-500"
+                />
+
+                <SummaryItem
+                  value={String(summary.accepted)}
+                  label="Accepted"
+                  color="text-emerald-500"
+                />
+
+                <SummaryItem
+                  value={`$${summary.earnings}`}
+                  label="Earnings"
+                  color="text-gray-900"
+                />
+              </View>
+            </View>
+          </>
+        }
+
+        renderItem={({ item }) => (
+          <BookingCard booking={item} onDecline={setDeclineBooking} />
+        )}
+
+        ListEmptyComponent={
+          <Text className="mt-8 text-center text-sm text-gray-400">
+            No bookings found.
+          </Text>
+        }
+
+        ListFooterComponent={<View />}
+      />
 
       <AppTabBar active="Bookings" />
+
+      <DeclineModal
+        booking={declineBooking}
+        onClose={() => setDeclineBooking(null)}
+      />
     </SafeAreaView>
   );
 }
@@ -184,9 +224,15 @@ function SummaryItem({
   );
 }
 
-function BookingCard({ booking: b }: { booking: Booking }) {
+function BookingCard({
+  booking: b,
+  onDecline,
+}: {
+  booking: Booking;
+  onDecline: (booking: Booking) => void;
+}) {
   return (
-    <View className="mb-4 rounded-3xl bg-white p-4 shadow-sm">
+    <View className="mb-4 mx-4 rounded-3xl bg-white p-4 shadow-sm">
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center flex-1">
           <Image
@@ -306,9 +352,13 @@ function BookingCard({ booking: b }: { booking: Booking }) {
                 View Details
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
+            {/* <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
               <Text className="text-xs font-semibold text-white">Accept</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <PrimaryButton
+              title="Accept"
+              onPress={() => console.log("accepted")}
+            />
             <TouchableOpacity className="flex-1 items-center rounded-full border border-rose-200 py-2.5">
               <Text className="text-xs font-semibold text-rose-400">
                 Decline
@@ -318,11 +368,15 @@ function BookingCard({ booking: b }: { booking: Booking }) {
         )}
         {b.status === "accepted" && (
           <>
-            <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
+            {/* <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
               <Text className="text-xs font-semibold text-white">
                 View Details
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <PrimaryButton
+              title="View Details"
+              onPress={() => console.log("View Details")}
+            />
             <TouchableOpacity className="flex-1 items-center rounded-full border border-gray-200 py-2.5">
               <Text className="text-xs font-semibold text-gray-600">
                 Message
@@ -361,11 +415,15 @@ function BookingCard({ booking: b }: { booking: Booking }) {
                 View Review
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
+            {/* <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
               <Text className="text-xs font-semibold text-white">
                 Book Again
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <PrimaryButton
+              title="Book Again"
+              onPress={() => console.log("Book Again")}
+            />
           </>
         )}
       </View>
@@ -411,5 +469,59 @@ function StatusBadge({ status }: { status: BookingStatus }) {
     <View className={`rounded-full px-2.5 py-1 ${s.bg}`}>
       <Text className={`text-[11px] font-semibold ${s.text}`}>{s.label}</Text>
     </View>
+  );
+}
+
+function DeclineModal({
+  booking,
+  onClose,
+}: {
+  booking: Booking | null;
+  onClose: () => void;
+}) {
+  if (!booking) return null;
+
+  const message =
+    booking.status === "new"
+      ? "Are you sure you want to decline this booking request? The client will be notified."
+      : booking.status === "pending"
+        ? "This booking is currently pending. Declining will remove it from your active requests."
+        : "Are you sure you want to cancel this booking? This action cannot be undone.";
+
+  return (
+    <Modal transparent visible={!!booking} animationType="fade">
+      <View className="flex-1 items-center justify-center bg-black/40 px-5">
+        <View className="w-full rounded-3xl bg-white p-5">
+          <Text className="text-lg font-bold text-gray-900">
+            Decline Booking
+          </Text>
+
+          <Text className="mt-3 text-sm text-gray-500">{message}</Text>
+
+          <View className="mt-5 flex-row gap-3">
+            <TouchableOpacity
+              onPress={onClose}
+              className="flex-1 rounded-full border border-gray-200 py-3"
+            >
+              <Text className="text-center text-sm font-semibold text-gray-600">
+                Keep Booking
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // API call here
+                onClose();
+              }}
+              className="flex-1 rounded-full bg-rose-400 py-3"
+            >
+              <Text className="text-center text-sm font-semibold text-white">
+                Decline
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 }

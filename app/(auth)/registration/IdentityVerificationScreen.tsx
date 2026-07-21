@@ -1,5 +1,8 @@
+import {
+  StepHeader,
+  StepProgressBar,
+} from "@/components/(artist)/StepProgress";
 import GradientButton from "@/components/common/GradientButton";
-import { StepHeader, StepProgressBar } from "@/components/StepProgress";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";

@@ -37,7 +37,7 @@ export default function LoginScreen() {
     //if (!isValid || loading) return;
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       console.log("user role login screen: ", role);
       if (role === "customer") {
         router.push("/(customer)/(tabs)/home");

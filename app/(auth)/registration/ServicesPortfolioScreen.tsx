@@ -1,4 +1,6 @@
-import AddServiceSheet, { NewServiceInput } from "@/components/AddServiceSheet";
+import AddServiceSheet, {
+  NewServiceInput,
+} from "@/components/(artist)/AddServiceSheet";
 import GradientButton from "@/components/common/GradientButton";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -337,7 +339,12 @@ export default function ServicesPortfolioScreen() {
             </Text>
           </View>
 
-          <GradientButton label="Save Changes" onPress={() => {}} />
+          <GradientButton
+            label="Save Changes"
+            onPress={() => {
+              router.push("/registration/AvailabilitySetupScreen");
+            }}
+          />
         </ScrollView>
       </SafeAreaView>
 
