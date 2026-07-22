@@ -431,6 +431,9 @@ export const profileDummyResponse: ProfileApiResponse = {
       { id: "p1", imageUrl: "https://picsum.photos/seed/port1/300/300" },
       { id: "p2", imageUrl: "https://picsum.photos/seed/port2/300/300" },
       { id: "p3", imageUrl: "https://picsum.photos/seed/port3/300/300" },
+      { id: "p4", imageUrl: "https://picsum.photos/seed/port1/300/300" },
+      { id: "p5", imageUrl: "https://picsum.photos/seed/port2/300/300" },
+      { id: "p6", imageUrl: "https://picsum.photos/seed/port3/300/300" },
     ],
     services: [
       { id: "s1", name: "Hair Styling", durationMinutes: 60, price: 85 },

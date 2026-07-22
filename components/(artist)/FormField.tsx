@@ -91,7 +91,8 @@ export const ValidatedField = ({
   const isValid = value.trim().length > 0;
 
   return (
-    <View className="mb-4 flex-1">
+    // BEFORE: className="mb-4 flex-1"
+    <View className="mb-4">
       <Text className="text-[13px] font-bold text-[#161119] mb-2">{label}</Text>
       <View
         className="flex-row items-center rounded-[14px] border px-4 py-3"
@@ -131,14 +132,14 @@ type DropdownFieldProps = {
   onPress?: () => void;
   className?: string;
 };
-
 export const DropdownField = ({
   label,
   value,
   onPress,
   className,
 }: DropdownFieldProps) => (
-  <View className={`mb-4 flex-1 ${className ?? ""}`}>
+  // BEFORE: className={`mb-4 flex-1 ${className ?? ""}`}
+  <View className={`mb-4 ${className ?? ""}`}>
     <Text className="text-[13px] font-bold text-[#161119] mb-2">{label}</Text>
     <TouchableOpacity
       onPress={onPress}

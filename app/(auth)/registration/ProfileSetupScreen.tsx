@@ -148,18 +148,22 @@ export default function ProfileSetupScreen() {
                 Information
               </Text>
               <View className="flex-row" style={{ gap: 12 }}>
-                <ValidatedField
-                  label="City"
-                  placeholder="Melbourne"
-                  value={city}
-                  onChangeText={setCity}
-                />
-                <ValidatedField
-                  label="State"
-                  placeholder="VIC"
-                  value={stateVal}
-                  onChangeText={setStateVal}
-                />
+                <View className="flex-1">
+                  <ValidatedField
+                    label="City"
+                    placeholder="Melbourne"
+                    value={city}
+                    onChangeText={setCity}
+                  />
+                </View>
+                <View className="flex-1">
+                  <ValidatedField
+                    label="State"
+                    placeholder="VIC"
+                    value={stateVal}
+                    onChangeText={setStateVal}
+                  />
+                </View>
               </View>
               <ValidatedField
                 label="Postal Code"

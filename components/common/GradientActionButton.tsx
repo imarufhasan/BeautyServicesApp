@@ -60,7 +60,7 @@ export default function GradientActionButton({
 
           {!isLoading && icon && <View style={{ marginRight: 6 }}>{icon}</View>}
 
-          <Text className="text-white text-base font-extrabold">
+          <Text className="text-white text-lg font-extrabold">
             {isLoading ? `${title}...` : title}
           </Text>
         </View>

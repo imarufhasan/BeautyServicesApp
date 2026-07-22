@@ -1,17 +1,17 @@
 import BlockDateModal, {
-    BlockDateInput,
+  BlockDateInput,
 } from "@/components/(artist)/BlockDateModal";
 import QuickBookingModal, {
-    QuickBookingConfig,
+  QuickBookingConfig,
 } from "@/components/(artist)/QuickBookingModal";
 import RecurringScheduleModal, {
-    RecurringScheduleConfig,
+  RecurringScheduleConfig,
 } from "@/components/(artist)/RecurringScheduleModal";
 import VacationModeModal, {
-    VacationConfig,
+  VacationConfig,
 } from "@/components/(artist)/VacationModeModal";
 import WorkingHoursModal, {
-    WorkingHoursDay,
+  WorkingHoursDay,
 } from "@/components/(artist)/WorkingHoursModal";
 import GradientActionButton from "@/components/common/GradientActionButton";
 import { COLORS } from "@/constants/colors";
@@ -21,12 +21,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-    ScrollView,
-    Switch,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -294,11 +293,9 @@ export default function AvailabilitySetupScreen() {
                 <Text className="text-sm font-medium text-white">
                   Available Today
                 </Text>
-                <Switch
+                <GradientSwitch
                   value={isAvailableToday}
                   onValueChange={setIsAvailableToday}
-                  trackColor={{ true: "#FFA3FF", false: "#ffffff40" }}
-                  thumbColor="#ffffff"
                 />
               </View>
             </LinearGradient>
@@ -348,11 +345,9 @@ export default function AvailabilitySetupScreen() {
                       onPress={() => setEditingDay(isOpen ? null : d.day)}
                     >
                       <View className="flex-row items-center">
-                        <Switch
+                        <GradientSwitch
                           value={isOn}
                           onValueChange={() => toggleDay(d.day)}
-                          trackColor={{ true: "#FB7185", false: "#E5E7EB" }}
-                          thumbColor="#fff"
                         />
                         <Text className="ml-3 text-[15px] font-semibold text-gray-800">
                           {d.day}
@@ -438,11 +433,9 @@ export default function AvailabilitySetupScreen() {
                           onPress={() => setMonEveningSession((v) => !v)}
                           className="mt-4 flex-row items-center"
                         >
-                          <Switch
+                          <GradientSwitch
                             value={monEveningSession}
                             onValueChange={setMonEveningSession}
-                            trackColor={{ true: "#FB7185", false: "#E5E7EB" }}
-                            thumbColor="#fff"
                           />
                           <Text className="ml-2 text-[13px] text-gray-500">
                             Evening Session
@@ -631,13 +624,11 @@ export default function AvailabilitySetupScreen() {
                   Hide profile from new bookings
                 </Text>
               </View>
-              <Switch
+              <GradientSwitch
                 value={vacationConfig.enabled}
                 onValueChange={(v) =>
                   setVacationConfig((prev) => ({ ...prev, enabled: v }))
                 }
-                trackColor={{ true: "#FB7185", false: "#E5E7EB" }}
-                thumbColor="#fff"
               />
             </View>
             <View className="mt-4 items-center py-4">
@@ -730,13 +721,11 @@ export default function AvailabilitySetupScreen() {
                   Auto-confirm client bookings
                 </Text>
               </View>
-              <Switch
+              <GradientSwitch
                 value={quickBookingConfig.enabled}
                 onValueChange={(v) =>
                   setQuickBookingConfig((prev) => ({ ...prev, enabled: v }))
                 }
-                trackColor={{ true: "#FB7185", false: "#E5E7EB" }}
-                thumbColor="#fff"
               />
             </View>
             <View className="mt-3 rounded-2xl bg-emerald-50 px-4 py-3">
@@ -870,5 +859,39 @@ function InfoRow({ label, value }: { label: string; value: string }) {
         {value}
       </Text>
     </View>
+  );
+}
+
+function GradientSwitch({
+  value,
+  onValueChange,
+}: {
+  value: boolean;
+  onValueChange: (v: boolean) => void;
+}) {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => onValueChange(!value)}
+      className={`h-7 w-12 rounded-full justify-center px-1 ${
+        value ? "" : "bg-gray-200"
+      }`}
+    >
+      {value ? (
+        <LinearGradient
+          colors={[COLORS.baseColor1, COLORS.baseColor2]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          className="absolute inset-0 rounded-full"
+          style={{ borderRadius: 999 }}
+        />
+      ) : null}
+
+      <View
+        className={`h-5 w-5 rounded-full bg-white shadow ${
+          value ? "translate-x-5" : "translate-x-0"
+        }`}
+      />
+    </TouchableOpacity>
   );
 }
