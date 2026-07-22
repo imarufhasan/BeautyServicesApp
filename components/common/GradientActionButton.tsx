@@ -9,6 +9,8 @@ type Props = {
   loading?: boolean;
   disabled?: boolean;
   icon?: React.ReactNode;
+  height?: number;
+  textSize?: string;
 };
 
 export default function GradientActionButton({
@@ -17,6 +19,8 @@ export default function GradientActionButton({
   loading = false,
   disabled = false,
   icon,
+  height = 40,
+  textSize = "text-sm",
 }: Props) {
   const [showLoader, setShowLoader] = useState(false);
 
@@ -38,8 +42,9 @@ export default function GradientActionButton({
       activeOpacity={0.85}
       onPress={handlePress}
       disabled={disabled || isLoading}
-      className="rounded-full overflow-hidden"
+      className="overflow-hidden rounded-full"
       style={{
+        height,
         opacity: disabled ? 0.5 : 1,
       }}
     >
@@ -47,7 +52,7 @@ export default function GradientActionButton({
         colors={[COLORS.baseColor1, COLORS.baseColor2]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        className="py-4 items-center justify-center rounded-full"
+        className="flex-1 items-center justify-center rounded-full"
       >
         <View className="flex-row items-center justify-center">
           {isLoading && (
@@ -60,7 +65,7 @@ export default function GradientActionButton({
 
           {!isLoading && icon && <View style={{ marginRight: 6 }}>{icon}</View>}
 
-          <Text className="text-white text-lg font-extrabold">
+          <Text className={`font-semibold text-lg text-white ${textSize}`}>
             {isLoading ? `${title}...` : title}
           </Text>
         </View>
