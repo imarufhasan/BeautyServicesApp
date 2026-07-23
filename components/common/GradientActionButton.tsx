@@ -11,6 +11,7 @@ type Props = {
   icon?: React.ReactNode;
   height?: number;
   textSize?: string;
+  haveLoader?: boolean;
 };
 
 export default function GradientActionButton({
@@ -21,11 +22,17 @@ export default function GradientActionButton({
   icon,
   height = 40,
   textSize = "text-sm",
+  haveLoader = true,
 }: Props) {
   const [showLoader, setShowLoader] = useState(false);
 
   const handlePress = () => {
     if (disabled || loading || showLoader) return;
+
+    if (!haveLoader) {
+      onPress();
+      return;
+    }
 
     setShowLoader(true);
 
@@ -35,7 +42,7 @@ export default function GradientActionButton({
     }, 1000);
   };
 
-  const isLoading = loading || showLoader;
+  const isLoading = haveLoader && (loading || showLoader);
 
   return (
     <TouchableOpacity

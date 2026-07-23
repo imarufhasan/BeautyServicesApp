@@ -1,3 +1,4 @@
+import { GradientSwitch } from "@/components/(artist)";
 import AddServiceSheet, {
   NewServiceInput,
 } from "@/components/(artist)/AddServiceSheet";
@@ -7,14 +8,7 @@ import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const MAX_PHOTOS = 20;
@@ -195,11 +189,9 @@ export default function ServicesPortfolioScreen() {
                     </Text>
                   </View>
                 </View>
-                <Switch
+                <GradientSwitch
                   value={s.active}
                   onValueChange={() => toggleService(s.id)}
-                  trackColor={{ true: "#FB7185", false: "#E5E7EB" }}
-                  thumbColor="#fff"
                 />
               </View>
 

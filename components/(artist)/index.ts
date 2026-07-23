@@ -5,6 +5,6 @@ export { default as QuickBookingCard } from "./QuickBookingCard";
 export { default as RecurringScheduleCard } from "./RecurringScheduleCard";
 export * from "./SharedControls";
 export { default as TodayStatusCard } from "./TodayStatusCard";
-export { default as VacationModeCard } from "./VacationModeCard";
+export { default as VacationModeCard } from "./VacationCard";
 export { default as WeeklyScheduleCard } from "./WeeklyScheduleCard";
 

@@ -1,6 +1,5 @@
 import AppTabBar from "@/components/common/AppTabBar";
 import GradientActionButton from "@/components/common/GradientActionButton";
-import { COLORS } from "@/constants/colors";
 import { profileDummyResponse } from "@/constants/dummyData";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -37,9 +36,9 @@ function StatItem({
             style={{ marginRight: 3 }}
           />
         )}
-        <Text className="text-base font-bold text-gray-900">{value}</Text>
+        <Text className="text-lg font-bold text-gray-900">{value}</Text>
       </View>
-      <Text className="text-[11px] text-gray-400">{label}</Text>
+      <Text className="text-[13px] text-gray-400">{label}</Text>
     </View>
   );
 }
@@ -63,8 +62,8 @@ function BizRow({
         <Feather name={icon} size={13} color="#FB7185" />
       </View>
       <View className="ml-3 flex-1">
-        <Text className="text-[11px] text-gray-400">{label}</Text>
-        <Text className="mt-0.5 text-sm font-semibold text-gray-800">
+        <Text className="text-[13px] text-gray-400">{label}</Text>
+        <Text className="mt-0.5 text-base font-semibold text-gray-800">
           {value}
         </Text>
       </View>
@@ -103,7 +102,7 @@ function MenuRow({
           <Feather name={icon} size={15} color={iconColor} />
         </View>
 
-        <Text className={`ml-3 text-sm font-semibold ${labelColor}`}>
+        <Text className={`ml-3 text-base font-semibold ${labelColor}`}>
           {label}
         </Text>
       </View>
@@ -159,13 +158,15 @@ export default function ProfileScreen() {
         >
           {/* Top bar */}
           <View className="relative flex-row items-center justify-center px-5 pt-4">
-            <Text className="text-xl font-semibold text-black">Profile</Text>
+            <Text className="text-2xl items-center font-semibold text-black">
+              Profile
+            </Text>
 
             <TouchableOpacity
               onPress={() => router.push("/(artist)/SettingsScreen")}
-              className="absolute right-5 h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm"
+              className="absolute right-5 mt-2 h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm"
             >
-              <Feather name="settings" size={16} color="#374151" />
+              <Feather name="settings" size={15} color="#374151" />
             </TouchableOpacity>
           </View>
 
@@ -176,7 +177,7 @@ export default function ProfileScreen() {
                 source={{ uri: profileImage }}
                 className="h-24 w-24 rounded-full"
               />
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={pickImage}
                 className="absolute bottom-0 right-0 h-7 w-7 items-center justify-center rounded-full border-2 border-white"
               >
@@ -192,29 +193,29 @@ export default function ProfileScreen() {
                 >
                   <Feather name="camera" size={12} color="#fff" />
                 </LinearGradient>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
 
             {p.isVerified && (
               <View className="mt-3 flex-row items-center rounded-full bg-[##BAF1E4] px-3 py-1">
                 <Feather name="check" size={11} color="#10B981" />
-                <Text className="ml-1 text-xs font-semibold text-emerald-500">
+                <Text className="ml-1 text-sm font-semibold text-emerald-500">
                   Verified Artist
                 </Text>
               </View>
             )}
 
-            <Text className="mt-2 text-xl font-bold text-gray-900">
+            <Text className="mt-2 text-2xl font-bold text-gray-900">
               {p.name}
             </Text>
-            <Text className="text-[13px] text-gray-400">{p.role}</Text>
+            <Text className="text-[14px] text-gray-400">{p.role}</Text>
             <View className="mt-1 flex-row items-center">
-              <Text className="text-[13px] font-medium text-gray-600">
+              <Text className="text-[14px] font-medium text-gray-600">
                 {p.businessInfo.businessName}
               </Text>
               <View className="ml-2 flex-row items-center rounded-full bg-amber-50 px-2 py-0.5">
                 <Feather name="check" size={9} color="#F59E0B" />
-                <Text className="ml-0.5 text-[10px] font-semibold text-amber-500">
+                <Text className="ml-0.5 text-[11px] font-semibold text-amber-500">
                   ABN Verified
                 </Text>
               </View>
@@ -230,10 +231,10 @@ export default function ProfileScreen() {
 
             <View className="mt-4 w-full">
               <View className="flex-row items-center justify-between">
-                <Text className="text-xs text-gray-400">
+                <Text className="text-sm text-gray-400">
                   Profile Completion
                 </Text>
-                <Text className="text-xs font-semibold text-emerald-500">
+                <Text className="text-sm font-semibold text-emerald-500">
                   {p.profileCompletionPercent}% Complete
                 </Text>
               </View>
@@ -254,7 +255,7 @@ export default function ProfileScreen() {
             <View className="flex-1 w-full mt-4">
               <GradientActionButton
                 title="Edit Profile"
-                loading={false}
+                haveLoader={false}
                 onPress={() => router.push("/(artist)/EditProfileScreen")}
               />
             </View>
@@ -262,9 +263,9 @@ export default function ProfileScreen() {
 
           {/* Portfolio */}
           <View className="mx-5 mt-6 flex-row items-center justify-between">
-            <Text className="text-base font-bold text-gray-900">Portfolio</Text>
+            <Text className="text-lg font-bold text-gray-900">Portfolio</Text>
             <TouchableOpacity>
-              <Text className="text-xs font-semibold text-rose-400">
+              <Text className="text-sm font-semibold text-rose-400">
                 View All
               </Text>
             </TouchableOpacity>
@@ -286,17 +287,19 @@ export default function ProfileScreen() {
           </ScrollView>
 
           {/* Services */}
-          <View className="mx-5 mt-6 rounded-3xl bg-white p-4 shadow-sm">
-            <View className="flex-row items-center justify-between">
-              <Text className="text-base font-bold text-gray-900">
-                Services
+          <View className="mx-5 mt-6 flex-row items-center justify-between">
+            <Text className="text-lg font-bold text-gray-900">Services</Text>
+            <TouchableOpacity
+              onPress={() =>
+                router.push("/registration/ServicesPortfolioScreen")
+              }
+            >
+              <Text className="text-sm font-semibold text-rose-400">
+                Manage
               </Text>
-              <TouchableOpacity>
-                <Text className="text-xs font-semibold text-rose-400">
-                  Manage
-                </Text>
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
+          </View>
+          <View className="mx-5 mt-2 rounded-3xl bg-white p-4 shadow-sm">
             {p.services.map((s, idx) => (
               <View
                 key={s.id}
@@ -305,7 +308,7 @@ export default function ProfileScreen() {
                 }`}
               >
                 <View>
-                  <Text className="text-sm font-semibold text-gray-800">
+                  <Text className="text-base font-semibold text-gray-800">
                     {s.name}
                   </Text>
                   <Text className="text-xs text-gray-400">
@@ -316,16 +319,16 @@ export default function ProfileScreen() {
                   <Text className="text-sm font-bold text-gray-900">
                     ${s.price}
                   </Text>
-                  <View className="h-7 w-7 items-center justify-center rounded-full bg-rose-50">
+                  {/* <View className="h-7 w-7 items-center justify-center rounded-full bg-rose-50">
                     <Feather name="edit-2" size={12} color="#FB7185" />
-                  </View>
+                  </View> */}
                 </View>
               </View>
             ))}
           </View>
 
           {/* Business Info */}
-          <Text className="mx-5 mt-6 text-base font-bold text-gray-900">
+          <Text className="mx-5 mt-6 text-lg font-bold text-gray-900">
             Business Information
           </Text>
           <View className="mx-5 mt-3 rounded-3xl bg-white p-4 shadow-sm">
@@ -368,7 +371,7 @@ export default function ProfileScreen() {
           </View>
 
           {/* Features */}
-          <Text className="mx-5 mt-6 text-base font-bold text-gray-900">
+          <Text className="mx-5 mt-6 text-lg font-bold text-gray-900">
             Features
           </Text>
           <View className="mx-5 mt-3 rounded-3xl bg-white p-2 shadow-sm">
@@ -396,7 +399,7 @@ export default function ProfileScreen() {
               iconColor="#3B82F6"
               label="Certificates"
               onPress={() => {
-                router.push("/(artist)/PromotionsScreen");
+                router.push("/(artist)/CertificationsScreen");
               }}
             />
             <MenuRow
@@ -421,25 +424,28 @@ export default function ProfileScreen() {
               iconBg="bg-emerald-50"
               iconColor="#10B981"
               label="Privacy Settings"
+              onPress={() => router.push("/profile/privacy-policy")}
             />
             <MenuRow
               icon="help-circle"
               iconBg="bg-violet-50"
               iconColor="#8B5CF6"
               label="Support"
+              onPress={() => router.push("/(common)/chatScreen")}
             />
             <MenuRow
               icon="info"
               iconBg="bg-amber-50"
               iconColor="#F59E0B"
-              label="Help Center"
+              label="Report & Issue"
+              onPress={() => router.push("/profile/report-issue")}
             />
-            <MenuRow
+            {/* <MenuRow
               icon="settings"
               iconBg="bg-gray-100"
               iconColor="#6B7280"
               label="Settings"
-            />
+            /> */}
             <MenuRow
               icon="log-out"
               iconBg="bg-rose-50"

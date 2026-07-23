@@ -1,7 +1,7 @@
 import GradientActionButton from "@/components/common/GradientActionButton";
 import { DaySchedule } from "@/constants/availability";
 import { DayOfWeek } from "@/constants/types";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { GradientSwitch } from "./SharedControls";
@@ -49,11 +49,10 @@ export default function WeeklyScheduleCard({
         </View>
         <TouchableOpacity
           onPress={onEditAll}
-          className="rounded-full bg-rose-50 px-3 py-1.5"
+          className="rounded-full bg-rose-50 flex-row gap-1 px-3 py-1.5"
         >
-          <Text className="text-xs font-semibold text-rose-500">
-            ✎ Edit All
-          </Text>
+          <FontAwesome name="pencil" size={12} color={"#f43f5e"} />
+          <Text className="text-xs font-semibold text-rose-500">Edit All</Text>
         </TouchableOpacity>
       </View>
 
@@ -75,12 +74,12 @@ export default function WeeklyScheduleCard({
                     value={isOn}
                     onValueChange={() => toggleDay(d.day)}
                   />
-                  <Text className="ml-3 text-[15px] font-semibold text-gray-800">
+                  <Text className="ml-3 text-base font-semibold text-gray-800">
                     {d.day}
                   </Text>
                 </View>
                 <View className="flex-row items-center">
-                  <Text className="text-[13px] text-gray-500">
+                  <Text className="text-sm text-gray-500">
                     {isOn && d.startTime
                       ? `${d.startTime} – ${d.endTime}`
                       : "Day off"}

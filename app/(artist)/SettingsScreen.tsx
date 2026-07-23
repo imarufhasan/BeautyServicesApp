@@ -18,7 +18,7 @@ import {
   Zap,
 } from "lucide-react-native";
 import React, { useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function Toggle({
@@ -123,6 +123,42 @@ export default function SettingsScreen() {
   });
   const [saving, setSaving] = useState(false);
 
+  const [actionModal, setActionModal] = useState<{
+    visible: boolean;
+    type: "logout" | "delete" | null;
+  }>({
+    visible: false,
+    type: null,
+  });
+
+  const openActionModal = (type: "logout" | "delete") => {
+    setActionModal({
+      visible: true,
+      type,
+    });
+  };
+
+  const closeActionModal = () => {
+    setActionModal({
+      visible: false,
+      type: null,
+    });
+  };
+
+  const handleConfirmAction = () => {
+    if (actionModal.type === "logout") {
+      console.log("Logout");
+      router.replace("/(auth)/LoginScreen");
+    }
+
+    if (actionModal.type === "delete") {
+      console.log("Delete Account");
+      // delete account API
+    }
+
+    closeActionModal();
+  };
+
   const toggleNotif = (key: keyof typeof notifications) =>
     setNotifications((prev) => ({ ...prev, [key]: !prev[key] }));
   const togglePrivacy = (key: keyof typeof privacy) =>
@@ -134,223 +170,275 @@ export default function SettingsScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-rose-50">
-      <ScrollView
-        className="flex-1"
-        contentContainerStyle={{ paddingBottom: 40 }}
-      >
-        <AppHeader title="Settings" />
+    <LinearGradient
+      colors={["#FFF5F7", "#F8FFFE", "#FAFAFA"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView className="flex-1 bg-rose-50">
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ paddingBottom: 40 }}
+        >
+          <AppHeader title="Settings" />
 
-        <View className="gap-6 px-4">
-          {/* Security */}
-          <View>
-            <SectionLabel>SECURITY</SectionLabel>
-            <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
-              <Row
-                Icon={Lock}
-                iconBg="bg-pink-50"
-                iconColor="#ec4899"
-                title="Change Password"
-                subtitle="Last changed 3 months ago"
-                right={<ChevronRight size={18} color="#d1d5db" />}
-                isLast
-              />
+          <View className="gap-6 px-4">
+            {/* Security */}
+            <View>
+              <SectionLabel>SECURITY</SectionLabel>
+              <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                <Row
+                  onPress={() => router.push("/profile/change-password")}
+                  Icon={Lock}
+                  iconBg="bg-pink-50"
+                  iconColor="#ec4899"
+                  title="Change Password"
+                  subtitle="Last changed 3 months ago"
+                  right={<ChevronRight size={18} color="#d1d5db" />}
+                  isLast
+                />
+              </View>
             </View>
-          </View>
 
-          {/* Notifications */}
-          <View>
-            <SectionLabel>NOTIFICATIONS</SectionLabel>
-            <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
-              <Row
-                Icon={Gift}
-                iconBg="bg-pink-50"
-                iconColor="#ec4899"
-                title="Booking Updates"
-                right={
-                  <Toggle
-                    value={notifications.booking}
-                    onValueChange={() => toggleNotif("booking")}
-                  />
-                }
-              />
-              <Row
-                Icon={Calendar}
-                iconBg="bg-pink-50"
-                iconColor="#ec4899"
-                title="Booking Requests"
-                right={
-                  <Toggle
-                    value={notifications.requests}
-                    onValueChange={() => toggleNotif("requests")}
-                  />
-                }
-              />
-              <Row
-                Icon={Zap}
-                iconBg="bg-pink-50"
-                iconColor="#ec4899"
-                title="Promotional Updates"
-                right={
-                  <Toggle
-                    value={notifications.promo}
-                    onValueChange={() => toggleNotif("promo")}
-                  />
-                }
-              />
-              <Row
-                Icon={Star}
-                iconBg="bg-pink-50"
-                iconColor="#ec4899"
-                title="Review Notifications"
-                right={
-                  <Toggle
-                    value={notifications.reviews}
-                    onValueChange={() => toggleNotif("reviews")}
-                  />
-                }
-                isLast
-              />
+            {/* Notifications */}
+            <View>
+              <SectionLabel>NOTIFICATIONS</SectionLabel>
+              <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                <Row
+                  Icon={Gift}
+                  iconBg="bg-pink-50"
+                  iconColor="#ec4899"
+                  title="Booking Updates"
+                  right={
+                    <Toggle
+                      value={notifications.booking}
+                      onValueChange={() => toggleNotif("booking")}
+                    />
+                  }
+                />
+                <Row
+                  Icon={Calendar}
+                  iconBg="bg-pink-50"
+                  iconColor="#ec4899"
+                  title="Booking Requests"
+                  right={
+                    <Toggle
+                      value={notifications.requests}
+                      onValueChange={() => toggleNotif("requests")}
+                    />
+                  }
+                />
+                <Row
+                  Icon={Zap}
+                  iconBg="bg-pink-50"
+                  iconColor="#ec4899"
+                  title="Promotional Updates"
+                  right={
+                    <Toggle
+                      value={notifications.promo}
+                      onValueChange={() => toggleNotif("promo")}
+                    />
+                  }
+                />
+                <Row
+                  Icon={Star}
+                  iconBg="bg-pink-50"
+                  iconColor="#ec4899"
+                  title="Review Notifications"
+                  right={
+                    <Toggle
+                      value={notifications.reviews}
+                      onValueChange={() => toggleNotif("reviews")}
+                    />
+                  }
+                  isLast
+                />
+              </View>
             </View>
-          </View>
 
-          {/* Privacy */}
-          <View>
-            <SectionLabel>PRIVACY</SectionLabel>
-            <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
-              <Row
-                Icon={Shield}
-                iconBg="bg-emerald-50"
-                iconColor="#10b981"
-                title="Location Permission"
-                subtitle="Allow location access"
-                right={
-                  <Toggle
-                    value={privacy.location}
-                    onValueChange={() => togglePrivacy("location")}
-                  />
-                }
-              />
-              <Row
-                Icon={Shield}
-                iconBg="bg-emerald-50"
-                iconColor="#10b981"
-                title="Camera Permission"
-                subtitle="Allow camera access"
-                right={
-                  <Toggle
-                    value={privacy.camera}
-                    onValueChange={() => togglePrivacy("camera")}
-                  />
-                }
-              />
-              <Row
-                Icon={Shield}
-                iconBg="bg-emerald-50"
-                iconColor="#10b981"
-                title="Photo Library"
-                subtitle="Allow photo access"
-                right={
-                  <Toggle
-                    value={privacy.photos}
-                    onValueChange={() => togglePrivacy("photos")}
-                  />
-                }
-              />
-              <Row
-                Icon={Shield}
-                iconBg="bg-emerald-50"
-                iconColor="#10b981"
-                title="Notification Permission"
-                subtitle="Allow notifications"
-                right={
-                  <Toggle
-                    value={privacy.notif}
-                    onValueChange={() => togglePrivacy("notif")}
-                  />
-                }
-                isLast
-              />
+            {/* Privacy */}
+            <View>
+              <SectionLabel>PRIVACY</SectionLabel>
+              <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                <Row
+                  Icon={Shield}
+                  iconBg="bg-emerald-50"
+                  iconColor="#10b981"
+                  title="Location Permission"
+                  subtitle="Allow location access"
+                  right={
+                    <Toggle
+                      value={privacy.location}
+                      onValueChange={() => togglePrivacy("location")}
+                    />
+                  }
+                />
+                <Row
+                  Icon={Shield}
+                  iconBg="bg-emerald-50"
+                  iconColor="#10b981"
+                  title="Camera Permission"
+                  subtitle="Allow camera access"
+                  right={
+                    <Toggle
+                      value={privacy.camera}
+                      onValueChange={() => togglePrivacy("camera")}
+                    />
+                  }
+                />
+                <Row
+                  Icon={Shield}
+                  iconBg="bg-emerald-50"
+                  iconColor="#10b981"
+                  title="Photo Library"
+                  subtitle="Allow photo access"
+                  right={
+                    <Toggle
+                      value={privacy.photos}
+                      onValueChange={() => togglePrivacy("photos")}
+                    />
+                  }
+                />
+                <Row
+                  Icon={Shield}
+                  iconBg="bg-emerald-50"
+                  iconColor="#10b981"
+                  title="Notification Permission"
+                  subtitle="Allow notifications"
+                  right={
+                    <Toggle
+                      value={privacy.notif}
+                      onValueChange={() => togglePrivacy("notif")}
+                    />
+                  }
+                  isLast
+                />
+              </View>
             </View>
-          </View>
 
-          {/* Payment */}
-          <View>
-            <SectionLabel>PAYMENT</SectionLabel>
-            <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
-              <Row
-                Icon={CreditCard}
-                iconBg="bg-pink-50"
-                iconColor="#ec4899"
-                title="Default Payment Method"
-                subtitle="Visa •••• 4281"
-                right={<ChevronRight size={18} color="#d1d5db" />}
-              />
-              <Row
-                Icon={DollarSign}
-                iconBg="bg-emerald-50"
-                iconColor="#10b981"
-                title="Bank Account"
-                subtitle="NAB •••• 7892"
-                right={<ChevronRight size={18} color="#d1d5db" />}
-                isLast
-              />
+            {/* Payment */}
+            <View>
+              <SectionLabel>PAYMENT</SectionLabel>
+              <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                <Row
+                  Icon={CreditCard}
+                  iconBg="bg-pink-50"
+                  iconColor="#ec4899"
+                  title="Default Payment Method"
+                  subtitle="Visa •••• 4281"
+                  right={<ChevronRight size={18} color="#d1d5db" />}
+                />
+                <Row
+                  Icon={DollarSign}
+                  iconBg="bg-emerald-50"
+                  iconColor="#10b981"
+                  title="Bank Account"
+                  subtitle="NAB •••• 7892"
+                  right={<ChevronRight size={18} color="#d1d5db" />}
+                  isLast
+                />
+              </View>
             </View>
-          </View>
 
-          {/* Danger zone */}
-          <View>
-            <Text className="mb-2 px-1 text-[11px] font-semibold tracking-wider text-rose-400">
-              DANGER ZONE
-            </Text>
-            <View className="overflow-hidden rounded-2xl bg-rose-50">
-              <TouchableOpacity className="flex-row items-center gap-3 border-b border-rose-100 px-4 py-3.5">
-                <LogOut size={18} color="#f43f5e" />
-                <View>
-                  <Text className="text-[15px] font-medium text-rose-500">
-                    Logout
-                  </Text>
-                  <Text className="text-xs text-rose-300">
-                    Sign out of your account
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity className="flex-row items-center gap-3 px-4 py-3.5">
-                <Trash2 size={18} color="#f43f5e" />
-                <View>
-                  <Text className="text-[15px] font-medium text-rose-500">
-                    Delete Account
-                  </Text>
-                  <Text className="text-xs text-rose-300">
-                    Permanently delete all your data
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* <TouchableOpacity activeOpacity={0.85} onPress={handleSave}>
-            <LinearGradient
-              colors={["#ec4899", "#fb923c"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              className="items-center rounded-2xl py-4"
-              style={{
-                borderRadius: 999,
-              }}
-            >
-              <Text className="text-[15px] font-semibold text-white">
-                {saving ? "Saving..." : "Save Changes"}
+            {/* Danger zone */}
+            <View>
+              <Text className="mb-2 px-1 text-[11px] font-semibold tracking-wider text-rose-400">
+                DANGER ZONE
               </Text>
-            </LinearGradient>
-          </TouchableOpacity> */}
+              <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                <TouchableOpacity
+                  onPress={() => openActionModal("logout")}
+                  className="flex-row items-center gap-3 border-b border-rose-100 px-4 py-3.5"
+                >
+                  <LogOut size={18} color="#f43f5e" />
+                  <View>
+                    <Text className="text-[15px] font-medium text-rose-500">
+                      Logout
+                    </Text>
+                    <Text className="text-xs text-rose-300">
+                      Sign out of your account
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => openActionModal("delete")}
+                  className="flex-row items-center gap-3 px-4 py-3.5"
+                >
+                  <Trash2 size={18} color="#f43f5e" />
+                  <View>
+                    <Text className="text-[15px] font-medium text-rose-500">
+                      Delete Account
+                    </Text>
+                    <Text className="text-xs text-rose-300">
+                      Permanently delete all your data
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
 
-          <GradientActionButton
-            title="Save Changes"
-            onPress={() => router.back()}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            <GradientActionButton
+              title="Save Changes"
+              onPress={() => router.back()}
+            />
+          </View>
+
+          <Modal
+            transparent
+            visible={actionModal.visible}
+            animationType="fade"
+            onRequestClose={closeActionModal}
+          >
+            <View className="flex-1 items-center justify-center bg-black/40 px-6">
+              <View className="w-full rounded-3xl bg-white p-6">
+                <Text className="text-center text-lg font-bold text-gray-900">
+                  {actionModal.type === "logout"
+                    ? "Logout Account?"
+                    : "Delete Account?"}
+                </Text>
+
+                <Text className="mt-3 text-center text-sm text-gray-500">
+                  {actionModal.type === "logout"
+                    ? "Are you sure you want to logout from your account?"
+                    : "This action cannot be undone. All your data will be permanently removed."}
+                </Text>
+
+                <View className="mt-6 flex-row gap-3">
+                  <TouchableOpacity
+                    onPress={closeActionModal}
+                    className="flex-1 rounded-xl bg-gray-100 py-3"
+                  >
+                    <Text className="text-center font-semibold text-gray-700">
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={handleConfirmAction}
+                    className="flex-1 overflow-hidden rounded-xl"
+                    activeOpacity={0.8}
+                  >
+                    <LinearGradient
+                      colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      className="items-center justify-center py-3"
+                      style={{
+                        borderRadius: 12,
+                      }}
+                    >
+                      <Text className="font-semibold text-white">
+                        {actionModal.type === "logout" ? "Logout" : "Delete"}
+                      </Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }

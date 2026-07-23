@@ -1,32 +1,25 @@
 import { BlockDateInput } from "@/components/(artist)/BlockDateModal";
 import { QuickBookingConfig } from "@/components/(artist)/QuickBookingModal";
 import { RecurringScheduleConfig } from "@/components/(artist)/RecurringScheduleModal";
-import { VacationConfig } from "@/components/(artist)/VacationModeModal";
+import { VacationConfig } from "@/components/(artist)/VacationCard";
 import { WorkingHoursDay } from "@/components/(artist)/WorkingHoursModal";
 import {
-    BlockedDate,
-    DaySchedule,
-    REASON_LABELS,
-    initialBlockedDates,
-    initialQuickBookingConfig,
-    initialRecurringConfig,
-    initialVacationConfig,
-    weeklyScheduleDummy,
+  BlockedDate,
+  DaySchedule,
+  REASON_LABELS,
+  initialBlockedDates,
+  initialQuickBookingConfig,
+  initialRecurringConfig,
+  initialVacationConfig,
+  weeklyScheduleDummy,
 } from "@/constants/availability";
 import { DayOfWeek } from "@/constants/types";
 import { router } from "expo-router";
 import { useState } from "react";
 
-/**
- * All state + handlers for the Availability flow live here so
- * AvailabilityScreen and AvailabilitySetupScreen (which only differ in
- * header/layout) share one implementation instead of two copies that can
- * silently drift apart.
- */
 export function useAvailabilityManager(
   schedule: DaySchedule[] = weeklyScheduleDummy,
 ) {
-  // ---- Today / weekly schedule ----
   const [isAvailableToday, setIsAvailableToday] = useState(true);
   const [editingDay, setEditingDay] = useState<DayOfWeek | null>("Monday");
   const [monEveningSession, setMonEveningSession] = useState(false);
@@ -44,11 +37,9 @@ export function useAvailabilityManager(
     setScheduleToggles((prev) => ({ ...prev, [day]: !prev[day] }));
 
   const handleSaveWorkingHours = (_days: WorkingHoursDay[]) => {
-    // TODO: send `_days` to the API, then update weeklyScheduleDummy/local state.
     setWorkingHoursOpen(false);
   };
 
-  // ---- Blocked dates ----
   const [blockedDates, setBlockedDates] =
     useState<BlockedDate[]>(initialBlockedDates);
   const [blockDateModalOpen, setBlockDateModalOpen] = useState(false);
@@ -67,10 +58,22 @@ export function useAvailabilityManager(
     setBlockDateModalOpen(false);
   };
 
+  const updateBlockedDate = (id: string, data: Partial<BlockedDate>) => {
+    setBlockedDates((prev) =>
+      prev.map((bd) =>
+        bd.id === id
+          ? {
+              ...bd,
+              ...data,
+            }
+          : bd,
+      ),
+    );
+  };
+
   const removeBlockedDate = (id: string) =>
     setBlockedDates((prev) => prev.filter((bd) => bd.id !== id));
 
-  // ---- Recurring schedule ----
   const [recurringConfig, setRecurringConfig] =
     useState<RecurringScheduleConfig>(initialRecurringConfig);
   const [recurringModalOpen, setRecurringModalOpen] = useState(false);
@@ -80,7 +83,6 @@ export function useAvailabilityManager(
     setRecurringModalOpen(false);
   };
 
-  // ---- Quick booking ----
   const [quickBookingConfig, setQuickBookingConfig] =
     useState<QuickBookingConfig>(initialQuickBookingConfig);
   const [quickBookingModalOpen, setQuickBookingModalOpen] = useState(false);
@@ -90,7 +92,6 @@ export function useAvailabilityManager(
     setQuickBookingModalOpen(false);
   };
 
-  // ---- Vacation mode ----
   const [vacationConfig, setVacationConfig] = useState<VacationConfig>(
     initialVacationConfig,
   );
@@ -101,10 +102,7 @@ export function useAvailabilityManager(
     setVacationModalOpen(false);
   };
 
-  // ---- Save all ----
   const handleSaveAvailability = () => {
-    // TODO: PATCH/PUT all availability state (weeklySchedule, blockedDates,
-    // recurringConfig, quickBookingConfig, vacationConfig) to the API here.
     router.replace("/(artist)/(tabs)/profile");
   };
 
@@ -128,6 +126,7 @@ export function useAvailabilityManager(
     setBlockDateModalOpen,
     handleSaveBlockDate,
     removeBlockedDate,
+    updateBlockedDate,
 
     // recurring
     recurringConfig,

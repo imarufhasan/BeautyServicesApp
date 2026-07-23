@@ -1,7 +1,7 @@
 import { BlockDateInput } from "@/components/(artist)/BlockDateModal";
 import { QuickBookingConfig } from "@/components/(artist)/QuickBookingModal";
 import { RecurringScheduleConfig } from "@/components/(artist)/RecurringScheduleModal";
-import { VacationConfig } from "@/components/(artist)/VacationModeModal";
+import { VacationConfig } from "@/components/(artist)/VacationCard";
 import { DayOfWeek } from "@/constants/types";
 
 /**
@@ -101,6 +101,7 @@ export interface BlockedDate {
   id: string;
   label: string;
   reason: string;
+  notes?: string;
 }
 
 export const initialBlockedDates: BlockedDate[] = [

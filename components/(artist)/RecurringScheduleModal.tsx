@@ -1,8 +1,16 @@
 import GradientActionButton from "@/components/common/GradientActionButton";
+import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
-import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Modal,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export type RecurringMode = "Weekly" | "Monthly" | "Custom";
 export type RecurringPattern =
@@ -54,7 +62,12 @@ export default function RecurringScheduleModal({
       onRequestClose={onClose}
     >
       <View className="flex-1 justify-end bg-black/40">
-        <View className="rounded-t-[24px] bg-[#FFF6F8] pt-3 px-5 pb-8">
+        <View
+          className="rounded-t-[24px] bg-[#FFF6F8] pt-3 px-5"
+          style={{
+            maxHeight: "92%",
+          }}
+        >
           <View className="self-center w-10 h-1 rounded-full bg-[#E3E0E6] mb-3" />
 
           <View className="flex-row items-center justify-between pb-4 mb-4 border-b border-[#F1E4E8]">
@@ -70,89 +83,99 @@ export default function RecurringScheduleModal({
             </TouchableOpacity>
           </View>
 
-          {/* Mode tabs */}
-          <View className="flex-row rounded-full bg-[#F1EEF1] p-1 mb-5">
-            {(["Weekly", "Monthly", "Custom"] as RecurringMode[]).map((m) => {
-              const active = m === mode;
-              return (
-                <TouchableOpacity
-                  key={m}
-                  onPress={() => setMode(m)}
-                  className="flex-1 rounded-full overflow-hidden"
-                >
-                  {active ? (
-                    <LinearGradient
-                      colors={["#EC4899", "#FB923C"]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      className="items-center justify-center py-2.5"
-                    >
-                      <Text className="text-[13px] font-bold text-white">
-                        {m}
-                      </Text>
-                    </LinearGradient>
-                  ) : (
-                    <View className="items-center justify-center py-2.5">
-                      <Text className="text-[13px] font-medium text-[#8A8590]">
-                        {m}
-                      </Text>
-                    </View>
-                  )}
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{
+              paddingBottom: 60,
+            }}
+          >
+            {/* Mode tabs */}
+            <View className="flex-row rounded-full bg-[#F1EEF1] p-1 mb-5">
+              {(["Weekly", "Monthly", "Custom"] as RecurringMode[]).map((m) => {
+                const active = m === mode;
+                return (
+                  <TouchableOpacity
+                    key={m}
+                    onPress={() => setMode(m)}
+                    className="flex-1 rounded-full overflow-hidden"
+                  >
+                    {active ? (
+                      <LinearGradient
+                        colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        className="items-center justify-center py-2.5"
+                      >
+                        <Text className="text-[13px] font-bold text-white">
+                          {m}
+                        </Text>
+                      </LinearGradient>
+                    ) : (
+                      <View className="items-center justify-center py-2.5">
+                        <Text className="text-[13px] font-medium text-[#8A8590]">
+                          {m}
+                        </Text>
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
 
-          <Text className="text-[15px] font-bold text-[#161119] mb-3">
-            Pattern
-          </Text>
-          <View className="mb-5" style={{ gap: 10 }}>
-            {PATTERN_OPTIONS.map((opt) => {
-              const active = opt.key === pattern;
-              return (
-                <TouchableOpacity
-                  key={opt.key}
-                  onPress={() => setPattern(opt.key)}
-                  className={`flex-row items-center rounded-2xl border px-4 py-3.5 ${
-                    active
-                      ? "border-emerald-300 bg-emerald-50"
-                      : "border-transparent bg-[#F7F5F7]"
-                  }`}
-                >
-                  <View
-                    className={`w-5 h-5 rounded-full border-2 items-center justify-center mr-3 ${
-                      active ? "border-emerald-500" : "border-[#D9D5DE]"
+            <Text className="text-[15px] font-bold text-[#161119] mb-3">
+              Pattern
+            </Text>
+            <View className="mb-5" style={{ gap: 10 }}>
+              {PATTERN_OPTIONS.map((opt) => {
+                const active = opt.key === pattern;
+                return (
+                  <TouchableOpacity
+                    key={opt.key}
+                    onPress={() => setPattern(opt.key)}
+                    className={`flex-row items-center rounded-2xl border px-4 py-3.5 ${
+                      active
+                        ? "border-emerald-300 bg-emerald-50"
+                        : "border-transparent bg-[#F7F5F7]"
                     }`}
                   >
-                    {active && (
-                      <View className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    )}
-                  </View>
-                  <Text
-                    className={`text-[14px] font-medium ${active ? "text-emerald-700" : "text-[#161119]"}`}
-                  >
-                    {opt.label}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+                    <View
+                      className={`w-5 h-5 rounded-full border-2 items-center justify-center mr-3 ${
+                        active ? "border-emerald-500" : "border-[#D9D5DE]"
+                      }`}
+                    >
+                      {active && (
+                        <View className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                      )}
+                    </View>
+                    <Text
+                      className={`text-[14px] font-medium ${active ? "text-emerald-700" : "text-[#161119]"}`}
+                    >
+                      {opt.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
 
-          <Text className="text-[15px] font-bold text-[#161119] mb-2">
-            Repeat Until
-          </Text>
-          <TextInput
-            value={repeatUntil}
-            onChangeText={setRepeatUntil}
-            placeholder="Select end date (optional)"
-            placeholderTextColor="#B7B2BC"
-            className="rounded-[14px] border border-[#ECECEC] bg-white px-4 py-3.5 text-[14px] text-[#161119] mb-6"
-          />
+            <Text className="text-[15px] font-bold text-[#161119] mb-2">
+              Repeat Until
+            </Text>
+            <TextInput
+              value={repeatUntil}
+              onChangeText={setRepeatUntil}
+              placeholder="Select end date (optional)"
+              placeholderTextColor="#B7B2BC"
+              className="rounded-[14px] border border-[#ECECEC] bg-white px-4 py-3.5 text-[14px] text-[#161119] mb-6"
+            />
 
-          <GradientActionButton
-            title="Save Recurring Schedule"
-            onPress={() => onSave({ mode, pattern, repeatUntil })}
-          />
+            <GradientActionButton
+              title="Save Recurring Schedule"
+              onPress={() => onSave({ mode, pattern, repeatUntil })}
+              height={45}
+              textSize="14"
+            />
+          </ScrollView>
         </View>
       </View>
     </Modal>

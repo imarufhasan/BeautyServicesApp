@@ -5,13 +5,13 @@ import {
   QuickBookingCard,
   RecurringScheduleCard,
   TodayStatusCard,
-  VacationModeCard,
   WeeklyScheduleCard,
 } from "@/components/(artist)";
 import BlockDateModal from "@/components/(artist)/BlockDateModal";
 import QuickBookingModal from "@/components/(artist)/QuickBookingModal";
 import RecurringScheduleModal from "@/components/(artist)/RecurringScheduleModal";
-import VacationModeModal from "@/components/(artist)/VacationModeModal";
+import VacationCard from "@/components/(artist)/VacationCard";
+import VacationModel from "@/components/(artist)/VacationModel";
 import WorkingHoursModal from "@/components/(artist)/WorkingHoursModal";
 import {
   calendarDaysDummy,
@@ -92,7 +92,7 @@ export default function AvailabilitySetupScreen() {
             onRemove={a.removeBlockedDate}
           />
 
-          <VacationModeCard
+          <VacationCard
             vacationConfig={a.vacationConfig}
             onToggleEnabled={(v) =>
               a.setVacationConfig((prev) => ({ ...prev, enabled: v }))
@@ -115,36 +115,36 @@ export default function AvailabilitySetupScreen() {
 
           <AvailabilityFooterActions onSave={a.handleSaveAvailability} />
         </ScrollView>
-      </SafeAreaView>
 
-      <WorkingHoursModal
-        visible={a.workingHoursOpen}
-        onClose={() => a.setWorkingHoursOpen(false)}
-        onSave={a.handleSaveWorkingHours}
-      />
-      <BlockDateModal
-        visible={a.blockDateModalOpen}
-        onClose={() => a.setBlockDateModalOpen(false)}
-        onSave={a.handleSaveBlockDate}
-      />
-      <RecurringScheduleModal
-        visible={a.recurringModalOpen}
-        onClose={() => a.setRecurringModalOpen(false)}
-        initial={a.recurringConfig}
-        onSave={a.handleSaveRecurring}
-      />
-      <QuickBookingModal
-        visible={a.quickBookingModalOpen}
-        onClose={() => a.setQuickBookingModalOpen(false)}
-        initial={a.quickBookingConfig}
-        onSave={a.handleSaveQuickBooking}
-      />
-      <VacationModeModal
-        visible={a.vacationModalOpen}
-        onClose={() => a.setVacationModalOpen(false)}
-        initial={a.vacationConfig}
-        onSave={a.handleSaveVacation}
-      />
+        <WorkingHoursModal
+          visible={a.workingHoursOpen}
+          onClose={() => a.setWorkingHoursOpen(false)}
+          onSave={a.handleSaveWorkingHours}
+        />
+        <BlockDateModal
+          visible={a.blockDateModalOpen}
+          onClose={() => a.setBlockDateModalOpen(false)}
+          onSave={a.handleSaveBlockDate}
+        />
+        <RecurringScheduleModal
+          visible={a.recurringModalOpen}
+          onClose={() => a.setRecurringModalOpen(false)}
+          initial={a.recurringConfig}
+          onSave={a.handleSaveRecurring}
+        />
+        <QuickBookingModal
+          visible={a.quickBookingModalOpen}
+          onClose={() => a.setQuickBookingModalOpen(false)}
+          initial={a.quickBookingConfig}
+          onSave={a.handleSaveQuickBooking}
+        />
+        <VacationModel
+          visible={a.vacationModalOpen}
+          onClose={() => a.setVacationModalOpen(false)}
+          initial={a.vacationConfig}
+          onSave={a.handleSaveVacation}
+        />
+      </SafeAreaView>
     </LinearGradient>
   );
 }
