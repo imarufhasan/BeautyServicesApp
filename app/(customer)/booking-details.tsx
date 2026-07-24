@@ -6,13 +6,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    Image,
-    ImageSourcePropType,
-    Linking,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ImageSourcePropType,
+  Linking,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -113,7 +113,6 @@ export default function BookingDetailsScreen() {
   const [selectedBooking, setSelectedBooking] = useState<BookingDetails | null>(
     null,
   );
-
   const { bookingData } = useLocalSearchParams<{
     bookingData?: string;
   }>();

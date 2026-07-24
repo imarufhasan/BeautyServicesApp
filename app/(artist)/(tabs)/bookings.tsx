@@ -3,8 +3,10 @@ import { PrimaryButton } from "@/components/common/PrimaryButton";
 import { COLORS } from "@/constants/colors";
 import { bookingInboxDummyResponse } from "@/constants/dummyData";
 import { Booking, BookingStatus } from "@/constants/types";
+import { MOCK_BOOKINGS } from "@/mock/bookings";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -41,6 +43,8 @@ export default function BookingInboxScreen() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>("All");
   const [search, setSearch] = useState("");
   const [declineBooking, setDeclineBooking] = useState<Booking | null>(null);
+  const [acceptBooking, setAcceptBooking] = useState<Booking | null>(null);
+  // const [declineBooking, setDeclineBooking] = useState<Booking | null>(null);
   const filtered = bookings.filter((b) => {
     const matchesFilter =
       activeFilter === "All" || STATUS_TO_FILTER[b.status] === activeFilter;
@@ -60,7 +64,7 @@ export default function BookingInboxScreen() {
         className="flex-1 bg-rose-50/30"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 120,
+          paddingBottom: 20,
         }}
 
         ListHeaderComponent={
@@ -185,7 +189,11 @@ export default function BookingInboxScreen() {
         }
 
         renderItem={({ item }) => (
-          <BookingCard booking={item} onDecline={setDeclineBooking} />
+          <BookingCard
+            booking={item}
+            onDecline={setDeclineBooking}
+            onAccept={setAcceptBooking}
+          />
         )}
 
         ListEmptyComponent={
@@ -199,11 +207,113 @@ export default function BookingInboxScreen() {
 
       <AppTabBar active="Bookings" />
 
-      <DeclineModal
+      {/* <DeclineModal
         booking={declineBooking}
+        onClose={() => setDeclineBooking(null)}
+      /> */}
+      <BookingActionModal
+        booking={acceptBooking}
+        type="accept"
+        onClose={() => setAcceptBooking(null)}
+      />
+
+      <BookingActionModal
+        booking={declineBooking}
+        type="decline"
         onClose={() => setDeclineBooking(null)}
       />
     </SafeAreaView>
+  );
+}
+
+function BookingActionModal({
+  booking,
+  type,
+  onClose,
+}: {
+  booking: Booking | null;
+  type: "accept" | "decline";
+  onClose: () => void;
+}) {
+  if (!booking) return null;
+
+  const isAccept = type === "accept";
+
+  return (
+    <Modal
+      transparent
+      visible={!!booking}
+      animationType="fade"
+      onRequestClose={onClose}
+    >
+      <View className="flex-1 items-center justify-center bg-black/40 px-5">
+        <View className="w-full rounded-3xl items-center bg-white p-5">
+          {/* Icon */}
+          <View
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: 28,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: isAccept ? "#ECFDF5" : "#FFF1F2",
+            }}
+          >
+            <Feather
+              name={isAccept ? "check" : "x"}
+              size={26}
+              color={isAccept ? "#10B981" : "#FB7185"}
+              style={{
+                marginLeft: isAccept ? 1 : 0,
+                marginTop: isAccept ? 1 : 0,
+              }}
+            />
+          </View>
+
+          <Text className="mt-4 text-xl font-bold text-gray-900 text-center">
+            {isAccept ? "Accept Booking?" : "Decline Booking?"}
+          </Text>
+
+          <Text className="mt-3 text-sm leading-5 text-gray-500 text-center">
+            {isAccept
+              ? `Are you sure you want to accept ${booking.client.name}'s booking request?`
+              : `Are you sure you want to decline ${booking.client.name}'s booking request? The client will be notified.`}
+          </Text>
+
+          <View className="mt-6 w-full flex-row gap-3">
+            <TouchableOpacity
+              onPress={onClose}
+              className="flex-1 rounded-full border border-gray-200 py-3"
+            >
+              <Text className="text-center text-sm font-semibold text-gray-600">
+                Cancel
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                if (isAccept) {
+                  console.log("Accepted booking:", booking.id);
+                  // API Accept call here
+                } else {
+                  console.log("Declined booking:", booking.id);
+                  // API Decline call here
+                }
+
+                onClose();
+              }}
+              className={`flex-1 rounded-full py-3 ${
+                isAccept ? "bg-emerald-500" : "bg-rose-400"
+              }`}
+            >
+              <Text className="text-center text-sm font-semibold text-white">
+                {isAccept ? "Accept" : "Decline"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 }
 
@@ -227,9 +337,11 @@ function SummaryItem({
 function BookingCard({
   booking: b,
   onDecline,
+  onAccept,
 }: {
   booking: Booking;
   onDecline: (booking: Booking) => void;
+  onAccept: (booking: Booking) => void;
 }) {
   return (
     <View className="mb-4 mx-4 rounded-3xl bg-white p-4 shadow-sm">
@@ -347,19 +459,27 @@ function BookingCard({
       <View className="mt-3 flex-row" style={{ gap: 10 }}>
         {b.status === "new" && (
           <>
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-gray-200 py-2.5">
+            <TouchableOpacity
+              onPress={() => {
+                router.push({
+                  pathname: "/(artist)/booking-details",
+                  params: {
+                    bookingData: JSON.stringify(MOCK_BOOKINGS[0]),
+                    status: b.status,
+                  },
+                });
+              }}
+              className="flex-1 items-center rounded-full border border-gray-200 py-2.5"
+            >
               <Text className="text-xs font-semibold text-gray-600">
                 View Details
               </Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
-              <Text className="text-xs font-semibold text-white">Accept</Text>
-            </TouchableOpacity> */}
-            <PrimaryButton
-              title="Accept"
-              onPress={() => console.log("accepted")}
-            />
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-rose-200 py-2.5">
+            <PrimaryButton title="Accept" onPress={() => onAccept(b)} />
+            <TouchableOpacity
+              onPress={() => onDecline(b)}
+              className="flex-1 items-center rounded-full border border-rose-200 py-2.5"
+            >
               <Text className="text-xs font-semibold text-rose-400">
                 Decline
               </Text>
@@ -368,49 +488,70 @@ function BookingCard({
         )}
         {b.status === "accepted" && (
           <>
-            {/* <TouchableOpacity className="flex-1 items-center rounded-full bg-rose-400 py-2.5">
-              <Text className="text-xs font-semibold text-white">
-                View Details
-              </Text>
-            </TouchableOpacity> */}
             <PrimaryButton
               title="View Details"
-              onPress={() => console.log("View Details")}
+              onPress={() => {
+                router.push({
+                  pathname: "/(artist)/booking-details",
+                  params: {
+                    bookingData: JSON.stringify(MOCK_BOOKINGS[0]),
+                    status: b.status,
+                  },
+                });
+              }}
             />
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-gray-200 py-2.5">
+            <TouchableOpacity
+              onPress={() => router.push("/(common)/chatScreen")}
+              className="flex-1 items-center rounded-full border border-gray-200 py-2.5"
+            >
               <Text className="text-xs font-semibold text-gray-600">
                 Message
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-rose-200 py-2.5">
+            <TouchableOpacity
+              onPress={() => onDecline(b)}
+              className="flex-1 items-center rounded-full border border-rose-200 py-2.5"
+            >
               <Text className="text-xs font-semibold text-rose-300">
-                Cancel
+                Decline
               </Text>
             </TouchableOpacity>
           </>
         )}
         {b.status === "pending" && (
           <>
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-gray-200 py-2.5">
+            <TouchableOpacity
+              onPress={() => {
+                router.push({
+                  pathname: "/(artist)/booking-details",
+                  params: {
+                    bookingData: JSON.stringify(MOCK_BOOKINGS[0]),
+                    status: b.status,
+                  },
+                });
+              }}
+              className="flex-1 items-center rounded-full border border-gray-200 py-2.5"
+            >
               <Text className="text-xs font-semibold text-gray-600">
                 View Details
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-rose-200 py-2.5">
-              <Text className="text-xs font-semibold text-rose-400">
-                Decline
               </Text>
             </TouchableOpacity>
           </>
         )}
         {b.status === "completed" && (
           <>
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-gray-200 py-2.5">
+            <TouchableOpacity
+              //onPress={() => router.push("/ReviewScreen")}
+              className="flex-1 items-center rounded-full border border-gray-200 py-2.5"
+            >
               <Text className="text-xs font-semibold text-gray-600">
                 View Receipt
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 items-center rounded-full border border-gray-200 py-2.5">
+            <TouchableOpacity
+              onPress={() => router.push("/ReviewScreen")}
+              className="flex-1 items-center rounded-full border border-gray-200 py-2.5"
+            >
               <Text className="text-xs font-semibold text-gray-600">
                 View Review
               </Text>
@@ -469,59 +610,5 @@ function StatusBadge({ status }: { status: BookingStatus }) {
     <View className={`rounded-full px-2.5 py-1 ${s.bg}`}>
       <Text className={`text-[11px] font-semibold ${s.text}`}>{s.label}</Text>
     </View>
-  );
-}
-
-function DeclineModal({
-  booking,
-  onClose,
-}: {
-  booking: Booking | null;
-  onClose: () => void;
-}) {
-  if (!booking) return null;
-
-  const message =
-    booking.status === "new"
-      ? "Are you sure you want to decline this booking request? The client will be notified."
-      : booking.status === "pending"
-        ? "This booking is currently pending. Declining will remove it from your active requests."
-        : "Are you sure you want to cancel this booking? This action cannot be undone.";
-
-  return (
-    <Modal transparent visible={!!booking} animationType="fade">
-      <View className="flex-1 items-center justify-center bg-black/40 px-5">
-        <View className="w-full rounded-3xl bg-white p-5">
-          <Text className="text-lg font-bold text-gray-900">
-            Decline Booking
-          </Text>
-
-          <Text className="mt-3 text-sm text-gray-500">{message}</Text>
-
-          <View className="mt-5 flex-row gap-3">
-            <TouchableOpacity
-              onPress={onClose}
-              className="flex-1 rounded-full border border-gray-200 py-3"
-            >
-              <Text className="text-center text-sm font-semibold text-gray-600">
-                Keep Booking
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                // API call here
-                onClose();
-              }}
-              className="flex-1 rounded-full bg-rose-400 py-3"
-            >
-              <Text className="text-center text-sm font-semibold text-white">
-                Decline
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </Modal>
   );
 }
