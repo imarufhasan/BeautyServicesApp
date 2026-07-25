@@ -54,7 +54,7 @@ export default function ProfileSetupScreen() {
   const handleContinue = () => {
     //if (!canContinue) return;
     router.push({
-      pathname: "/registration/ServicesPortfolioScreen",
+      pathname: "/(auth)/registration/ServicesPortfolioScreen",
       params: { data: "data" },
     });
   };

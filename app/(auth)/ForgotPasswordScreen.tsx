@@ -5,6 +5,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   KeyboardAvoidingView,
   Platform,
   Text,
@@ -24,14 +25,14 @@ export default function ForgotPasswordScreen() {
   const [loading, setLoading] = useState(false);
 
   const isValid = useMemo(() => EMAIL_REGEX.test(email.trim()), [email]);
-
+  const LOCK_ICON = require("../../assets/images/home/lockIcon.png");
   const handleSendResetCode = async () => {
     //if (!isValid || loading) return;
     setLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       router.push({
-        pathname: "/OtpVerificationScreen",
+        pathname: "/(auth)/OtpVerificationScreen",
         params: { email, flow: "reset-password", role: role },
       });
     } finally {
@@ -61,25 +62,27 @@ export default function ForgotPasswordScreen() {
         </View>
 
         <View className="px-5 items-center mt-2">
-          <LinearGradient
-            colors={[COLORS.baseColor1, COLORS.baseColor2]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{
-              width: 72,
-              height: 72,
-              borderRadius: 36,
-              alignItems: "center",
-              justifyContent: "center",
-              shadowColor: COLORS.baseColor1,
-              shadowOpacity: 0.35,
-              shadowRadius: 16,
-              elevation: 4,
-            }}
-          >
-            <Ionicons name="lock-closed" size={28} color="#fff" />
-          </LinearGradient>
-
+          {/* <View className="border-2 border-[#]">
+            <LinearGradient
+              colors={[COLORS.baseColor1, COLORS.baseColor2]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                width: 72,
+                height: 72,
+                borderRadius: 36,
+                alignItems: "center",
+                justifyContent: "center",
+                shadowColor: COLORS.baseColor1,
+                shadowOpacity: 0.35,
+                shadowRadius: 16,
+                elevation: 4,
+              }}
+            >
+              <Ionicons name="lock-closed-outline" size={28} color="#fff" />
+            </LinearGradient>
+          </View> */}
+          <Image source={LOCK_ICON} resizeMode="cover" className="h-30 w-30" />
           <Text className="text-2xl font-extrabold text-[#161119] mt-5">
             Forgot Password?
           </Text>
@@ -132,9 +135,6 @@ export default function ForgotPasswordScreen() {
               end={{ x: 1, y: 0 }}
               className="py-4 items-center rounded-full"
             >
-              {/* <Text className="text-white text-lg font-extrabold">
-                {loading ? "Sending..." : "Send Reset Code"}
-              </Text> */}
               <View className="flex-row items-center">
                 {loading && (
                   <ActivityIndicator
@@ -159,13 +159,10 @@ export default function ForgotPasswordScreen() {
             <Ionicons
               name="arrow-back"
               size={13}
-              color={COLORS.baseColor}
+              color={"#6b7280"}
               style={{ marginRight: 5 }}
             />
-            <Text
-              className="text-base font-bold"
-              style={{ color: COLORS.baseColor }}
-            >
+            <Text className="text-base font-semibold text-gray-500">
               Back to Login
             </Text>
           </TouchableOpacity>

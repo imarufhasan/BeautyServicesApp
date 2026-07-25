@@ -333,7 +333,7 @@ export default function NotificationsScreen() {
     // notifications open the booking-update screen — with the matching type.
     if (updateType) {
       router.push({
-        pathname: "/booking/booking-update",
+        pathname: "/(customer)/booking/booking-update",
         params: { type: updateType, id: item.bookingId },
       });
       return;

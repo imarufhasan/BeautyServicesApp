@@ -3,12 +3,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-    Image,
-    ImageSourcePropType,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ImageSourcePropType,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -36,7 +36,7 @@ type SettingsRow = {
 // ---------------------------------------------------------------------------
 // Mock data — replace with real API data (auth/user endpoint)
 // ---------------------------------------------------------------------------
-const AVATAR = require("../../../assets/images/home/pic1.png");
+const AVATAR = require("../../../assets/images/home/home_pic1.png");
 
 const MOCK_USER: UserProfile = {
   name: "Isabelle Chen",
@@ -235,7 +235,7 @@ export default function ProfileScreen({
     // Clear token/session here
     // dispatch(logout());
 
-    router.push("/choose-role");
+    router.push("/(auth)/choose-role");
   };
 
   return (

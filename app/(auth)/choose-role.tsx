@@ -1,12 +1,11 @@
 import { COLORS } from "@/constants/colors";
-import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { Image, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 const CUSTOMER_IMAGE = require("../../assets/images/choose-role/choose_role_pic1.png");
-const ARTIST_IMAGE = require("../../assets/images/choose-role/choose_role_pic2.png");
+const ARTIST_IMAGE = require("../../assets/images/choose-role/choose_role_pic3.png");
 
 type RoleCardProps = {
   image: any;
@@ -88,12 +87,14 @@ export default function ChooseRoleScreen({ navigation }: any) {
 
   const [cardHeight, setCardHeight] = useState(0);
 
+  const appLogoWithName = require("../../assets/images/home/appLogoWithName.png");
+
   const handleSelectCustomer = () => {
     setSelectedRole("customer");
 
     setTimeout(() => {
       router.push({
-        pathname: "/homeWithOutLogin",
+        pathname: "/(auth)/homeWithOutLogin",
         params: {
           role: "customer",
         },
@@ -106,7 +107,7 @@ export default function ChooseRoleScreen({ navigation }: any) {
 
     setTimeout(() => {
       router.push({
-        pathname: "/LoginScreen",
+        pathname: "/(auth)/LoginScreen",
         params: {
           role: "artist",
         },
@@ -123,12 +124,12 @@ export default function ChooseRoleScreen({ navigation }: any) {
       ]}
       start={{ x: 0.2, y: 0 }}
       end={{ x: 0.8, y: 1 }}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
       <StatusBar barStyle="dark-content" />
       <SafeAreaView className="flex-1">
         {/* Logo */}
-        <View className="items-center mt-8">
+        {/* <View className="items-center mt-8">
           <View
             className="w-16 h-16 rounded-[18px] items-center justify-center"
             style={{
@@ -151,6 +152,14 @@ export default function ChooseRoleScreen({ navigation }: any) {
           >
             MEMILLENNIAL
           </Text>
+        </View> */}
+
+        <View className="items-center mt-8">
+          <Image
+            source={appLogoWithName}
+            resizeMode="cover"
+            className="h-40 w-48"
+          />
         </View>
 
         {/* Heading */}

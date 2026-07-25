@@ -287,7 +287,8 @@ const OutlineButton = ({
   <Pressable
     onPress={onPress}
     style={{ borderColor: color }}
-    className="items-center justify-center py-4 px-6 rounded-full border mt-3"
+
+    className="items-center justify-center py-3 px-6 rounded-full border mt-3"
   >
     <Text style={{ color }} className="font-semibold text-[15px]">
       {label}
@@ -831,6 +832,7 @@ const AvailableActions = ({ type }: { type: BookingUpdateType }) => {
               setPendingAction("accept");
               router.back();
             }}
+            height={45}
           />
           <OutlineButton
             label="Decline"
@@ -858,7 +860,8 @@ const AvailableActions = ({ type }: { type: BookingUpdateType }) => {
         <GradientActionButton
           title="Find Similar Artists"
           icon={<Feather name="search" size={16} color="#FFFFFF" />}
-          onPress={() => console.log("find similar artists")}
+          onPress={() => router.push("/(customer)/artistsList")}
+          height={45}
         />
         <Pressable
           className="flex-row items-center justify-center mt-4"

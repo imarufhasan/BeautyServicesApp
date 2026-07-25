@@ -13,10 +13,7 @@ import RecurringScheduleModal from "@/components/(artist)/RecurringScheduleModal
 import VacationCard from "@/components/(artist)/VacationCard";
 import VacationModel from "@/components/(artist)/VacationModel";
 import WorkingHoursModal from "@/components/(artist)/WorkingHoursModal";
-import {
-  calendarDaysDummy,
-  weeklyScheduleDummy,
-} from "@/constants/availability";
+import { weeklyScheduleDummy } from "@/constants/availability";
 import { useAvailabilityManager } from "@/hooks/useAvailabilityManager";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -33,7 +30,7 @@ export default function AvailabilitySetupScreen() {
       colors={["#FDEFF4", "#FFFFFF", "#EAF6F5"]}
       start={{ x: 0.1, y: 0 }}
       end={{ x: 0.9, y: 1 }}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
       <SafeAreaView className="flex-1">
         <ScrollView
@@ -82,8 +79,11 @@ export default function AvailabilitySetupScreen() {
           />
 
           <AvailabilityCalendarCard
-            monthLabel="July 2026"
-            days={calendarDaysDummy}
+            // monthLabel="July 2026"
+            // days={calendarDaysDummy}
+            onSelectDate={(date) => {
+              console.log("Selected date:", date);
+            }}
           />
 
           <BlockedDatesCard

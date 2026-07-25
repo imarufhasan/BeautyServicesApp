@@ -1,5 +1,6 @@
 import AppHeader from "@/components/common/AppHeader";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
+import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -7,14 +8,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Image,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Image,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -90,7 +91,7 @@ const TAG_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
 const MOCK_BOOKING: BookingSummary = {
   bookingId: "BKG-1029",
   artistName: "Mia Chen",
-  artistAvatar: require("../../assets/images/home/pic1.png"),
+  artistAvatar: require("../../assets/images/home/home_pic1.png"),
   specialty: "Full Glam Makeup",
   rating: 4.8,
   date: "Mon, 12 Aug 2024",
@@ -353,7 +354,7 @@ export default function ReviewScreen({
         console.log("Submit review payload:", payload);
       }
       setSubmitModalVisible(false);
-      router.push("/bookings");
+      router.push("/(artist)/(tabs)/bookings");
     } catch (err) {
       console.warn("Failed to submit review:", err);
       setSubmitModalVisible(false);
@@ -437,7 +438,8 @@ export default function ReviewScreen({
             </Text>
           </View>
 
-          <StarRating value={overallRating} onChange={setOverallRating} />
+          {/* <StarRating value={overallRating} onChange={setOverallRating} /> */}
+          <Stars rating={4.5} />
         </View>
 
         {/* Rate the artist */}

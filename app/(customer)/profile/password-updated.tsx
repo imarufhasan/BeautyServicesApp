@@ -34,7 +34,7 @@ export default function PasswordUpdatedScreen() {
 
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={() => router.push("/home")}
+          onPress={() => router.push("/(customer)/(tabs)/home")}
           className="w-full rounded-full items-center py-4 mt-8 border"
           style={{ borderColor: "#EFEAF3", backgroundColor: "#fff" }}
         >

@@ -8,10 +8,10 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const STORY_IMAGES = [
-  require("../../assets/images/home/pic2.png"),
-  require("../../assets/images/home/pic3.png"),
-  require("../../assets/images/home/pic4.png"),
-  require("../../assets/images/home/pic1.png"),
+  require("../../assets/images/home/home_pic2.png"),
+  require("../../assets/images/home/home_pic3.png"),
+  require("../../assets/images/home/home_pic4.png"),
+  require("../../assets/images/home/home_pic1.png"),
 ];
 
 const STORIES = [
@@ -122,7 +122,7 @@ export default function CustomerStoriesScreen() {
                   <Text
                     className="text-xs font-semibold"
                     style={{
-                      color: COLORS.baseColor,
+                      color: COLORS.blueColor,
                     }}
                   >
                     Read Story
@@ -131,7 +131,7 @@ export default function CustomerStoriesScreen() {
                   <Ionicons
                     name="chevron-forward"
                     size={12}
-                    color={COLORS.baseColor}
+                    color={COLORS.blueColor}
                   />
                 </TouchableOpacity>
               </View>

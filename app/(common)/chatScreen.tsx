@@ -4,14 +4,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-  Image,
-  ImageSourcePropType,
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Image,
+    ImageSourcePropType,
+    KeyboardAvoidingView,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -33,8 +33,8 @@ export type ChatParams = {
   linkedBookingTitle?: string; // e.g. "Full Glam Makeup"
 };
 
-const AVATAR = require("../../assets/images/home/pic2.png");
-const MY_AVATAR = require("../../assets/images/home/pic1.png");
+const AVATAR = require("../../assets/images/home/home_pic2.png");
+const MY_AVATAR = require("../../assets/images/home/home_pic1.png");
 
 const DUMMY_PARAMS: ChatParams = {
   conversationId: "c2",

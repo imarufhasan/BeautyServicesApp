@@ -9,6 +9,7 @@ import {
 import LocationModal from "@/components/common/LocationModal";
 import PeopleModal from "@/components/common/PeopleModal";
 import ServiceModal from "@/components/common/ServiceModal";
+import Stars from "@/components/common/Stars";
 import TimeModal from "@/components/common/TimeModal";
 
 import { COLORS } from "@/constants/colors";
@@ -20,24 +21,24 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // ---------- Local assets ----------
-const HERO_IMAGE = require("@/assets/images/home/pic5.png");
-const STORY_1_IMAGE = require("@/assets/images/home/pic2.png");
-const STORY_2_IMAGE = require("@/assets/images/home/pic3.png");
-const INSPO_WEDDING = require("@/assets/images/home/pic4.png");
-const INSPO_FORMAL = require("@/assets/images/home/pic1.png");
-const INSPO_NATURAL = require("@/assets/images/home/pic2.png");
-const INSPO_PARTY = require("@/assets/images/home/pic4.png");
+const HERO_IMAGE = require("@/assets/images/home/home_pic5.png");
+const STORY_1_IMAGE = require("@/assets/images/home/home_pic2.png");
+const STORY_2_IMAGE = require("@/assets/images/home/home_pic3.png");
+const INSPO_WEDDING = require("@/assets/images/home/home_pic4.png");
+const INSPO_FORMAL = require("@/assets/images/home/home_pic1.png");
+const INSPO_NATURAL = require("@/assets/images/home/home_pic2.png");
+const INSPO_PARTY = require("@/assets/images/home/home_pic4.png");
 //INSPO_BRIDAL
-const INSPO_BRIDAL = require("@/assets/images/home/pic4.png");
+const INSPO_BRIDAL = require("@/assets/images/home/home_pic4.png");
 
-const INSPO_LUXURY = require("@/assets/images/home/pic1.png");
-const INSPO_FESTIVAL = require("@/assets/images/home/pic2.png");
-const INSPO_EXTRA = require("@/assets/images/home/pic3.png");
-const USER_AVATAR = require("@/assets/images/home/pic1.png");
-const ARTIST_1 = require("@/assets/images/home/pic1.png");
-const ARTIST_2 = require("@/assets/images/home/pic2.png");
-const ARTIST_3 = require("@/assets/images/home/pic3.png");
-const ARTIST_4 = require("@/assets/images/home/pic4.png");
+const INSPO_LUXURY = require("@/assets/images/home/home_pic1.png");
+const INSPO_FESTIVAL = require("@/assets/images/home/home_pic2.png");
+const INSPO_EXTRA = require("@/assets/images/home/home_pic3.png");
+const USER_AVATAR = require("@/assets/images/home/home_pic1.png");
+const ARTIST_1 = require("@/assets/images/home/home_pic1.png");
+const ARTIST_2 = require("@/assets/images/home/home_pic2.png");
+const ARTIST_3 = require("@/assets/images/home/home_pic3.png");
+const ARTIST_4 = require("@/assets/images/home/home_pic4.png");
 
 // ---------- Header mock data — replace with real auth/user + notifications API ----------
 const CURRENT_USER = { name: "Naz", avatar: USER_AVATAR };
@@ -299,28 +300,28 @@ const INSPIRATION = [
   { image: INSPO_EXTRA, label: "Editorial", height: 120 },
 ];
 
-const StarRow = ({ rating }: { rating: number }) => (
-  <View className="flex-row items-center">
-    {[1, 2, 3, 4, 5].map((i) => (
-      <Ionicons
-        key={i}
-        name={
-          rating >= i
-            ? "star"
-            : rating >= i - 0.5
-              ? "star-half"
-              : "star-outline"
-        }
-        size={13}
-        color={COLORS.baseColor}
-        style={{ marginRight: 2 }}
-      />
-    ))}
-    <Text className="ml-1 text-xs font-semibold text-[#161119]">
-      {rating.toFixed(1)}
-    </Text>
-  </View>
-);
+// const StarRow = ({ rating }: { rating: number }) => (
+//   <View className="flex-row items-center">
+//     {[1, 2, 3, 4, 5].map((i) => (
+//       <Ionicons
+//         key={i}
+//         name={
+//           rating >= i
+//             ? "star"
+//             : rating >= i - 0.5
+//               ? "star-half"
+//               : "star-outline"
+//         }
+//         size={13}
+//         color={COLORS.baseColor}
+//         style={{ marginRight: 2 }}
+//       />
+//     ))}
+//     <Text className="ml-1 text-xs font-semibold text-[#161119]">
+//       {rating.toFixed(1)}
+//     </Text>
+//   </View>
+// );
 
 const FindRow = ({
   icon,
@@ -370,7 +371,7 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
       activeOpacity={0.9}
       onPress={() =>
         router.push({
-          pathname: "/artist-details",
+          pathname: "/(customer)/artist-details",
           params: { id: artist.id },
         })
       }
@@ -468,7 +469,7 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
               <TouchableOpacity
                 onPress={() =>
                   router.push({
-                    pathname: "/artist-details",
+                    pathname: "/(customer)/artist-details",
                     params: { id: artist.id },
                   })
                 }
@@ -485,9 +486,11 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
   );
 };
 
-export default function CustomerHomeScreen() {
-  const { role } = useLocalSearchParams();
-  console.log("user local 2: ", role);
+export default function HomeWithOutLogin() {
+  const params = useLocalSearchParams();
+
+  const userRole = Array.isArray(params.role) ? params.role[0] : params.role;
+  console.log("user local 22: ", userRole);
 
   const userName = CURRENT_USER.name;
   const userAvatar = CURRENT_USER.avatar;
@@ -559,7 +562,7 @@ export default function CustomerHomeScreen() {
       ]}
       start={{ x: 0.1, y: 0 }}
       end={{ x: 0.9, y: 1 }}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
       <SafeAreaView className="flex-1" edges={["top"]}>
         <ScrollView
@@ -659,11 +662,11 @@ export default function CustomerHomeScreen() {
                   params.people = String(peopleCount);
                 }
 
-                router.push({
-                  pathname: "/LoginScreen",
+                router.replace({
+                  pathname: "/(auth)/LoginScreen",
                   params: {
                     ...params,
-                    role: String(role),
+                    role: userRole,
                   },
                 });
               }}
@@ -763,7 +766,7 @@ export default function CustomerHomeScreen() {
                 </TouchableOpacity>
 
                 <View className="p-3.5">
-                  <StarRow rating={story.rating} />
+                  <Stars rating={story.rating} />
                   <Text
                     numberOfLines={2}
                     className="text-sm text-[#161119] mt-2 leading-5"
@@ -780,11 +783,13 @@ export default function CustomerHomeScreen() {
                       </Text>
                     </View>
                     <TouchableOpacity
-                      onPress={() => router.push("/customer-story-details")}
+                      onPress={() =>
+                        router.push("/(customer)/customer-story-details")
+                      }
                       className="flex-row items-center"
                     >
                       <Text
-                        style={{ color: COLORS.baseColor }}
+                        style={{ color: COLORS.blueColor }}
                         className="text-xs font-semibold mr-0.5"
                       >
                         Read Story
@@ -792,7 +797,7 @@ export default function CustomerHomeScreen() {
                       <Ionicons
                         name="chevron-forward"
                         size={12}
-                        color={COLORS.baseColor}
+                        color={COLORS.blueColor}
                       />
                     </TouchableOpacity>
                   </View>
@@ -801,7 +806,6 @@ export default function CustomerHomeScreen() {
             ))}
           </ScrollView>
 
-          {/* Beauty Inspiration */}
           <View className="flex-row items-center justify-between mt-7 mb-3">
             <Text className="text-xl font-extrabold text-[#161119]">
               Beauty Inspiration

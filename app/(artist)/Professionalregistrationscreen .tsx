@@ -116,7 +116,7 @@ export default function ProfessionalRegistrationScreen() {
       colors={["#FDEFF4", "#FFFFFF", "#EAF6F5"]}
       start={{ x: 0.1, y: 0 }}
       end={{ x: 0.9, y: 1 }}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
       <SafeAreaView className="flex-1">
         <KeyboardAvoidingView
@@ -134,7 +134,14 @@ export default function ProfessionalRegistrationScreen() {
                 colors={["#FF5FA2", "#FFA35C"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                className="w-9 h-9 rounded-full items-center justify-center mr-2.5"
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 999,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginRight: 10,
+                }}
               >
                 <Ionicons name="sparkles" size={16} color="#FFFFFF" />
               </LinearGradient>
@@ -160,7 +167,12 @@ export default function ProfessionalRegistrationScreen() {
                 colors={["#FF5FA2", "#FFA35C"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                className="h-1.5 flex-1 rounded-full mr-2"
+                style={{
+                  height: 6,
+                  flex: 1,
+                  borderRadius: 999,
+                  marginRight: 8,
+                }}
               />
               <View className="h-1.5 flex-1 rounded-full bg-[#ECECEC] mr-2" />
               <View className="h-1.5 flex-1 rounded-full bg-[#ECECEC] mr-3" />
@@ -291,7 +303,11 @@ export default function ProfessionalRegistrationScreen() {
                 colors={["#FF5FA2", "#FFA35C"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                className="rounded-full py-4 items-center"
+                style={{
+                  borderRadius: 999,
+                  paddingVertical: 16,
+                  alignItems: "center",
+                }}
               >
                 <Text className="text-white text-base font-bold">Continue</Text>
               </LinearGradient>

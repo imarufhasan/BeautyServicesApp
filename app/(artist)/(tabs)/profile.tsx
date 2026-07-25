@@ -1,4 +1,3 @@
-import AppTabBar from "@/components/common/AppTabBar";
 import GradientActionButton from "@/components/common/GradientActionButton";
 import { profileDummyResponse } from "@/constants/dummyData";
 import { Feather } from "@expo/vector-icons";
@@ -121,7 +120,7 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     setLogoutModal(false);
-    router.replace("/(auth)/LoginScreen");
+    router.replace("/(auth)/choose-role");
   };
 
   const pickImage = async () => {
@@ -151,10 +150,10 @@ export default function ProfileScreen() {
       end={{ x: 0, y: 1 }}
       style={{ flex: 1 }}
     >
-      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+      <SafeAreaView style={{ flex: 1 }}>
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ paddingBottom: 24 }}
+          contentContainerStyle={{ paddingBottom: 120 }}
         >
           {/* Top bar */}
           <View className="relative flex-row items-center justify-center px-5 pt-4">
@@ -177,23 +176,6 @@ export default function ProfileScreen() {
                 source={{ uri: profileImage }}
                 className="h-24 w-24 rounded-full"
               />
-              {/* <TouchableOpacity
-                onPress={pickImage}
-                className="absolute bottom-0 right-0 h-7 w-7 items-center justify-center rounded-full border-2 border-white"
-              >
-                <LinearGradient
-                  colors={[COLORS.baseColor1, COLORS.baseColor2]}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: 14,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Feather name="camera" size={12} color="#fff" />
-                </LinearGradient>
-              </TouchableOpacity> */}
             </View>
 
             {p.isVerified && (
@@ -291,7 +273,7 @@ export default function ProfileScreen() {
             <Text className="text-lg font-bold text-gray-900">Services</Text>
             <TouchableOpacity
               onPress={() =>
-                router.push("/registration/ServicesPortfolioScreen")
+                router.push("/(auth)/registration/ServicesPortfolioScreen")
               }
             >
               <Text className="text-sm font-semibold text-rose-400">
@@ -424,7 +406,7 @@ export default function ProfileScreen() {
               iconBg="bg-emerald-50"
               iconColor="#10B981"
               label="Privacy Settings"
-              onPress={() => router.push("/profile/privacy-policy")}
+              onPress={() => router.push("/(artist)/privacy-policy")}
             />
             <MenuRow
               icon="help-circle"
@@ -438,7 +420,7 @@ export default function ProfileScreen() {
               iconBg="bg-amber-50"
               iconColor="#F59E0B"
               label="Report & Issue"
-              onPress={() => router.push("/profile/report-issue")}
+              onPress={() => router.push("/(artist)/report-issue")}
             />
             {/* <MenuRow
               icon="settings"
@@ -497,7 +479,7 @@ export default function ProfileScreen() {
           </View>
         </Modal>
 
-        <AppTabBar active="Profile" />
+        {/* <AppTabBar active="Profile" /> */}
       </SafeAreaView>
     </LinearGradient>
   );

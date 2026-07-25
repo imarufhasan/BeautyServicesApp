@@ -14,13 +14,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const HERO_1 = require("../../assets/images/home/pic1.png");
-const HERO_2 = require("../../assets/images/home/pic2.png");
-const HERO_3 = require("../../assets/images/home/pic3.png");
-const HERO_4 = require("../../assets/images/home/pic4.png");
-const THUMB_1 = require("../../assets/images/home/pic1.png");
-const THUMB_2 = require("../../assets/images/home/pic2.png");
-const THUMB_3 = require("../../assets/images/home/pic3.png");
+const HERO_1 = require("../../assets/images/home/home_pic1.png");
+const HERO_2 = require("../../assets/images/home/home_pic2.png");
+const HERO_3 = require("../../assets/images/home/home_pic3.png");
+const HERO_4 = require("../../assets/images/home/home_pic4.png");
+const THUMB_1 = require("../../assets/images/home/home_pic1.png");
+const THUMB_2 = require("../../assets/images/home/home_pic2.png");
+const THUMB_3 = require("../../assets/images/home/home_pic3.png");
 
 type ArtistWithFilters = Artist & {
   services: string[];
@@ -481,7 +481,7 @@ export default function ArtistListScreen() {
             artist={item}
             onQuickBook={() => {
               router.push({
-                pathname: "/booking/setup",
+                pathname: "/(customer)/booking/setup",
                 params: {
                   artistId: item.id,
                   artistName: item.name,
@@ -495,7 +495,7 @@ export default function ArtistListScreen() {
             }}
             onViewProfile={(artist) =>
               router.push({
-                pathname: "/artist-details",
+                pathname: "/(customer)/artist-details",
                 params: {
                   id: artist.id,
                 },

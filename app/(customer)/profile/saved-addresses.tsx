@@ -129,7 +129,7 @@ export default function SavedAddressesScreen({
 
   const handleEdit = (address: SavedAddress) => {
     router.push({
-      pathname: "/profile/add-address",
+      pathname: "/(customer)/profile/add-address",
       params: { addressData: JSON.stringify(address) },
     });
   };
@@ -146,7 +146,7 @@ export default function SavedAddressesScreen({
     if (!deleteTarget) return;
     setAddresses((prev) => prev.filter((a) => a.id !== deleteTarget.id));
     if (onDelete) await onDelete(deleteTarget.id);
-    // TODO API: await deleteAddressMutation(deleteTarget.id)
+    router.replace("/(auth)/choose-role");
     setDeleteTarget(null);
   };
 
@@ -184,7 +184,7 @@ export default function SavedAddressesScreen({
       <View className="px-5 pb-5">
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={() => router.push("/profile/add-address")}
+          onPress={() => router.push("/(customer)/profile/add-address")}
           className="rounded-full overflow-hidden"
         >
           <LinearGradient

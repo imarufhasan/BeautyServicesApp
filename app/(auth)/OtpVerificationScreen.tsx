@@ -17,13 +17,19 @@ const OTP_LENGTH = 6;
 const RESEND_COOLDOWN_SECONDS = 30;
 
 export default function OtpVerificationScreen() {
-  const { email, flow, role } = useLocalSearchParams<{
-    email?: string;
-    flow?: string; // "register" | "reset-password"
-    role?: string;
-  }>();
+  const params = useLocalSearchParams();
 
-  console.log("role 4: ", role);
+  const email = Array.isArray(params.email) ? params.email[0] : params.email;
+
+  const flow = Array.isArray(params.flow) ? params.flow[0] : params.flow;
+
+  const role = Array.isArray(params.role) ? params.role[0] : params.role;
+
+  console.log("OTP PARAMS:", {
+    email,
+    flow,
+    role,
+  });
 
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const [cooldown, setCooldown] = useState(RESEND_COOLDOWN_SECONDS);
@@ -81,20 +87,18 @@ export default function OtpVerificationScreen() {
   };
 
   const handleVerify = async () => {
-    //if (!isComplete || verifying) return;
     setVerifying(true);
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      // if (flow === "reset-password") {
-      //   router.push("/(auth)/LoginScreen");
-      // } else {
-      //   router.push("/(customer)/(tabs)/home");
-      // }
+
       if (role === "customer") {
-        router.push("/(customer)/(tabs)/home");
+        router.replace("/(customer)/(tabs)/home");
       } else {
-        router.push("/registration/ProfessionalRegistrationScreen");
+        router.replace("/(auth)/registration/ProfessionalRegistrationScreen");
       }
+    } catch (error) {
+      console.log("OTP NAV ERROR:", error);
     } finally {
       setVerifying(false);
     }

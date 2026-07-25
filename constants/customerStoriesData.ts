@@ -4,10 +4,10 @@
 // Keep the shape the same so both screens keep working untouched.
 
 export const STORY_IMAGES = [
-  require("../assets/images/home/pic2.png"),
-  require("../assets/images/home/pic3.png"),
-  require("../assets/images/home/pic4.png"),
-  require("../assets/images/home/pic1.png"),
+  require("../assets/images/home/home_pic2.png"),
+  require("../assets/images/home/home_pic3.png"),
+  require("../assets/images/home/home_pic4.png"),
+  require("../assets/images/home/home_pic1.png"),
 ];
 
 export interface CustomerStory {

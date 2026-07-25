@@ -119,7 +119,7 @@ export default function BookingSetupScreen({
 
   const handleConfirmBooking = () => {
     router.push({
-      pathname: "/booking/checkout",
+      pathname: "/(customer)/booking/checkout",
       params: {
         artistId: params.artistId,
         artistName: params.artistName,

@@ -1,5 +1,6 @@
+import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
-import { Fontisto, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
@@ -38,7 +39,7 @@ export type CheckoutParams = {
 // Dummy/default data — used only when this screen is opened standalone.
 // Real usage should always pass `params` from the booking flow.
 // ---------------------------------------------------------------------------
-const AVATAR = require("../../../assets/images/home/pic1.png");
+const AVATAR = require("../../../assets/images/home/home_pic1.png");
 
 const DUMMY_PARAMS: CheckoutParams = {
   artistId: "1",
@@ -82,18 +83,6 @@ const PAYMENT_METHODS: {
     icon: <Text className="text-[9px] font-extrabold text-white">VISA</Text>,
   },
 ];
-
-// ---------------------------------------------------------------------------
-// Small building blocks
-// ---------------------------------------------------------------------------
-const Stars = ({ rating, size = 11 }: { rating: number; size?: number }) => (
-  <View className="flex-row items-center">
-    <Fontisto name="star" size={size} color="#FC6C8C" />
-    <Text className="text-xs font-extrabold text-[#161119] ml-1">
-      {rating.toFixed(1)}
-    </Text>
-  </View>
-);
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
   <Text className="text-base font-extrabold text-[#161119] mb-3">
@@ -170,7 +159,7 @@ export default function CheckoutScreen({
     )}`;
 
     router.push({
-      pathname: "/booking/confirmed",
+      pathname: "/(customer)/booking/confirmed",
       params: {
         bookingId,
         artistId: params.artistId,

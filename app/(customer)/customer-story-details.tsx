@@ -8,6 +8,7 @@ import {
   LayoutChangeEvent,
   PanResponder,
   ScrollView,
+  Share,
   Text,
   TouchableOpacity,
   View,
@@ -22,7 +23,7 @@ const STORY_DETAILS = {
     location: "Sydney, Australia",
     service: "Bridal Makeup",
     date: "March 15, 2025",
-    avatar: require("../../assets/images/home/pic1.png"),
+    avatar: require("../../assets/images/home/home_pic1.png"),
   },
 
   artist: {
@@ -30,7 +31,7 @@ const STORY_DETAILS = {
     verified: true,
   },
 
-  coverImage: require("../../assets/images/home/pic4.png"),
+  coverImage: require("../../assets/images/home/home_pic4.png"),
 
   rating: 5,
 
@@ -38,15 +39,15 @@ const STORY_DETAILS = {
     "I was nervous about finding the right artist for my wedding day. A friend recommended memillennial and it completely changed my experience. Priya arrived exactly on time with a full professional kit.\n\nShe carefully listened to my vision, showed me references, and executed the look flawlessly. The bridal makeup lasted beautifully through 8 hours of celebrations. I felt like a queen all day long.\n\nI highly recommend memillennial to every bride-to-be. The quality, punctuality, and genuine care they bring make it worth every single request.",
 
   beforeAfter: {
-    before: require("../../assets/images/home/pic2.png"),
-    after: require("../../assets/images/home/pic3.png"),
+    before: require("../../assets/images/home/home_pic2.png"),
+    after: require("../../assets/images/home/home_pic3.png"),
   },
 
   gallery: [
-    require("../../assets/images/home/pic1.png"),
-    require("../../assets/images/home/pic2.png"),
-    require("../../assets/images/home/pic3.png"),
-    require("../../assets/images/home/pic4.png"),
+    require("../../assets/images/home/home_pic1.png"),
+    require("../../assets/images/home/home_pic2.png"),
+    require("../../assets/images/home/home_pic3.png"),
+    require("../../assets/images/home/home_pic4.png"),
   ],
 
   relatedStories: [
@@ -55,42 +56,42 @@ const STORY_DETAILS = {
       name: "Ananya R.",
       service: "Bridal Makeup",
       rating: 5,
-      image: require("../../assets/images/home/pic2.png"),
+      image: require("../../assets/images/home/home_pic2.png"),
     },
     {
       id: "rs2",
       name: "Shreya M.",
       service: "Hair Color",
       rating: 4.8,
-      image: require("../../assets/images/home/pic3.png"),
+      image: require("../../assets/images/home/home_pic3.png"),
     },
     {
       id: "rs3",
       name: "Mia Johnson",
       service: "Party Makeup",
       rating: 4.9,
-      image: require("../../assets/images/home/pic1.png"),
+      image: require("../../assets/images/home/home_pic1.png"),
     },
     {
       id: "rs4",
       name: "Emily Davis",
       service: "Wedding Makeup",
       rating: 5,
-      image: require("../../assets/images/home/pic4.png"),
+      image: require("../../assets/images/home/home_pic4.png"),
     },
     {
       id: "rs5",
       name: "Sophia Wilson",
       service: "Luxury Glam",
       rating: 4.7,
-      image: require("../../assets/images/home/pic2.png"),
+      image: require("../../assets/images/home/home_pic2.png"),
     },
     {
       id: "rs6",
       name: "Ava Thompson",
       service: "Hair Styling",
       rating: 4.9,
-      image: require("../../assets/images/home/pic3.png"),
+      image: require("../../assets/images/home/home_pic3.png"),
     },
   ],
 };
@@ -219,6 +220,19 @@ function BeforeAfterCompare({
 }
 
 export default function CustomerStoryDetails() {
+  const handleShareStory = async () => {
+    try {
+      await Share.share({
+        title: "Customer Story",
+        message:
+          "Check out this amazing customer story on memillennial ✨\n\nhttps://memillennial.com/customer-story/story_001",
+        url: "https://memillennial.com/customer-story/story_001",
+      });
+    } catch (error) {
+      console.log("Share error:", error);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
@@ -241,7 +255,7 @@ export default function CustomerStoryDetails() {
 
         <Text className="text-xl font-bold text-[#161119]">Customer Story</Text>
 
-        <TouchableOpacity hitSlop={10}>
+        <TouchableOpacity hitSlop={10} onPress={handleShareStory}>
           <Ionicons name="share-outline" size={20} color="#161119" />
         </TouchableOpacity>
       </View>
@@ -340,7 +354,7 @@ export default function CustomerStoryDetails() {
             contentContainerStyle={{ paddingRight: 20, paddingBottom: 10 }}
           >
             {STORY_DETAILS.relatedStories.map((item, index) => (
-              <View
+              <TouchableOpacity
                 key={index}
                 className="bg-white rounded-[14px] overflow-hidden mr-3"
                 style={{
@@ -351,6 +365,9 @@ export default function CustomerStoryDetails() {
                   shadowOffset: { width: 0, height: 3 },
                   elevation: 2,
                 }}
+                onPress={() =>
+                  router.push("/(customer)/customer-story-details")
+                }
               >
                 <Image
                   source={item.image}
@@ -366,16 +383,9 @@ export default function CustomerStoryDetails() {
                   <Text className="text-[11px] text-[#8A8590] mt-0.5">
                     {item.service}
                   </Text>
-
-                  {/* <Text
-                    style={{ color: COLORS.baseColor }}
-                    className="text-[11px] mt-1"
-                  >
-                    ★★★★★
-                  </Text> */}
                   <Stars rating={item.rating} size={9} />
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>

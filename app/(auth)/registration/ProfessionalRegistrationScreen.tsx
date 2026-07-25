@@ -27,7 +27,7 @@ export default function ProfessionalRegistrationScreen() {
   const handleContinue = () => {
     //if (!canContinue) return;
     router.push({
-      pathname: "/registration/IdentityVerificationScreen",
+      pathname: "/(auth)/registration/IdentityVerificationScreen",
       params: { businessName, abn, businessAddress, experience },
     });
   };

@@ -334,7 +334,7 @@ export default function ServicesPortfolioScreen() {
           <GradientButton
             label="Save Changes"
             onPress={() => {
-              router.push("/registration/AvailabilitySetupScreen");
+              router.push("/(auth)/registration/AvailabilitySetupScreen");
             }}
           />
         </ScrollView>

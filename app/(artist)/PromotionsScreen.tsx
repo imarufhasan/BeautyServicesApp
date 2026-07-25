@@ -509,21 +509,6 @@ export default function PromotionsScreen() {
                 </Field>
               </View>
             </View>
-
-            {/* <TouchableOpacity activeOpacity={0.85} onPress={handlePublish}>
-              <LinearGradient
-                colors={[COLORS.baseColor1, COLORS.baseColor2]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                className="flex-row items-center justify-center gap-2 py-4"
-                style={{ borderRadius: 999 }}
-              >
-                <Send size={16} color="white" />
-                <Text className="text-[15px] font-semibold text-white">
-                  Publish Promotion
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity> */}
           </View>
         </ScrollView>
       </LinearGradient>

@@ -1,5 +1,6 @@
 import { DonutChart } from "@/components/(artist)/DonutChart";
 import { Toggle } from "@/components/(artist)/Toggle";
+import Stars from "@/components/common/Stars";
 import { getAnalyticsOverview, RevenuePeriod } from "@/constants/analytics";
 import { LinearGradient } from "expo-linear-gradient";
 import {
@@ -7,7 +8,6 @@ import {
   ArrowUpRight,
   Calendar,
   DollarSign,
-  Star,
 } from "lucide-react-native";
 import React, { useMemo, useState } from "react";
 import {
@@ -114,9 +114,7 @@ export default function AnalyticsScreen() {
                 {overview.metrics.averageRating.value}
               </Text>
               <View style={styles.starsRow}>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={11} color="#fbbf24" fill="#fbbf24" />
-                ))}
+                <Stars rating={4.5} />
               </View>
             </View>
           </View>

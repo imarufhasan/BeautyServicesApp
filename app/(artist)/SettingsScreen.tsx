@@ -42,8 +42,10 @@ function Toggle({
           colors={[COLORS.baseColor1, COLORS.baseColor2]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="absolute h-7 w-12"
           style={{
+            position: "absolute",
+            width: 48,
+            height: 28,
             borderRadius: 999,
           }}
         />
@@ -148,7 +150,7 @@ export default function SettingsScreen() {
   const handleConfirmAction = () => {
     if (actionModal.type === "logout") {
       console.log("Logout");
-      router.replace("/(auth)/LoginScreen");
+      router.replace("/(auth)/choose-role");
     }
 
     if (actionModal.type === "delete") {
@@ -189,7 +191,7 @@ export default function SettingsScreen() {
               <SectionLabel>SECURITY</SectionLabel>
               <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
                 <Row
-                  onPress={() => router.push("/profile/change-password")}
+                  onPress={() => router.push("/(auth)/change-password")}
                   Icon={Lock}
                   iconBg="bg-pink-50"
                   iconColor="#ec4899"
@@ -423,8 +425,10 @@ export default function SettingsScreen() {
                       colors={[COLORS.baseColor1, COLORS.baseColor2]}
                       start={{ x: 0, y: 0 }}
                       end={{ x: 1, y: 0 }}
-                      className="items-center justify-center py-3"
                       style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingVertical: 12,
                         borderRadius: 12,
                       }}
                     >

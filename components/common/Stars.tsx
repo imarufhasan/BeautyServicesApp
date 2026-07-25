@@ -1,4 +1,3 @@
-import { COLORS } from "@/constants/colors";
 import { Fontisto } from "@expo/vector-icons";
 import React from "react";
 import { Text, View } from "react-native";
@@ -14,7 +13,7 @@ export type StarsProps = {
 export default function Stars({
   rating,
   size = 12,
-  activeColor = COLORS.baseColor,
+  activeColor = "#FFA3FF",
   inactiveColor = "#E8E4EC",
   showValue = true,
 }: StarsProps) {

@@ -2,13 +2,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    FlatList,
-    Image,
-    ImageSourcePropType,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  ImageSourcePropType,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -31,11 +31,11 @@ export type Conversation = {
 // ---------------------------------------------------------------------------
 // Mock data — replace with real API data (Socket.IO / RTK Query) per user
 // ---------------------------------------------------------------------------
-const AVATAR_1 = require("../../../assets/images/home/pic1.png");
-const AVATAR_2 = require("../../../assets/images/home/pic2.png");
-const AVATAR_3 = require("../../../assets/images/home/pic3.png");
-const AVATAR_4 = require("../../../assets/images/home/pic4.png");
-const AVATAR_5 = require("../../../assets/images/home/pic1.png");
+const AVATAR_1 = require("../../../assets/images/home/home_pic1.png");
+const AVATAR_2 = require("../../../assets/images/home/home_pic2.png");
+const AVATAR_3 = require("../../../assets/images/home/home_pic3.png");
+const AVATAR_4 = require("../../../assets/images/home/home_pic4.png");
+const AVATAR_5 = require("../../../assets/images/home/home_pic1.png");
 
 const MOCK_CONVERSATIONS: Conversation[] = [
   {
@@ -101,7 +101,7 @@ const ConversationRow = ({ conversation }: { conversation: Conversation }) => (
     activeOpacity={0.7}
     onPress={() =>
       router.push({
-        pathname: "/chatScreen",
+        pathname: "/(common)/chatScreen",
         params: { id: conversation.id },
       })
     }

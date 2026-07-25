@@ -1,7 +1,8 @@
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import GradientButton from "@/components/common/GradientButton";
+import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
-import { Fontisto, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
@@ -97,15 +98,6 @@ const InfoRow = ({
 
 const Divider = () => (
   <View className="h-[1px] bg-[#F0EEF2]" style={{ marginVertical: 2 }} />
-);
-
-const Stars = ({ rating }: { rating: number }) => (
-  <View className="flex-row items-center">
-    <Fontisto name="star" size={11} color="#FC6C8C" />
-    <Text className="text-xs font-extrabold text-[#161119] ml-1">
-      {rating.toFixed(1)}
-    </Text>
-  </View>
 );
 
 export default function BookingDetailsScreen() {
@@ -214,15 +206,24 @@ export default function BookingDetailsScreen() {
   };
 
   const handleMessage = () => {
-    router.push("/chatScreen");
+    router.push("/(common)/chatScreen");
   };
 
   const handleReschedule = () => {
-    // TODO: navigate to reschedule flow with booking.bookingId
+    router.push({
+      pathname: "/(customer)/reschedule-booking",
+      params: {
+        bookingId: booking.bookingId,
+        artistName: booking.artistName,
+        bookingDate: booking.bookingDate,
+        bookingTime: booking.bookingTime,
+        serviceName: booking.serviceTags[0] ?? "",
+      },
+    });
   };
 
   const handleBookAgain = () => {
-    router.push("/artist-details");
+    router.push("/(customer)/artist-details");
   };
 
   const handleDownloadReceipt = () => {
@@ -242,7 +243,7 @@ export default function BookingDetailsScreen() {
     console.log("Cancel booking:", selectedBooking);
     setCancelModalVisible(false);
     setSelectedBooking(null);
-    router.push("/cancellation-refund");
+    router.push("/(customer)/cancellation-refund");
   };
 
   return (
@@ -696,7 +697,7 @@ export default function BookingDetailsScreen() {
         {booking.status === "completed" && (
           <TouchableOpacity
             activeOpacity={0.85}
-            onPress={() => router.push("/ReviewScreen")}
+            onPress={() => router.push("/(customer)/ReviewScreen")}
             className="flex-1 mt-4 items-center rounded-full py-4 border"
             style={{
               borderColor: "#F6C9D6",

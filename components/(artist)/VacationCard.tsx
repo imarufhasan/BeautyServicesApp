@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { GradientSwitch } from "./SharedControls";
@@ -52,8 +53,8 @@ export default function VacationCard({
       </View>
 
       {/* Content */}
-      <View className="mt-5 rounded-2xl bg-orange-50 px-4 py-4 items-center">
-        <Text className="text-[30px]">☂️</Text>
+      <View className="mt-5 rounded-2xl  px-4 py-4 items-center">
+        <Ionicons name="umbrella-outline" size={36} color="#F97316" />
 
         {vacationConfig.enabled && hasDates ? (
           <>

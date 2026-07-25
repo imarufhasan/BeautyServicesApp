@@ -46,7 +46,7 @@ export default function CreateAccountScreen() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       router.push({
-        pathname: "/OtpVerificationScreen",
+        pathname: "/(auth)/OtpVerificationScreen",
         params: {
           role: role,
         },
@@ -209,19 +209,11 @@ export default function CreateAccountScreen() {
               </View>
               <Text className="flex-1 text-sm text-[#6E6875] leading-5">
                 I accept the{" "}
-                <Text
-                  className="font-bold"
-                  style={{ color: COLORS.baseColor }}
-                  //onPress={() => router.push("/legal/terms")}
-                >
+                <Text className="font-bold" style={{ color: COLORS.blueColor }}>
                   Terms of Service
                 </Text>{" "}
                 and{" "}
-                <Text
-                  className="font-bold"
-                  style={{ color: COLORS.baseColor }}
-                  //onPress={() => router.push("/legal/privacy")}
-                >
+                <Text className="font-bold" style={{ color: COLORS.blueColor }}>
                   Privacy Policy
                 </Text>
               </Text>
@@ -271,7 +263,7 @@ export default function CreateAccountScreen() {
             >
               <Text
                 className="text-sm font-extrabold"
-                style={{ color: COLORS.baseColor }}
+                style={{ color: COLORS.blueColor }}
               >
                 Sign In
               </Text>

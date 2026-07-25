@@ -184,7 +184,7 @@ export default function PaymentMethodsScreen({
             onSetDefault={() => handleSetDefault(item)}
             onEdit={() =>
               router.push({
-                pathname: "/profile/add-card",
+                pathname: "/(customer)/profile/add-card",
                 params: { cardData: JSON.stringify(item) },
               })
             }
@@ -196,7 +196,7 @@ export default function PaymentMethodsScreen({
       <View className="px-5 pb-5">
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={() => router.push("/profile/add-payment-method")}
+          onPress={() => router.push("/(customer)/profile/add-payment-method")}
           className="rounded-full overflow-hidden"
         >
           <LinearGradient

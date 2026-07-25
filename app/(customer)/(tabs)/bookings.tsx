@@ -4,7 +4,7 @@ import { MOCK_BOOKINGS } from "@/mock/bookings";
 import { BookingListItem, BookingStatus } from "@/types/booking";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -111,12 +111,8 @@ const BookingCard = ({
         <TouchableOpacity
           activeOpacity={0.85}
           onPress={() => {
-            // router.push({
-            //   pathname: "/booking-details",
-            //   params: { bookingData: JSON.stringify(booking) },
-            // });
             router.push({
-              pathname: "/booking-details",
+              pathname: "/(customer)/booking-details",
               params: {
                 bookingData: JSON.stringify(booking),
               },
@@ -159,13 +155,21 @@ export default function MyBookingsScreen({
 }: {
   bookings?: BookingListItem[];
 }) {
+  const params = useLocalSearchParams<{
+    filter?: BookingStatus;
+  }>();
+
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
 
   const [selectedBooking, setSelectedBooking] =
     useState<BookingListItem | null>(null);
 
-  const [selectedFilter, setSelectedFilter] =
-    useState<BookingStatus>("upcoming");
+  // const [selectedFilter, setSelectedFilter] =
+  //   useState<BookingStatus>("upcoming");
+
+  const [selectedFilter, setSelectedFilter] = useState<BookingStatus>(
+    params.filter ?? "upcoming",
+  );
 
   const filteredBookings = useMemo(
     () => bookings.filter((b) => b.status === selectedFilter),

@@ -1,4 +1,3 @@
-import AppTabBar from "@/components/common/AppTabBar";
 import { PrimaryButton } from "@/components/common/PrimaryButton";
 import { COLORS } from "@/constants/colors";
 import { bookingInboxDummyResponse } from "@/constants/dummyData";
@@ -6,7 +5,7 @@ import { Booking, BookingStatus } from "@/constants/types";
 import { MOCK_BOOKINGS } from "@/mock/bookings";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -40,7 +39,14 @@ const STATUS_TO_FILTER: Record<BookingStatus, FilterKey> = {
 
 export default function BookingInboxScreen() {
   const { summary, bookings } = bookingInboxDummyResponse.data;
-  const [activeFilter, setActiveFilter] = useState<FilterKey>("All");
+  // const [activeFilter, setActiveFilter] = useState<FilterKey>("All");
+  const params = useLocalSearchParams<{
+    filter?: FilterKey;
+  }>();
+
+  const [activeFilter, setActiveFilter] = useState<FilterKey>(
+    params.filter ?? "All",
+  );
   const [search, setSearch] = useState("");
   const [declineBooking, setDeclineBooking] = useState<Booking | null>(null);
   const [acceptBooking, setAcceptBooking] = useState<Booking | null>(null);
@@ -64,7 +70,7 @@ export default function BookingInboxScreen() {
         className="flex-1 bg-rose-50/30"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 20,
+          paddingBottom: 120,
         }}
 
         ListHeaderComponent={
@@ -133,8 +139,9 @@ export default function BookingInboxScreen() {
                           end={{ x: 1, y: 1 }}
                           style={{
                             borderRadius: 999,
+                            paddingHorizontal: 12,
+                            paddingVertical: 8,
                           }}
-                          className="px-3 py-2"
                         >
                           <Text className="text-xs font-semibold text-white">
                             {f}
@@ -205,7 +212,7 @@ export default function BookingInboxScreen() {
         ListFooterComponent={<View />}
       />
 
-      <AppTabBar active="Bookings" />
+      {/* <AppTabBar active="Bookings" /> */}
 
       {/* <DeclineModal
         booking={declineBooking}
@@ -291,6 +298,7 @@ function BookingActionModal({
             </TouchableOpacity>
 
             <TouchableOpacity
+              activeOpacity={0.85}
               onPress={() => {
                 if (isAccept) {
                   console.log("Accepted booking:", booking.id);
@@ -302,13 +310,19 @@ function BookingActionModal({
 
                 onClose();
               }}
-              className={`flex-1 rounded-full py-3 ${
-                isAccept ? "bg-emerald-500" : "bg-rose-400"
-              }`}
+              className="flex-1 rounded-full overflow-hidden"
             >
-              <Text className="text-center text-sm font-semibold text-white">
-                {isAccept ? "Accept" : "Decline"}
-              </Text>
+              <LinearGradient
+                colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                className="rounded-full py-3 items-center"
+                style={{ height: 40 }}
+              >
+                <Text className="text-center text-sm font-semibold text-white">
+                  {isAccept ? "Accept" : "Decline"}
+                </Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
         </View>
@@ -549,7 +563,7 @@ function BookingCard({
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => router.push("/ReviewScreen")}
+              onPress={() => router.push("/(artist)/ReviewsScreen")}
               className="flex-1 items-center rounded-full border border-gray-200 py-2.5"
             >
               <Text className="text-xs font-semibold text-gray-600">
@@ -563,7 +577,9 @@ function BookingCard({
             </TouchableOpacity> */}
             <PrimaryButton
               title="Book Again"
-              onPress={() => console.log("Book Again")}
+              onPress={() => {
+                router.push("/(artist)/booking-details");
+              }}
             />
           </>
         )}

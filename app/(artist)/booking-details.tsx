@@ -1,8 +1,10 @@
+import ConfirmationModal from "@/components/common/ConfirmationModal";
+import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -14,6 +16,44 @@ export default function BookingDetailsScreen() {
     : null;
   const status = params.status ? params.status : "";
   console.log("status: ", status);
+
+  const [acceptModalVisible, setAcceptModalVisible] = useState(false);
+  const [completeModalVisible, setCompleteModalVisible] = useState(false);
+
+  const handleAccept = () => {
+    setAcceptModalVisible(true);
+  };
+
+  const confirmAccept = () => {
+    // TODO: call accept-booking API with booking.id
+    console.log("Booking accepted:", booking?.id);
+    setAcceptModalVisible(false);
+    router.back();
+  };
+
+  const handleComplete = () => {
+    setCompleteModalVisible(true);
+  };
+
+  const confirmComplete = () => {
+    // TODO: call complete-booking API with booking.id
+    console.log("Booking marked complete:", booking?.id);
+    setCompleteModalVisible(false);
+    router.back();
+  };
+
+  const handleDecline = () => {
+    router.push({
+      pathname: "/(artist)/decline-booking",
+      params: {
+        bookingId: booking?.id ?? "",
+        clientName: booking?.client?.name ?? "Sophia Williams",
+        bookingDate: "Today, Jul 2",
+        bookingTime: "2:00 PM",
+        serviceName: "Full Glam Makeup",
+      },
+    });
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-[#FAFAFA]">
@@ -65,20 +105,17 @@ export default function BookingDetailsScreen() {
                 </Text>
               </View>
 
-              <View className="flex-row mt-2 items-center">
-                <Text className="text-pink-400 text-sm">★★★★★</Text>
-
-                <Text className="ml-2 text-xs font-bold text-gray-700">
-                  4.9
-                </Text>
-              </View>
+              <Stars rating={Math.round(Number(4.5))} showValue={true} />
 
               <Text className="mt-1 text-xs text-gray-400">
                 12 completed bookings
               </Text>
             </View>
 
-            <TouchableOpacity className="h-12 w-12 rounded-full bg-[#76D8CB] items-center justify-center">
+            <TouchableOpacity
+              onPress={() => router.push("/(common)/chatScreen")}
+              className="h-12 w-12 rounded-full bg-[#76D8CB] items-center justify-center"
+            >
               <Feather name="message-circle" size={22} color="white" />
             </TouchableOpacity>
           </View>
@@ -182,42 +219,54 @@ export default function BookingDetailsScreen() {
 
           {status === "pending" ? (
             <View className="bg-white px-5 py-4 border-t border-gray-100">
-              <LinearGradient
-                colors={["#FFB777", "#FFB777"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={{
-                  borderRadius: 999,
-                }}
-                className="py-4 items-center"
-              >
-                <Text className="text-white font-semibold">
-                  Click To Complete
-                </Text>
-              </LinearGradient>
+              <TouchableOpacity activeOpacity={0.85} onPress={handleComplete}>
+                <LinearGradient
+                  colors={["#FFB777", "#FFB777"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={{
+                    borderRadius: 999,
+                    paddingVertical: 16,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text className="text-white font-semibold">
+                    Click To Complete
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
             </View>
           ) : (
             <View className="bg-white px-5 py-4 border-t border-gray-100">
-              <LinearGradient
-                colors={[COLORS.baseColor1, COLORS.baseColor2]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={{
-                  borderRadius: 999,
-                }}
-                className="py-4 items-center"
-              >
-                <Text className="text-white font-semibold">Accept</Text>
-              </LinearGradient>
+              <TouchableOpacity activeOpacity={0.85} onPress={handleAccept}>
+                <LinearGradient
+                  colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={{
+                    borderRadius: 999,
+                    paddingVertical: 16,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text className="text-white font-semibold">Accept</Text>
+                </LinearGradient>
+              </TouchableOpacity>
 
               <View className="flex-row mt-3 gap-3">
-                <TouchableOpacity className="flex-1 rounded-2xl border border-pink-200 py-3 items-center">
+                <TouchableOpacity
+                  onPress={() => router.push("/(artist)/reschedule-booking")}
+                  className="flex-1 rounded-2xl border border-pink-200 py-3 items-center"
+                >
                   <Text className="text-orange-300 font-semibold text-sm">
                     Reschedule
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity className="flex-1 rounded-2xl border border-pink-200 py-3 items-center">
+                <TouchableOpacity
+                  onPress={handleDecline}
+                  className="flex-1 rounded-2xl border border-pink-200 py-3 items-center"
+                >
                   <Text className="text-orange-300 font-semibold text-sm">
                     Decline Booking
                   </Text>
@@ -227,6 +276,28 @@ export default function BookingDetailsScreen() {
           )}
         </ScrollView>
       </View>
+
+      <ConfirmationModal
+        visible={acceptModalVisible}
+        title="Accept Booking?"
+        message={`Are you sure you want to accept ${
+          booking?.client?.name || "this client"
+        }'s booking request? They'll be notified immediately.`}
+        confirmText="Yes, Accept"
+        cancelText="Cancel"
+        onConfirm={confirmAccept}
+        onCancel={() => setAcceptModalVisible(false)}
+      />
+
+      <ConfirmationModal
+        visible={completeModalVisible}
+        title="Mark as Complete?"
+        message="Confirm that this booking has been completed. This will notify the client and finalize payment."
+        confirmText="Yes, Complete"
+        cancelText="Not Yet"
+        onConfirm={confirmComplete}
+        onCancel={() => setCompleteModalVisible(false)}
+      />
     </SafeAreaView>
   );
 }

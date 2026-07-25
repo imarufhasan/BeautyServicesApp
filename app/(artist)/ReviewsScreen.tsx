@@ -1,4 +1,5 @@
 import GradientActionButton from "@/components/common/GradientActionButton";
+import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -7,8 +8,7 @@ import {
   Flag,
   Image as ImageIcon,
   Search,
-  Star,
-  X,
+  X
 } from "lucide-react-native";
 import React, { useMemo, useState } from "react";
 import {
@@ -102,21 +102,6 @@ const initialReviews: Review[] = [
 ];
 
 const filters = ["All", "5 Star", "4 Star", "3 Star", "Reported"];
-
-function Stars({ rating }: { rating: number }) {
-  return (
-    <View className="flex-row gap-0.5">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <Star
-          key={i}
-          size={13}
-          color={i <= rating ? "#fbbf24" : "#e5e7eb"}
-          fill={i <= rating ? "#fbbf24" : "none"}
-        />
-      ))}
-    </View>
-  );
-}
 
 export default function ReviewsScreen() {
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
@@ -294,8 +279,11 @@ export default function ReviewsScreen() {
                         colors={[COLORS.baseColor1, COLORS.baseColor2]}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
-                        className="rounded-full px-4 py-2"
-                        style={{ borderRadius: 999 }}
+                        style={{
+                          borderRadius: 999,
+                          paddingHorizontal: 16,
+                          paddingVertical: 8,
+                        }}
                       >
                         <Text className="text-sm font-medium text-white">
                           {f}
@@ -458,24 +446,6 @@ export default function ReviewsScreen() {
                     <Text className="text-base text-gray-900">{reason}</Text>
                   </TouchableOpacity>
                 ))}
-
-                {/* <TouchableOpacity
-                  onPress={submitReport}
-                  activeOpacity={0.85}
-                  className="mt-1 overflow-hidden rounded-2xl"
-                >
-                  <LinearGradient
-                    colors={[COLORS.baseColor1, COLORS.baseColor2]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    className="flex-row items-center justify-center py-4"
-                  >
-                    <Flag size={18} color="#fff" />
-                    <Text className="ml-3 text-base font-semibold text-white">
-                      Submit Report
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity> */}
 
                 <GradientActionButton
                   icon={<Flag size={18} color="#fff" />}

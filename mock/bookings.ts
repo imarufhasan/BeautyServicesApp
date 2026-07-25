@@ -1,9 +1,9 @@
 import { BookingListItem } from "@/types/booking";
 
-const AVATAR = require("../assets/images/home/pic1.png");
-const AVATAR_2 = require("../assets/images/home/pic2.png");
-const AVATAR_3 = require("../assets/images/home/pic3.png");
-const AVATAR_4 = require("../assets/images/home/pic4.png");
+const AVATAR = require("../assets/images/home/home_pic1.png");
+const AVATAR_2 = require("../assets/images/home/home_pic2.png");
+const AVATAR_3 = require("../assets/images/home/home_pic3.png");
+const AVATAR_4 = require("../assets/images/home/home_pic4.png");
 
 export const MOCK_BOOKINGS: BookingListItem[] = [
   {

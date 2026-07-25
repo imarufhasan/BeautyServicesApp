@@ -55,7 +55,7 @@ export default function WelcomeScreen() {
             </Text>
 
             <Text className="mt-1 text-[32px] font-bold text-[#FC6C8C] text-center">
-              MemiLennial?
+              Memillenial?
             </Text>
           </View>
 

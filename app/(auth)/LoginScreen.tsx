@@ -19,8 +19,10 @@ import AuthBrandHeader from "./AuthBrandHeader";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginScreen() {
-  const { role } = useLocalSearchParams();
-  console.log("user role: ", role);
+  const params = useLocalSearchParams();
+
+  const userRole = Array.isArray(params.role) ? params.role[0] : params.role;
+  console.log("LOGIN ROLE:", userRole);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,15 +36,17 @@ export default function LoginScreen() {
   );
 
   const handleSignIn = async () => {
-    //if (!isValid || loading) return;
     setLoading(true);
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      console.log("user role login screen: ", role);
-      if (role === "customer") {
-        router.push("/(customer)/(tabs)/home");
-      } else {
-        router.push("/(artist)/(tabs)/availability");
+
+      console.log("login role:", userRole);
+
+      if (userRole === "customer") {
+        router.replace("/(customer)/(tabs)/home");
+      } else if (userRole === "artist") {
+        router.replace("/(artist)/(tabs)/availability");
       }
     } finally {
       setLoading(false);
@@ -153,16 +157,16 @@ export default function LoginScreen() {
               <TouchableOpacity
                 onPress={() => {
                   router.push({
-                    pathname: "/ForgotPasswordScreen",
+                    pathname: "/(auth)/ForgotPasswordScreen",
                     params: {
-                      role: role,
+                      role: userRole,
                     },
                   });
                 }}
               >
                 <Text
                   className="text-sm font-bold"
-                  style={{ color: COLORS.baseColor }}
+                  style={{ color: COLORS.blueColor }}
                 >
                   Forgot Password?
                 </Text>
@@ -212,16 +216,16 @@ export default function LoginScreen() {
             <TouchableOpacity
               onPress={() => {
                 router.push({
-                  pathname: "/CreateAccountScreen",
+                  pathname: "/(auth)/CreateAccountScreen",
                   params: {
-                    role: role,
+                    role: userRole,
                   },
                 });
               }}
             >
               <Text
                 className="text-sm font-extrabold"
-                style={{ color: COLORS.baseColor }}
+                style={{ color: COLORS.blueColor }}
               >
                 Create Account
               </Text>

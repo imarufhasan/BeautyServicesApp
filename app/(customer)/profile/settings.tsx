@@ -54,7 +54,7 @@ export default function SettingsScreen({
 
   const confirmDeleteAccount = async () => {
     if (onDeleteAccount) await onDeleteAccount();
-    // TODO API: await deleteAccountMutation()
+    router.replace("/(auth)/choose-role");
     setDeleteModalVisible(false);
   };
 
@@ -75,7 +75,7 @@ export default function SettingsScreen({
         </Text>
         <TouchableOpacity
           activeOpacity={0.85}
-          onPress={() => router.push("/profile/change-password")}
+          onPress={() => router.push("/(customer)/profile/change-password")}
           className="flex-row items-center bg-white rounded-[20px] p-4 mb-6"
           style={{ borderColor: "#EFEAF3", borderWidth: 1 }}
         >

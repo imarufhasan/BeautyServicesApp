@@ -74,7 +74,7 @@ export default function AvailabilityScreen() {
       colors={["#FDEFF4", "#FFFFFF", "#EAF6F5"]}
       start={{ x: 0.1, y: 0 }}
       end={{ x: 0.9, y: 1 }}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
       <SafeAreaView className="flex-1">
         <ScrollView

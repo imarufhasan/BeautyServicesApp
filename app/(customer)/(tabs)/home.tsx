@@ -21,22 +21,22 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // ---------- Local assets ----------
-const HERO_IMAGE = require("../../../assets/images/home/pic5.png");
-const STORY_1_IMAGE = require("../../../assets/images/home/pic2.png");
-const STORY_2_IMAGE = require("../../../assets/images/home/pic3.png");
-const INSPO_WEDDING = require("../../../assets/images/home/pic4.png");
-const INSPO_FORMAL = require("../../../assets/images/home/pic1.png");
-const INSPO_NATURAL = require("../../../assets/images/home/pic2.png");
-const INSPO_PARTY = require("../../../assets/images/home/pic3.png");
-const INSPO_BRIDAL = require("../../../assets/images/home/pic4.png");
-const INSPO_LUXURY = require("../../../assets/images/home/pic1.png");
-const INSPO_FESTIVAL = require("../../../assets/images/home/pic2.png");
-const INSPO_EXTRA = require("../../../assets/images/home/pic3.png");
-const USER_AVATAR = require("../../../assets/images/home/pic1.png");
-const ARTIST_1 = require("../../../assets/images/home/pic1.png");
-const ARTIST_2 = require("../../../assets/images/home/pic2.png");
-const ARTIST_3 = require("../../../assets/images/home/pic3.png");
-const ARTIST_4 = require("../../../assets/images/home/pic4.png");
+const HERO_IMAGE = require("../../../assets/images/home/home_pic5.png");
+const STORY_1_IMAGE = require("../../../assets/images/home/home_pic2.png");
+const STORY_2_IMAGE = require("../../../assets/images/home/home_pic3.png");
+const INSPO_WEDDING = require("../../../assets/images/home/home_pic4.png");
+const INSPO_FORMAL = require("../../../assets/images/home/home_pic1.png");
+const INSPO_NATURAL = require("../../../assets/images/home/home_pic2.png");
+const INSPO_PARTY = require("../../../assets/images/home/home_pic3.png");
+const INSPO_BRIDAL = require("../../../assets/images/home/home_pic4.png");
+const INSPO_LUXURY = require("../../../assets/images/home/home_pic1.png");
+const INSPO_FESTIVAL = require("../../../assets/images/home/home_pic2.png");
+const INSPO_EXTRA = require("../../../assets/images/home/home_pic3.png");
+const USER_AVATAR = require("../../../assets/images/home/home_pic1.png");
+const ARTIST_1 = require("../../../assets/images/home/home_pic1.png");
+const ARTIST_2 = require("../../../assets/images/home/home_pic2.png");
+const ARTIST_3 = require("../../../assets/images/home/home_pic3.png");
+const ARTIST_4 = require("../../../assets/images/home/home_pic4.png");
 
 // ---------- Header mock data — replace with real auth/user + notifications API ----------
 const CURRENT_USER = { name: "Naz", avatar: USER_AVATAR };
@@ -348,7 +348,7 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
       activeOpacity={0.9}
       onPress={() =>
         router.push({
-          pathname: "/artist-details",
+          pathname: "/(customer)/artist-details",
           params: { id: artist.id },
         })
       }
@@ -447,7 +447,7 @@ const ArtistPreviewCard = ({ artist }: { artist: ArtistPreview }) => {
               <TouchableOpacity
                 onPress={() =>
                   router.push({
-                    pathname: "/artist-details",
+                    pathname: "/(customer)/artist-details",
                     params: { id: artist.id },
                   })
                 }
@@ -535,7 +535,7 @@ export default function CustomerHomeScreen() {
       ]}
       start={{ x: 0.1, y: 0 }}
       end={{ x: 0.9, y: 1 }}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
       <SafeAreaView className="flex-1" edges={["top"]}>
         <ScrollView
@@ -560,7 +560,7 @@ export default function CustomerHomeScreen() {
 
             <View className="flex-row items-center" style={{ gap: 10 }}>
               <TouchableOpacity
-                onPress={() => router.push("/NotificationsScreen")}
+                onPress={() => router.push("/(customer)/NotificationsScreen")}
                 className="w-11 h-11 rounded-full bg-white items-center justify-center"
                 style={{
                   shadowColor: "#000",
@@ -805,7 +805,7 @@ export default function CustomerHomeScreen() {
                       className="flex-row items-center"
                     >
                       <Text
-                        style={{ color: COLORS.baseColor }}
+                        style={{ color: COLORS.blueColor }}
                         className="text-xs font-semibold mr-0.5"
                       >
                         Read Story
@@ -813,7 +813,7 @@ export default function CustomerHomeScreen() {
                       <Ionicons
                         name="chevron-forward"
                         size={12}
-                        color={COLORS.baseColor}
+                        color={COLORS.blueColor}
                       />
                     </TouchableOpacity>
                   </View>
@@ -831,7 +831,7 @@ export default function CustomerHomeScreen() {
               className="flex-row items-center"
               onPress={() =>
                 router.push({
-                  pathname: "/artistsList",
+                  pathname: "/(customer)/artistsList",
                   params: { type: "featured" },
                 })
               }
@@ -869,7 +869,7 @@ export default function CustomerHomeScreen() {
               className="flex-row items-center"
               onPress={() =>
                 router.push({
-                  pathname: "/artistsList",
+                  pathname: "/(customer)/artistsList",
                   params: { type: "nearby" },
                 })
               }
@@ -898,13 +898,12 @@ export default function CustomerHomeScreen() {
             ))}
           </ScrollView>
 
-          {/* Beauty Inspiration */}
           <View className="flex-row items-center justify-between mt-7 mb-3">
             <Text className="text-xl font-extrabold text-[#161119]">
               Beauty Inspiration
             </Text>
             <TouchableOpacity
-              onPress={() => router.push("/beautyInspirationScreen")}
+              onPress={() => router.push("/(customer)/beautyInspirationScreen")}
               className="flex-row items-center"
             >
               <Text
@@ -945,7 +944,7 @@ export default function CustomerHomeScreen() {
                       resizeMode="cover"
                     />
                     <LinearGradient
-                      colors={["transparent", "rgba(0,0,0,0.55)"]}
+                      colors={["transparent", "rgba(0,0,0,0.3)"]}
                       className="absolute bottom-0 left-0 right-0 h-16 justify-end px-3 pb-2.5"
                     >
                       <Text className="text-white text-sm font-bold">

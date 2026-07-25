@@ -72,14 +72,14 @@ type ArtistProfile = {
 // ---------------------------------------------------------------------------
 // Mock data — replace image requires + fields with real API data
 // ---------------------------------------------------------------------------
-const HERO = require("../../assets/images/home/pic1.png");
-const AVATAR = require("../../assets/images/home/pic1.png");
-const PHOTO_1 = require("../../assets/images/home/pic2.png");
-const PHOTO_2 = require("../../assets/images/home/pic3.png");
-const PHOTO_3 = require("../../assets/images/home/pic4.png");
-const REVIEWER_1 = require("../../assets/images/home/pic2.png");
-const REVIEWER_2 = require("../../assets/images/home/pic3.png");
-const REVIEWER_3 = require("../../assets/images/home/pic4.png");
+const HERO = require("../../assets/images/home/home_pic1.png");
+const AVATAR = require("../../assets/images/home/home_pic1.png");
+const PHOTO_1 = require("../../assets/images/home/home_pic2.png");
+const PHOTO_2 = require("../../assets/images/home/home_pic3.png");
+const PHOTO_3 = require("../../assets/images/home/home_pic4.png");
+const REVIEWER_1 = require("../../assets/images/home/home_pic2.png");
+const REVIEWER_2 = require("../../assets/images/home/home_pic3.png");
+const REVIEWER_3 = require("../../assets/images/home/home_pic4.png");
 
 // ---------------------------------------------------------------------------
 // Dynamically generates availability rows for the CURRENT MONTH only —
@@ -851,7 +851,7 @@ export default function ArtistProfileScreen({
         <TouchableOpacity
           className="w-14 h-14 rounded-2xl items-center justify-center bg-[#F4E4FF]"
           onPress={() => {
-            router.push("/chatScreen");
+            router.push("/(common)/chatScreen");
           }}
           style={{
             shadowColor: "#000",
@@ -875,7 +875,7 @@ export default function ArtistProfileScreen({
             if (!selectedService || !selectedDay || !selectedTime) return;
 
             router.push({
-              pathname: "/booking/setup",
+              pathname: "/(customer)/booking/setup",
               params: {
                 artistId: profile.id,
                 artistName: profile.name,

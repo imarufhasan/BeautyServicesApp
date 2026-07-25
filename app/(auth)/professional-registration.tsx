@@ -104,22 +104,12 @@ export default function ProfessionalRegistrationScreen() {
   const [experience, setExperience] = useState("");
   const [accepted, setAccepted] = useState(false);
 
-  const canContinue = accepted;
-
-  const handleContinue = () => {
-    if (!canContinue) return;
-    // router.push({
-    //   pathname: "/(auth)/professional-registration-step-2",
-    //   params: { fullName, email, mobile, businessName },
-    // });
-  };
-
   return (
     <LinearGradient
       colors={["#FDEFF4", "#FFFFFF", "#EAF6F5"]}
       start={{ x: 0.1, y: 0 }}
       end={{ x: 0.9, y: 1 }}
-      className="flex-1"
+      style={{ flex: 1 }}
     >
       <SafeAreaView className="flex-1">
         <KeyboardAvoidingView
@@ -168,7 +158,12 @@ export default function ProfessionalRegistrationScreen() {
                 colors={["#FF5FA2", "#FFA35C"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                className="h-1.5 flex-1 rounded-full mr-2"
+                style={{
+                  height: 6,
+                  flex: 1,
+                  borderRadius: 999,
+                  marginRight: 8,
+                }}
               />
               <View className="h-1.5 flex-1 rounded-full bg-[#ECECEC] mr-2" />
               <View className="h-1.5 flex-1 rounded-full bg-[#ECECEC] mr-3" />

@@ -6,12 +6,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    Image,
-    ImageSourcePropType,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ImageSourcePropType,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -43,7 +43,7 @@ export type CancellationBooking = {
 // ---------------------------------------------------------------------------
 // Dummy/default data — matches the Booking Details screen's DUMMY_BOOKING
 // ---------------------------------------------------------------------------
-const AVATAR = require("../../assets/images/home/pic1.png");
+const AVATAR = require("../../assets/images/home/home_pic1.png");
 
 const DUMMY_CANCELLATION_BOOKING: CancellationBooking = {
   bookingId: "BK-2025-07124",
@@ -219,7 +219,7 @@ export default function CancellationRefundScreen({
     // On success, navigate back or to a confirmation screen.
     setTimeout(() => {
       setSubmitting(false);
-      router.push("/bookings");
+      router.push("/(customer)/(tabs)/bookings");
     }, 600);
   };
 

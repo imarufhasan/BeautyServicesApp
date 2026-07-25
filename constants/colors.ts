@@ -6,7 +6,8 @@ export const COLORS = {
   gray: "#777777",
   white: "#FFFFFF",
 
-  baseColor: "#FF3D71",
+  blueColor: "#B57EDC",
+  baseColor: "#FC6C8C",
   baseColor1: "#FFA3FF",
   baseColor2: "#FFB172",
   //FFC8EF

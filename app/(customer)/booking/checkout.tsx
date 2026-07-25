@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import CheckoutScreen from "./CheckoutScreen";
 
-const AVATAR = require("../../../assets/images/home/pic1.png"); // swap for real artist avatar
+const AVATAR = require("../../../assets/images/home/home_pic1.png"); // swap for real artist avatar
 
 export default function CheckoutRoute() {
   const p = useLocalSearchParams<{

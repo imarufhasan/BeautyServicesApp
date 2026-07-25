@@ -29,7 +29,7 @@ export type BookingConfirmedParams = {
   amountPaid: number;
 };
 
-const AVATAR = require("../../../assets/images/home/pic1.png");
+const AVATAR = require("../../../assets/images/home/home_pic1.png");
 
 const DUMMY_PARAMS: BookingConfirmedParams = {
   bookingId: "BK-2025-07124",
