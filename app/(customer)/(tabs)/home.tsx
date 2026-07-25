@@ -903,7 +903,7 @@ export default function CustomerHomeScreen() {
               Beauty Inspiration
             </Text>
             <TouchableOpacity
-              onPress={() => router.push("/(customer)/beautyInspirationScreen")}
+              // onPress={() => router.push("/(customer)/beautyInspirationScreen")}
               className="flex-row items-center"
             >
               <Text

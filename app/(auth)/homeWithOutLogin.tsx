@@ -662,12 +662,16 @@ export default function HomeWithOutLogin() {
                   params.people = String(peopleCount);
                 }
 
-                router.replace({
-                  pathname: "/(auth)/LoginScreen",
-                  params: {
-                    ...params,
-                    role: userRole,
-                  },
+                // router.replace({
+                //   pathname: "/(auth)/LoginScreen",
+                //   params: {
+                //     ...params,
+                //     role: userRole,
+                //   },
+                // });
+                router.push({
+                  pathname: "/(customer)/artistsList",
+                  params,
                 });
               }}
               search={true}

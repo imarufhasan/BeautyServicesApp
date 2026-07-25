@@ -14,6 +14,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BookingService } from "../(customer)/booking/BookingSetupScreen";
 import AuthBrandHeader from "./AuthBrandHeader";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,6 +23,48 @@ export default function LoginScreen() {
   const params = useLocalSearchParams();
 
   const userRole = Array.isArray(params.role) ? params.role[0] : params.role;
+  const artistId = Array.isArray(params.artistId)
+    ? params.artistId[0]
+    : params.artistId;
+  const artistName = Array.isArray(params.artistName)
+    ? params.artistName[0]
+    : params.artistName;
+  // const serviceId = Array.isArray(params.serviceId)
+  //   ? params.serviceId[0]
+  //   : params.serviceId;
+  // const serviceName = Array.isArray(params.serviceName)
+  //   ? params.serviceName[0]
+  //   : params.serviceName;
+  // const servicePrice = Array.isArray(params.servicePrice)
+  //   ? params.servicePrice[0]
+  //   : params.servicePrice;
+  const dateLabel = Array.isArray(params.dateLabel)
+    ? params.dateLabel[0]
+    : params.dateLabel;
+  const timeLabel = Array.isArray(params.timeLabel)
+    ? params.timeLabel[0]
+    : params.timeLabel;
+
+  const serviceId = Array.isArray(params.serviceId)
+    ? params.serviceId[0]
+    : params.serviceId;
+  const serviceName = Array.isArray(params.serviceName)
+    ? params.serviceName[0]
+    : params.serviceName;
+  const servicePrice = Array.isArray(params.servicePrice)
+    ? params.servicePrice[0]
+    : params.servicePrice;
+
+  const services: BookingService[] = serviceId
+    ? [
+        {
+          id: serviceId,
+          name: serviceName ?? "Service",
+          price: Number(servicePrice) || 0,
+        },
+      ]
+    : []; // Quick Book flow-এ service নির্দিষ্ট না থাকলে খালি রাখুন
+
   console.log("LOGIN ROLE:", userRole);
 
   const [email, setEmail] = useState("");
@@ -35,7 +78,7 @@ export default function LoginScreen() {
     [email, password],
   );
 
-  const handleSignIn = async () => {
+  const handleSignIn2 = async () => {
     setLoading(true);
 
     try {
@@ -47,6 +90,36 @@ export default function LoginScreen() {
         router.replace("/(customer)/(tabs)/home");
       } else if (userRole === "artist") {
         router.replace("/(artist)/(tabs)/availability");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignIn = async () => {
+    setLoading(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      if (artistId) {
+        router.replace({
+          pathname: "/(customer)/booking/setup",
+          params: {
+            artistId,
+            artistName,
+            serviceId,
+            serviceName,
+            servicePrice,
+            services: JSON.stringify(services),
+            dateLabel,
+            timeLabel,
+          },
+        });
+      } else if (userRole === "artist") {
+        router.replace("/(artist)/(tabs)/availability");
+      } else {
+        // customer অথবা role অজানা — default safe fallback
+        router.replace("/(customer)/(tabs)/home");
       }
     } finally {
       setLoading(false);

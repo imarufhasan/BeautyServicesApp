@@ -8,7 +8,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PasswordUpdatedScreen() {
   const handleGoToLogin = () => {
-    router.push("/(auth)/LoginScreen");
+    router.push({
+      pathname: "/(auth)/LoginScreen",
+      params: {
+        role: "customer",
+      },
+    });
   };
 
   const handleBackToHome = () => {

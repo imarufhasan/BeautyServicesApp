@@ -2,7 +2,7 @@ import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   Image,
@@ -258,6 +258,8 @@ export default function ArtistProfileScreen({
 }: {
   profile?: ArtistProfile;
 }) {
+  const params = useLocalSearchParams();
+  const userRole = Array.isArray(params.role) ? params.role[0] : params.role;
   const [selectedServiceId, setSelectedServiceId] = useState<string>(
     profile.services[0]?.id,
   );
@@ -874,9 +876,22 @@ export default function ArtistProfileScreen({
             );
             if (!selectedService || !selectedDay || !selectedTime) return;
 
+            // router.push({
+            //   pathname: "/(customer)/booking/setup",
+            //   params: {
+            //     artistId: profile.id,
+            //     artistName: profile.name,
+            //     serviceId: selectedService.id,
+            //     serviceName: selectedService.name,
+            //     servicePrice: String(selectedService.price),
+            //     dateLabel: selectedDay.fullDate,
+            //     timeLabel: selectedTime,
+            //   },
+            // });
             router.push({
-              pathname: "/(customer)/booking/setup",
+              pathname: "/(auth)/LoginScreen",
               params: {
+                role: "customer",
                 artistId: profile.id,
                 artistName: profile.name,
                 serviceId: selectedService.id,

@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import BookingSetupScreen from "./BookingSetupScreen";
+import BookingSetupScreen, { BookingService } from "./BookingSetupScreen";
 
 export default function BookingSetupRoute() {
   const {
@@ -13,21 +13,29 @@ export default function BookingSetupRoute() {
   } = useLocalSearchParams<{
     artistId: string;
     artistName: string;
-    serviceId: string;
-    serviceName: string;
-    servicePrice: string;
+    serviceId?: string;
+    serviceName?: string;
+    servicePrice?: string;
     dateLabel: string;
     timeLabel: string;
   }>();
+
+  const services: BookingService[] = serviceId
+    ? [
+        {
+          id: serviceId,
+          name: serviceName ?? "Service",
+          price: Number(servicePrice) || 0,
+        },
+      ]
+    : [];
 
   return (
     <BookingSetupScreen
       params={{
         artistId,
         artistName,
-        services: [
-          { id: serviceId, name: serviceName, price: Number(servicePrice) },
-        ],
+        services,
         dateLabel,
         timeLabel,
       }}

@@ -314,10 +314,7 @@ export default function ProfessionalRegistrationScreen() {
             </TouchableOpacity>
 
             {/* Login link */}
-            <TouchableOpacity
-              //onPress={() => router.push("/(auth)/login")}
-              className="mt-4 items-center"
-            >
+            <TouchableOpacity className="mt-4 items-center">
               <Text className="text-sm text-[#8A8590]">
                 Already have an account?{" "}
                 <Text className="text-[#B57EDC] font-semibold">Login</Text>

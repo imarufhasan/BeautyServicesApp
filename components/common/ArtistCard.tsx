@@ -2,6 +2,7 @@ import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
+import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import {
   Image,
@@ -66,6 +67,8 @@ export default function ArtistCard({
 }) {
   const visiblePortfolio = artist.portfolioImages.slice(0, 3);
 
+  const params = useLocalSearchParams();
+  const userRole = Array.isArray(params.role) ? params.role[0] : params.role;
   return (
     <View
       className="bg-white rounded-[20px] mb-4 overflow-hidden"
@@ -251,7 +254,18 @@ export default function ArtistCard({
         <View className="flex-row items-center mt-4" style={{ gap: 10 }}>
           <TouchableOpacity
             activeOpacity={0.85}
-            onPress={() => onQuickBook?.(artist)}
+            //onPress={() => onQuickBook?.(artist)}
+            onPress={() => {
+              router.push({
+                pathname: "/(auth)/LoginScreen",
+                params: {
+                  role: "customer",
+                  artistId: artist.id,
+                  artistName: artist.name,
+                  servicePrice: String(artist.priceFrom),
+                },
+              });
+            }}
             className="flex-1 rounded-full overflow-hidden"
           >
             <LinearGradient

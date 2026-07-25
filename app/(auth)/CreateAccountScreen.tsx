@@ -18,8 +18,10 @@ import AuthBrandHeader from "./AuthBrandHeader";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function CreateAccountScreen() {
-  const { role } = useLocalSearchParams();
-  console.log("role 4: ", role);
+  const params = useLocalSearchParams();
+
+  const userRole = Array.isArray(params.role) ? params.role[0] : params.role;
+  console.log("role 4: ", userRole);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,7 +50,7 @@ export default function CreateAccountScreen() {
       router.push({
         pathname: "/(auth)/OtpVerificationScreen",
         params: {
-          role: role,
+          role: userRole,
         },
       });
     } finally {
@@ -259,7 +261,14 @@ export default function CreateAccountScreen() {
               Already have an account?{" "}
             </Text>
             <TouchableOpacity
-              onPress={() => router.push("/(auth)/LoginScreen")}
+              onPress={() => {
+                router.push({
+                  pathname: "/(auth)/LoginScreen",
+                  params: {
+                    role: userRole,
+                  },
+                });
+              }}
             >
               <Text
                 className="text-sm font-extrabold"
