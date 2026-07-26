@@ -135,7 +135,7 @@ const BookingCard = ({
             activeOpacity={0.85}
             onPress={() => handleCancelBooking(booking)}
             className="flex-1 justify-center items-center rounded-full h-[40px] border"
-            style={{ borderColor: COLORS.borderColor }}
+            style={{ borderColor: COLORS.baseColor }}
           >
             <Text
               className="text-sm font-bold"

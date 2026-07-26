@@ -8,7 +8,7 @@ import {
   Flag,
   Image as ImageIcon,
   Search,
-  X
+  X,
 } from "lucide-react-native";
 import React, { useMemo, useState } from "react";
 import {
@@ -251,7 +251,10 @@ export default function ReviewsScreen() {
               </View>
               <View className="w-[47%] rounded-2xl border-[1px] border-gray-200 bg-white p-4 shadow-sm">
                 <Text className="text-sm text-gray-400">Total Reviews</Text>
-                <Text className="mt-1 text-3xl font-bold text-rose-500">
+                <Text
+                  style={{ color: COLORS.blueColor }}
+                  className="mt-1 text-3xl font-bold"
+                >
                   {reviews.length}
                 </Text>
               </View>

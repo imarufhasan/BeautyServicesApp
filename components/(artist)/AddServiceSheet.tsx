@@ -108,7 +108,7 @@ export default function AddServiceSheet({
           </View>
 
           <View className="flex-row" style={{ gap: 12 }}>
-            <View className="mb-2 flex-1">
+            {/* <View className="mb-2 flex-1">
               <Text className="text-[13px] font-bold text-[#161119] mb-2">
                 Travel Fee
               </Text>
@@ -120,7 +120,7 @@ export default function AddServiceSheet({
                 keyboardType="numeric"
                 className="rounded-[14px] border border-[#ECECEC] px-4 py-3.5 text-[14px] text-[#161119]"
               />
-            </View>
+            </View> */}
             <View className="mb-2 flex-1">
               <Text className="text-[13px] font-bold text-[#161119] mb-2">
                 Discount{" "}

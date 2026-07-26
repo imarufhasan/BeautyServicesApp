@@ -115,7 +115,7 @@ export default function BookingSetupScreen({
 
   const visitTypeLabel =
     visitType === "home_visit" ? "Home Visit" : "Home Studio";
-  const bookingModeLabel = bookingMode === "quick" ? "Instant" : "Request";
+  const bookingModeLabel = bookingMode === "quick" ? "Quick" : "Request";
 
   const handleConfirmBooking = () => {
     router.push({
@@ -382,13 +382,13 @@ export default function BookingSetupScreen({
           </LinearGradient>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={0.7}
           onPress={handleSaveDraft}
           className="items-center mt-3"
         >
           <Text className="text-base font-bold text-[#8A8590]">Save Draft</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

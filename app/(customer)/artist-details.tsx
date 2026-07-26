@@ -260,9 +260,13 @@ export default function ArtistProfileScreen({
 }) {
   const params = useLocalSearchParams();
   const userRole = Array.isArray(params.role) ? params.role[0] : params.role;
-  const [selectedServiceId, setSelectedServiceId] = useState<string>(
+  // const [selectedServiceId, setSelectedServiceId] = useState<string>(
+  //   profile.services[0]?.id,
+  // );
+
+  const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>([
     profile.services[0]?.id,
-  );
+  ]);
 
   // 🔧 Availability state — default to first available day
   const defaultDayId =
@@ -285,11 +289,22 @@ export default function ArtistProfileScreen({
     setSelectedTime(day.times[0]);
   };
 
+  const toggleService = (serviceId: string) => {
+    setSelectedServiceIds((prev) =>
+      prev.includes(serviceId)
+        ? prev.filter((id) => id !== serviceId)
+        : [...prev, serviceId],
+    );
+  };
+
   return (
-    <SafeAreaView className="flex-1 bg-[#FBF9FC] mb-10" edges={["top"]}>
+    <SafeAreaView
+      className="flex-1 bg-[#FBF9FC] mb-10 relative"
+      edges={["top"]}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 140 }}
+        contentContainerStyle={{ paddingBottom: 120 }}
       >
         {/* Header actions */}
         <View className="flex-row items-center justify-between px-5 pt-4 pb-4">
@@ -318,7 +333,7 @@ export default function ArtistProfileScreen({
             >
               <Ionicons name="heart-outline" size={18} color="#B57EDC" />
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               className="w-10 h-10 rounded-full bg-white items-center justify-center"
               style={{
                 shadowColor: "#000",
@@ -328,7 +343,7 @@ export default function ArtistProfileScreen({
               }}
             >
               <Ionicons name="share-social-outline" size={17} color="#161119" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
 
@@ -471,12 +486,12 @@ export default function ArtistProfileScreen({
           <SectionTitle>Services Offered</SectionTitle>
 
           {profile.services.map((service) => {
-            const isSelected = service.id === selectedServiceId;
+            const isSelected = selectedServiceIds.includes(service.id);
             return (
               <TouchableOpacity
                 key={service.id}
                 activeOpacity={0.85}
-                onPress={() => setSelectedServiceId(service.id)}
+                onPress={() => toggleService(service.id)}
                 className="flex-row items-center justify-between rounded-[16px] px-4 py-3.5 mb-3 bg-white border"
                 style={{
                   borderColor: isSelected ? COLORS.baseColor : "#EFEAF3",
@@ -846,57 +861,43 @@ export default function ArtistProfileScreen({
       </ScrollView>
 
       {/* Sticky bottom bar */}
-      <View
-        className="absolute bottom-0 left-0 right-0 flex-row items-center bg-gray-100 px-5 pt-3"
-        style={{ gap: 10, paddingBottom: 22 }}
-      >
-        <TouchableOpacity
-          className="w-14 h-14 rounded-2xl items-center justify-center bg-[#F4E4FF]"
-          onPress={() => {
-            router.push("/(common)/chatScreen");
-          }}
-          style={{
-            shadowColor: "#000",
-            shadowOpacity: 0.08,
-            shadowRadius: 8,
-            elevation: 2,
-            borderColor: "#F4E4FF",
-            borderWidth: 2,
-          }}
-        >
-          <Ionicons name="chatbubble-outline" size={20} color="#B57EDC" />
-        </TouchableOpacity>
 
+      <View
+        className="absolute bottom-0 left-0 right-0 flex-row items-center bg-gray-100 px-5 pt-3 z-50"
+        style={{
+          paddingBottom: 22,
+          elevation: 10,
+        }}
+      >
         <TouchableOpacity
           activeOpacity={0.85}
           className="flex-1 rounded-2xl overflow-hidden"
           onPress={() => {
-            const selectedService = profile.services.find(
-              (s) => s.id === selectedServiceId,
+            const selectedServices = profile.services.filter((s) =>
+              selectedServiceIds.includes(s.id),
             );
-            if (!selectedService || !selectedDay || !selectedTime) return;
 
-            // router.push({
-            //   pathname: "/(customer)/booking/setup",
-            //   params: {
-            //     artistId: profile.id,
-            //     artistName: profile.name,
-            //     serviceId: selectedService.id,
-            //     serviceName: selectedService.name,
-            //     servicePrice: String(selectedService.price),
-            //     dateLabel: selectedDay.fullDate,
-            //     timeLabel: selectedTime,
-            //   },
-            // });
+            if (
+              selectedServices.length === 0 ||
+              !selectedDay ||
+              !selectedTime
+            ) {
+              return;
+            }
+
             router.push({
-              pathname: "/(auth)/LoginScreen",
+              pathname: "/(auth)/CreateAccountScreen",
               params: {
                 role: "customer",
                 artistId: profile.id,
                 artistName: profile.name,
-                serviceId: selectedService.id,
-                serviceName: selectedService.name,
-                servicePrice: String(selectedService.price),
+                serviceIds: JSON.stringify(selectedServices.map((s) => s.id)),
+                serviceNames: JSON.stringify(
+                  selectedServices.map((s) => s.name),
+                ),
+                servicePrice: String(
+                  selectedServices.reduce((sum, s) => sum + s.price, 0),
+                ),
                 dateLabel: selectedDay.fullDate,
                 timeLabel: selectedTime,
               },

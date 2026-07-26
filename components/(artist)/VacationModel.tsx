@@ -58,7 +58,7 @@ export default function VacationModel({
   // Live preview — updates as the artist types, so it "feels" real before saving.
   const previewRange =
     startDate && endDate ? `${startDate} – ${endDate}` : "Select your dates";
-  const previewMessage = message || "Taking a break. Back soon! ✨";
+  const previewMessage = message || "Taking a break. Back soon!";
   const formatDate = (date: Date) =>
     date.toLocaleDateString("en-US", {
       weekday: "short",
@@ -219,9 +219,21 @@ export default function VacationModel({
               <Text className="text-[10px] font-bold tracking-wider text-emerald-500 mb-1.5">
                 PREVIEW
               </Text>
-              <Text className="text-[14px] font-bold text-[#161119]">
+              {/* <Text className="text-[14px] font-bold text-[#161119]">
                 ☂️ Away: {previewRange}
-              </Text>
+              </Text> */}
+              <View className="flex-row items-center">
+                <Ionicons
+                  name="umbrella-outline"
+                  size={18}
+                  color="#F97316"
+
+                  style={{ marginRight: 6 }}
+                />
+                <Text className="text-[14px] font-bold text-[#161119]">
+                  Away: {previewRange}
+                </Text>
+              </View>
               <Text className="mt-1 text-[13px] text-[#4B5563]">
                 {previewMessage}
               </Text>

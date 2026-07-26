@@ -20,10 +20,11 @@ export default function ConfirmButton({
       className="mt-5"
     >
       <LinearGradient
-        colors={["#FF5FA2", "#FFA35C"]}
+        colors={["#FFB777", "#FFB777"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        className="rounded-full py-4 items-center justify-center"
+        className=" py-4 items-center justify-center"
+        style={{ borderRadius: 10 }}
       >
         <Text className="text-white text-base font-bold">{label}</Text>
       </LinearGradient>

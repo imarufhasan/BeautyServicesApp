@@ -1,4 +1,5 @@
 import AppHeader from "@/components/common/AppHeader";
+import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -48,7 +49,7 @@ const FAQRow = ({
       <Ionicons
         name={expanded ? "chevron-up" : "chevron-down"}
         size={16}
-        color={expanded ? "#FC6C8C" : "#B0AAB6"}
+        color={expanded ? COLORS.baseColor : "#B0AAB6"}
       />
     </TouchableOpacity>
     {expanded && (

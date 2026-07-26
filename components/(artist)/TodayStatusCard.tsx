@@ -1,5 +1,4 @@
 import { todayStatusDummy } from "@/constants/availability";
-import { COLORS } from "@/constants/colors";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
@@ -24,7 +23,7 @@ export default function TodayStatusCard({
   return (
     <View className="overflow-hidden rounded-3xl mb-5">
       <LinearGradient
-        colors={[COLORS.baseColor1, COLORS.baseColor2]}
+        colors={["rgba(255, 163, 255, 0.75)", "rgba(255, 177, 114, 0.75)"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         className="p-5"

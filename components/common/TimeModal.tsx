@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import GradientButton from "./GradientButton";
+import ConfirmButton from "./ConfirmButton";
 import { fetchTimeSlots, TimeSlot } from "./homeSearchApi";
 
 interface TimeModalProps {
@@ -70,7 +70,9 @@ export default function TimeModal({
                   className="rounded-2xl py-3 items-center justify-center mb-3"
                   style={{
                     width: "31%",
-                    backgroundColor: isSelected ? COLORS.baseColor : "#F7F5F9",
+                    backgroundColor: isSelected
+                      ? COLORS.blueColor
+                      : COLORS.blueColor2,
                   }}
                 >
                   <Text
@@ -92,17 +94,17 @@ export default function TimeModal({
         </ScrollView>
       )}
 
-      {/* <ConfirmButton
+      <ConfirmButton
         label="Confirm"
         onPress={handleConfirm}
         disabled={!selectedId}
-      /> */}
-      <GradientButton
+      />
+      {/* <GradientButton
         label="Confirm"
         onPress={handleConfirm}
         disabled={!selectedId}
         style={{ marginTop: 20 }}
-      />
+      /> */}
     </BottomSheetModal>
   );
 }

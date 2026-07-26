@@ -257,7 +257,7 @@ export default function ArtistCard({
             //onPress={() => onQuickBook?.(artist)}
             onPress={() => {
               router.push({
-                pathname: "/(auth)/LoginScreen",
+                pathname: "/(auth)/CreateAccountScreen",
                 params: {
                   role: "customer",
                   artistId: artist.id,
@@ -282,7 +282,7 @@ export default function ArtistCard({
             activeOpacity={0.85}
             onPress={() => onViewProfile?.(artist)}
             className="flex-1 py-3 items-center rounded-full border"
-            style={{ borderColor: COLORS.borderColor }}
+            style={{ borderColor: COLORS.baseColor, borderWidth: 1 }}
           >
             <Text
               style={{ color: COLORS.baseColor }}

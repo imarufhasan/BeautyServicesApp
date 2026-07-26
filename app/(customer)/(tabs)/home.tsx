@@ -218,7 +218,7 @@ const WHY_CARDS = [
     icon: "shield-checkmark-outline" as const,
     iconBg: "#DDF3E7",
     iconColor: "#2FA773",
-    title: "Verified & Insured Artists",
+    title: "Verified Artists",
     desc: "Every artist undergoes ID verification, qualification checks and holds active public liability insurance.",
   },
   {
@@ -551,7 +551,7 @@ export default function CustomerHomeScreen() {
                 <Text style={{ color: COLORS.baseColor }}>millennial</Text>
               </Text>
               <Text className="text-3xl font-extrabold text-[#161119] mt-1">
-                Hi, {userName}
+                Hi {userName}
               </Text>
               <Text className="text-sm text-[#8A8590] mt-1">
                 Let&apos;s find your perfect beauty artist.

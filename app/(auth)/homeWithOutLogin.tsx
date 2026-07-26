@@ -220,7 +220,7 @@ const WHY_CARDS = [
     icon: "shield-checkmark-outline" as const,
     iconBg: "#DDF3E7",
     iconColor: "#2FA773",
-    title: "Verified & Insured Artists",
+    title: "Verified Artists",
     desc: "Every artist undergoes ID verification, qualification checks and holds active public liability insurance.",
   },
   {
@@ -578,7 +578,7 @@ export default function HomeWithOutLogin() {
                 <Text style={{ color: COLORS.baseColor }}>millennial</Text>
               </Text>
               <Text className="text-3xl font-extrabold text-[#161119] mt-1">
-                Hi, Beautiful!
+                Hi Beautiful!
               </Text>
               <Text className="text-sm text-[#8A8590] mt-1">
                 Let&apos;s find your perfect beauty artist.
@@ -722,7 +722,7 @@ export default function HomeWithOutLogin() {
               className="flex-row items-center"
             >
               <Text
-                style={{ color: COLORS.baseColor }}
+                style={{ color: COLORS.blueColor }}
                 className="text-sm font-semibold mr-0.5"
               >
                 See All
@@ -816,7 +816,7 @@ export default function HomeWithOutLogin() {
             </Text>
             <TouchableOpacity className="flex-row items-center">
               <Text
-                style={{ color: COLORS.baseColor }}
+                style={{ color: COLORS.blueColor }}
                 className="text-sm font-semibold mr-0.5"
               >
                 See All

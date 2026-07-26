@@ -1,5 +1,6 @@
 import GradientActionButton from "@/components/common/GradientActionButton";
 import { DaySchedule } from "@/constants/availability";
+import { COLORS } from "@/constants/colors";
 import { DayOfWeek } from "@/constants/types";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import React from "react";
@@ -51,8 +52,13 @@ export default function WeeklyScheduleCard({
           onPress={onEditAll}
           className="rounded-full bg-rose-50 flex-row gap-1 px-3 py-1.5"
         >
-          <FontAwesome name="pencil" size={12} color={"#f43f5e"} />
-          <Text className="text-xs font-semibold text-rose-500">Edit All</Text>
+          <FontAwesome name="pencil" size={12} color={COLORS.baseColor} />
+          <Text
+            style={{ color: COLORS.baseColor }}
+            className="text-xs font-semibold "
+          >
+            Edit All
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -127,7 +133,10 @@ export default function WeeklyScheduleCard({
                     <Text className="text-[10px] font-semibold tracking-wider text-gray-400">
                       BREAK TIME
                     </Text>
-                    <TouchableOpacity className="h-5 w-5 items-center justify-center rounded-full bg-rose-400">
+                    <TouchableOpacity
+                      style={{ backgroundColor: COLORS.blueColor }}
+                      className="h-5 w-5 items-center justify-center rounded-full"
+                    >
                       <Feather name="plus" size={11} color="#fff" />
                     </TouchableOpacity>
                   </View>
@@ -152,7 +161,7 @@ export default function WeeklyScheduleCard({
                     </View>
                   </View>
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => onToggleEveningSession(!monEveningSession)}
                     className="mt-4 flex-row items-center"
                   >
@@ -163,7 +172,7 @@ export default function WeeklyScheduleCard({
                     <Text className="ml-2 text-[13px] text-gray-500">
                       Evening Session
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
 
                   <View className="mt-4 flex-row" style={{ gap: 10 }}>
                     <View className="flex-1">

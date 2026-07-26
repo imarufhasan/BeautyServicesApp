@@ -459,7 +459,7 @@ export default function WorkingHoursModal({
                       </View>
                     ))}
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() =>
                         update(d.day, {
                           hasEveningSession: !d.hasEveningSession,
@@ -476,7 +476,7 @@ export default function WorkingHoursModal({
                       <Text className="ml-2 text-[12px] font-semibold text-[#8A8590]">
                         EVENING SESSION
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     {d.hasEveningSession && (
                       <View className="mt-3 flex-row" style={{ gap: 10 }}>

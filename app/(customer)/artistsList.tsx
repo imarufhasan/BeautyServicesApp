@@ -222,11 +222,13 @@ export default function ArtistListScreen() {
   const isFeatured = artistType === "featured";
   const isNearby = artistType === "nearby";
 
-  const screenTitle = isFeatured
-    ? "Featured Artists"
-    : isNearby
-      ? "Nearby Artists"
-      : params.service || "Find My Artist";
+  // const screenTitle = isFeatured
+  //   ? "Featured Artists"
+  //   : isNearby
+  //     ? "Nearby Artists"
+  //     : params.service || "Find My Artist";
+
+  const screenTitle = "Find My Artist";
 
   const [searchText, setSearchText] = useState("");
   const [onlyAvailable, setOnlyAvailable] = useState(false);
@@ -447,23 +449,25 @@ export default function ArtistListScreen() {
     }
 
     // Default: service search / "Find My Artist" flow — keep the original warning banner
-    return (
-      <View
-        className="flex-row items-start bg-[#FBF6E9] border rounded-[16px] px-3 py-4 mb-4 mt-1"
-        style={{ borderColor: "#F0E0A0" }}
-      >
-        <Ionicons
-          name="warning-outline"
-          size={18}
-          color="#C9A227"
-          style={{ marginRight: 8, marginTop: 1 }}
-        />
-        <Text className="flex-1 text-xs text-[#8A7A3D] leading-4">
-          High-demand beauty experts book out quickly, so early scheduling is
-          highly recommended.
-        </Text>
-      </View>
-    );
+    if (artists?.length > 0) {
+      return (
+        <View
+          className="flex-row items-start bg-[#FBF6E9] border rounded-[16px] px-3 py-4 mb-4 mt-1"
+          style={{ borderColor: "#F0E0A0" }}
+        >
+          <Ionicons
+            name="warning-outline"
+            size={18}
+            color="#C9A227"
+            style={{ marginRight: 8, marginTop: 1 }}
+          />
+          <Text className="flex-1 text-xs text-[#8A7A3D] leading-4">
+            High-demand beauty experts book out quickly, so early scheduling is
+            highly recommended.
+          </Text>
+        </View>
+      );
+    }
   };
 
   return (

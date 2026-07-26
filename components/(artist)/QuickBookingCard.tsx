@@ -1,4 +1,6 @@
 import { QuickBookingConfig } from "@/components/(artist)/QuickBookingModal";
+import { COLORS } from "@/constants/colors";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { GradientSwitch, InfoRow } from "./SharedControls";
@@ -58,9 +60,17 @@ export default function QuickBookingCard({
           value={`${quickBookingConfig.maxPerDay} bookings`}
         />
       </View>
-      <TouchableOpacity onPress={onOpenModal} className="mt-2 items-center">
-        <Text className="text-sm font-semibold text-rose-400">
-          ✎ Edit Settings
+
+      <TouchableOpacity
+        onPress={onOpenModal}
+        className="mt-2 flex-row gap-2 items-center flex-1 justify-center"
+      >
+        <Ionicons name="pencil-outline" size={14} color={COLORS.blueColor} />
+        <Text
+          style={{ color: COLORS.blueColor }}
+          className="text-sm font-semibold"
+        >
+          Edit Settings
         </Text>
       </TouchableOpacity>
     </View>

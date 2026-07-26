@@ -61,7 +61,7 @@ const ACCOUNT_ROWS: SettingsRow[] = [
     icon: "heart-outline",
     iconBg: "#FDEDF1",
     iconColor: "#FC6C8C",
-    route: "/profile/saved-addresses",
+    route: "/profile/saved-artists",
   },
   {
     id: "saved-addresses",
@@ -69,7 +69,7 @@ const ACCOUNT_ROWS: SettingsRow[] = [
     icon: "location-outline",
     iconBg: "#F4E4FF",
     iconColor: "#B57EDC",
-    route: "/profile/add-address",
+    route: "/profile/saved-addresses",
   },
   {
     id: "transaction-history",

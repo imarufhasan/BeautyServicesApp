@@ -8,6 +8,7 @@ import {
   StepProgressBar,
 } from "@/components/(artist)/StepProgress";
 import GradientButton from "@/components/common/GradientButton";
+import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,6 +17,7 @@ import React, { useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
+  Modal,
   Platform,
   ScrollView,
   Text,
@@ -41,6 +43,9 @@ export default function ProfileSetupScreen() {
   const [languages, setLanguages] = useState("English");
   const [travelRadius, setTravelRadius] = useState("30 km");
 
+  const [showTravelModal, setShowTravelModal] = useState(false);
+
+  const travelOptions = ["5 km", "10 km", "15 km", "20 km", "25 km", "30 km"];
   const pickPhoto = async () => {
     const res = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -105,7 +110,7 @@ export default function ProfileSetupScreen() {
                   </View>
                   <View className="absolute bottom-0 right-0 w-8 h-8 rounded-full overflow-hidden border-2 border-white">
                     <LinearGradient
-                      colors={["#FF5FA2", "#FFA35C"]}
+                      colors={[COLORS.baseColor1, COLORS.baseColor2]}
                       style={{
                         flex: 1,
                         alignItems: "center",
@@ -207,10 +212,15 @@ export default function ProfileSetupScreen() {
                 onPress={() => {}}
               />
               <View className="mb-0">
-                <DropdownField
+                {/* <DropdownField
                   label="Travel Radius"
                   value={travelRadius}
                   onPress={() => {}}
+                /> */}
+                <DropdownField
+                  label="Travel Radius"
+                  value={travelRadius}
+                  onPress={() => setShowTravelModal(true)}
                 />
               </View>
             </PlainCard>
@@ -221,6 +231,69 @@ export default function ProfileSetupScreen() {
               style={{ marginTop: 4 }}
             />
           </ScrollView>
+
+          <Modal
+            visible={showTravelModal}
+            transparent
+            animationType="slide"
+            onRequestClose={() => setShowTravelModal(false)}
+          >
+            <View className="flex-1 justify-end bg-black/40">
+              <View className="bg-white rounded-t-[24px] px-5 pt-4 pb-8">
+                <View className="self-center w-10 h-1 rounded-full bg-[#E3E0E6] mb-5" />
+
+                <View className="flex-row items-center justify-between mb-5">
+                  <Text className="text-[18px] font-extrabold text-[#161119]">
+                    Select Travel Radius
+                  </Text>
+
+                  <TouchableOpacity
+                    onPress={() => setShowTravelModal(false)}
+                    hitSlop={10}
+                  >
+                    <Ionicons name="close" size={20} color="#8A8590" />
+                  </TouchableOpacity>
+                </View>
+
+                {travelOptions.map((item) => {
+                  const selected = travelRadius === item;
+
+                  return (
+                    <TouchableOpacity
+                      key={item}
+                      onPress={() => {
+                        setTravelRadius(item);
+                        setShowTravelModal(false);
+                      }}
+                      className="flex-row items-center justify-between rounded-2xl px-4 py-4 mb-3"
+                      style={{
+                        backgroundColor: selected ? "#F4E8FC" : "#F7F5F7",
+                      }}
+                    >
+                      <Text
+                        className="text-[14px] font-semibold"
+                        style={{
+                          color: selected ? "#B57EDC" : "#161119",
+                        }}
+                      >
+                        {item}
+                      </Text>
+
+                      {selected && (
+                        <Ionicons
+                          name="checkmark-circle"
+                          size={20}
+                          color="#B57EDC"
+                        />
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+
+                <View className="mb-8" />
+              </View>
+            </View>
+          </Modal>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </LinearGradient>

@@ -93,7 +93,8 @@ export default function OtpVerificationScreen() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (role === "customer") {
-        router.replace("/(customer)/(tabs)/home");
+        //router.replace("/(customer)/(tabs)/home");
+        router.replace("/(customer)/booking/setup");
       } else {
         router.replace("/(auth)/registration/ProfessionalRegistrationScreen");
       }

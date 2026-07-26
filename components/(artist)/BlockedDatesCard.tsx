@@ -1,4 +1,5 @@
 import { BlockedDate } from "@/constants/availability";
+import { COLORS } from "@/constants/colors";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -38,10 +39,14 @@ export default function BlockedDatesCard({
         </View>
         <TouchableOpacity
           onPress={onAdd}
-          className="flex-row items-center rounded-full bg-rose-50 px-3 py-1.5"
+          style={{ backgroundColor: COLORS.blueColor2 }}
+          className="flex-row items-center rounded-full  px-3 py-1.5"
         >
-          <Feather name="plus" size={12} color="#FB7185" />
-          <Text className="ml-1 text-xs font-semibold text-rose-500">
+          <Feather name="plus" size={12} color={COLORS.blueColor} />
+          <Text
+            style={{ color: COLORS.blueColor }}
+            className="ml-1 text-xs font-semibold "
+          >
             Add Date
           </Text>
         </TouchableOpacity>

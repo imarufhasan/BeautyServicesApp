@@ -52,14 +52,14 @@ export default function RecurringScheduleCard({
           label="Monthly Repeat"
           active={recurringConfig.mode === "Monthly"}
         />
-        <Chip
+        {/* <Chip
           label="Weekdays Only"
           active={recurringConfig.pattern === "weekdaysOnly"}
         />
         <Chip
           label="Custom Days"
           active={recurringConfig.pattern === "customDays"}
-        />
+        /> */}
       </View>
     </View>
   );

@@ -4,7 +4,7 @@ import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import GradientButton from "./GradientButton";
+import ConfirmButton from "./ConfirmButton";
 import { fetchAvailableMonth } from "./homeSearchApi";
 
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
@@ -156,7 +156,7 @@ export default function DateModal({
                     className="w-9 h-9 rounded-full items-center justify-center"
                     style={{
                       backgroundColor: isSelected
-                        ? COLORS.baseColor
+                        ? COLORS.blueColor
                         : "transparent",
                       borderWidth: isToday(iso) && !isSelected ? 1 : 0,
                       borderColor: COLORS.baseColor,
@@ -183,12 +183,13 @@ export default function DateModal({
         </>
       )}
 
-      <GradientButton
+      {/* <GradientButton
         label="Confirm"
         onPress={handleConfirm}
         disabled={!selected}
         style={{ marginTop: 20 }}
-      />
+      /> */}
+      <ConfirmButton label="Submit Verification" onPress={handleConfirm} />
     </BottomSheetModal>
   );
 }

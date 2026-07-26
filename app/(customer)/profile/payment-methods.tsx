@@ -33,7 +33,7 @@ const MOCK_METHODS: PaymentMethod[] = [
   {
     id: "pm-2",
     kind: "google_pay",
-    name: "Google Pay",
+    name: "Google Pay 1",
     subtitle: "Connected",
     isDefault: false,
     brandColor: "#fff",
@@ -122,9 +122,9 @@ const MethodCard = ({
       <TouchableOpacity
         onPress={onEdit}
         className="items-center justify-center rounded-full"
-        style={{ width: 30, height: 30, backgroundColor: "#FDEDF1" }}
+        style={{ width: 30, height: 30, backgroundColor: COLORS.blueColor2 }}
       >
-        <Ionicons name="pencil" size={13} color="#FC6C8C" />
+        <Ionicons name="pencil" size={13} color={COLORS.blueColor} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={onDelete}

@@ -1,3 +1,4 @@
+import AppHeader from "@/components/common/AppHeader";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import Stars from "@/components/common/Stars";
 import { COLORS } from "@/constants/colors";
@@ -59,7 +60,7 @@ export default function BookingDetailsScreen() {
     <SafeAreaView className="flex-1 bg-[#FAFAFA]">
       <View className="flex-1">
         {/* Header */}
-        <View className="px-5 pt-5 mb-2 flex-row items-center justify-between">
+        {/* <View className="px-5 pt-5 mb-2 flex-row items-center justify-between">
           <TouchableOpacity
             onPress={() => router.back()}
             className="h-10 w-10 rounded-full bg-white items-center justify-center shadow"
@@ -74,7 +75,8 @@ export default function BookingDetailsScreen() {
           <TouchableOpacity className="h-10 w-10 rounded-full bg-white items-center justify-center shadow">
             <Feather name="share-2" size={18} color="#374151" />
           </TouchableOpacity>
-        </View>
+        </View> */}
+        <AppHeader title="Booking Request" />
 
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Client Card */}
@@ -112,12 +114,12 @@ export default function BookingDetailsScreen() {
               </Text>
             </View>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => router.push("/(common)/chatScreen")}
               className="h-12 w-12 rounded-full bg-[#76D8CB] items-center justify-center"
             >
               <Feather name="message-circle" size={22} color="white" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           {/* Booking Summary */}
@@ -172,7 +174,7 @@ export default function BookingDetailsScreen() {
               </Text>
             </View>
 
-            <View className="mt-5 flex-row">
+            {/* <View className="mt-5 flex-row">
               <View className="flex-1">
                 <Text className="text-xs text-gray-400">
                   Preferred Products
@@ -192,7 +194,7 @@ export default function BookingDetailsScreen() {
                   Wedding
                 </Text>
               </View>
-            </View>
+            </View> */}
           </View>
 
           {/* Availability */}

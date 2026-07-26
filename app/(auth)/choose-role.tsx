@@ -107,7 +107,7 @@ export default function ChooseRoleScreen({ navigation }: any) {
 
     setTimeout(() => {
       router.push({
-        pathname: "/(auth)/LoginScreen",
+        pathname: "/(auth)/CreateAccountScreen",
         params: {
           role: "artist",
         },
@@ -199,7 +199,7 @@ export default function ChooseRoleScreen({ navigation }: any) {
           />
           <RoleCard
             image={ARTIST_IMAGE}
-            title="Beauty Artist"
+            title="Artist"
             subtitle="Grow your business and manage bookings easy"
             variant="artist"
             selected={selectedRole === "artist"}

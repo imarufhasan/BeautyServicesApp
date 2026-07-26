@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import GradientButton from "./GradientButton";
+import ConfirmButton from "./ConfirmButton";
 import { fetchServices, ServiceOption } from "./homeSearchApi";
 
 interface ServiceModalProps {
@@ -55,30 +55,51 @@ export default function ServiceModal({
 
   return (
     <BottomSheetModal visible={visible} onClose={onClose}>
-      <ModalHeader title="Select Service" onClose={onClose} />
+      <ModalHeader title="Select Services" onClose={onClose} />
 
       {/* Selected chips row */}
       {selectedServices.length > 0 && (
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingVertical: 10 }}
-          style={{ marginBottom: 6 }}
+          contentContainerStyle={{ paddingVertical: 10, paddingBottom: 10 }}
         >
           {selectedServices.map((s) => (
             <View
               key={s.id}
               className="flex-row items-center rounded-full px-3 py-1.5 mr-2"
-              style={{ backgroundColor: "#FDE7EE" }}
+              style={{
+                backgroundColor: "#FFE5E5",
+                maxWidth: 180,
+                height: 30,
+              }}
             >
               <Text
                 className="text-xs font-semibold mr-1.5"
-                style={{ color: "#E0507F" }}
+                style={{
+                  color: "#000",
+                  flexShrink: 1,
+                }}
+                numberOfLines={1}
               >
                 {s.name}
               </Text>
-              <TouchableOpacity onPress={() => toggleSelect(s.id)}>
-                <Ionicons name="close-circle" size={15} color="#E0507F" />
+
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => toggleSelect(s.id)}
+                hitSlop={{
+                  top: 8,
+                  bottom: 8,
+                  left: 8,
+                  right: 8,
+                }}
+              >
+                <Ionicons
+                  name="close-circle"
+                  size={16}
+                  color={COLORS.blueColor}
+                />
               </TouchableOpacity>
             </View>
           ))}
@@ -102,31 +123,42 @@ export default function ServiceModal({
                 onPress={() => toggleSelect(item.id)}
                 className="flex-row items-center justify-between py-3.5 px-3 rounded-2xl mb-1"
                 style={{
-                  backgroundColor: isSelected ? "#FDE7EE" : "transparent",
+                  backgroundColor: isSelected ? "#FFE5E5" : "transparent",
                 }}
               >
                 <Text
                   className="text-sm font-semibold"
-                  style={{ color: isSelected ? "#E0507F" : "#161119" }}
+                  style={{ color: isSelected ? "#000" : "#161119" }}
                 >
                   {item.name}
                 </Text>
-                {isSelected && (
-                  <Ionicons name="checkmark-circle" size={18} color="#E0507F" />
-                )}
+                {/* {isSelected && (
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={18}
+                    color={COLORS.baseColor}
+                  />
+                )} */}
               </TouchableOpacity>
             );
           }}
         />
       )}
 
-      <GradientButton
+      {/* <GradientButton
         label={
           selectedIds.length ? `Confirm (${selectedIds.length})` : "Confirm"
         }
         onPress={handleConfirm}
         disabled={!selectedIds.length}
         style={{ marginTop: 20 }}
+      /> */}
+      <ConfirmButton
+        label={
+          selectedIds.length ? `Confirm (${selectedIds.length})` : "Confirm"
+        }
+        onPress={handleConfirm}
+        disabled={!selectedIds.length}
       />
     </BottomSheetModal>
   );

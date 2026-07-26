@@ -1,12 +1,13 @@
 // components/registration/StepProgress.tsx
 
+import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-const SEGMENT_COLORS = ["#FF5FA2", "#FFA35C", "#B57EDC"];
+const SEGMENT_COLORS = [COLORS.baseColor1, "#FFA35C", COLORS.baseColor2];
 
 export const StepHeader = ({
   title,

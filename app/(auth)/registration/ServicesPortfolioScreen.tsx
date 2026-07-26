@@ -3,6 +3,7 @@ import AddServiceSheet, {
   NewServiceInput,
 } from "@/components/(artist)/AddServiceSheet";
 import GradientButton from "@/components/common/GradientButton";
+import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
@@ -213,9 +214,19 @@ export default function ServicesPortfolioScreen() {
               </View>
 
               <View className="mt-4 flex-row" style={{ gap: 10 }}>
-                <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-full border border-[#FBC6D0] py-2.5">
-                  <Ionicons name="pencil-outline" size={13} color="#FB7185" />
-                  <Text className="ml-1.5 text-[13px] font-bold text-[#FB7185]">
+                <TouchableOpacity
+                  style={{ borderColor: COLORS.blueColor }}
+                  className="flex-1 flex-row items-center justify-center rounded-full border border-[#FBC6D0] py-2.5"
+                >
+                  <Ionicons
+                    name="pencil-outline"
+                    size={13}
+                    color={COLORS.blueColor}
+                  />
+                  <Text
+                    style={{ color: COLORS.blueColor }}
+                    className="ml-1.5 text-[13px] font-bold "
+                  >
                     Edit
                   </Text>
                 </TouchableOpacity>
@@ -234,10 +245,13 @@ export default function ServicesPortfolioScreen() {
 
           <TouchableOpacity
             onPress={() => setSheetOpen(true)}
-            className="flex-row items-center justify-center rounded-full border border-dashed border-[#FBC6D0] py-4 mb-6"
+            className="flex-row items-center justify-center rounded-full border border-dashed border-[#B57EDC] py-4 mb-6"
           >
-            <Ionicons name="add" size={16} color="#FB7185" />
-            <Text className="ml-1.5 text-[14px] font-bold text-[#FB7185]">
+            <Ionicons name="add" size={16} color={COLORS.blueColor} />
+            <Text
+              style={{ color: COLORS.blueColor }}
+              className="ml-1.5 text-[14px] font-bold"
+            >
               Add Service
             </Text>
           </TouchableOpacity>
@@ -254,10 +268,13 @@ export default function ServicesPortfolioScreen() {
 
           <TouchableOpacity
             onPress={pickImages}
-            className="items-center justify-center rounded-[18px] border border-dashed border-[#FBC6D0] bg-white py-8 mb-4"
+            className="items-center justify-center rounded-[18px] border border-dashed border-[#B57EDC] bg-white py-8 mb-4"
           >
-            <View className="w-11 h-11 rounded-full bg-[#FDEAF0] items-center justify-center mb-3">
-              <Ionicons name="cloud-upload-outline" size={20} color="#FB7185" />
+            <View
+              style={{ borderColor: COLORS.blueColor2 }}
+              className="w-11 h-11 rounded-full  items-center justify-center mb-3"
+            >
+              <Ionicons name="cloud-upload-outline" size={20} color="#B57EDC" />
             </View>
             <Text className="text-[14px] font-bold text-[#161119]">
               Drop images here or <Text className="text-[#FB923C]">browse</Text>

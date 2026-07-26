@@ -180,6 +180,7 @@ export default function IdentityVerificationScreen() {
               onPress={handleSubmit}
               // disabled={!allUploaded}
             />
+            {/* <ConfirmButton label="Submit Verification" onPress={handleSubmit} /> */}
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

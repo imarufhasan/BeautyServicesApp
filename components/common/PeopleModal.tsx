@@ -2,11 +2,11 @@ import BottomSheetModal from "@/components/common/BottomSheetModal";
 import ModalHeader from "@/components/common/ModalHeader";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import GradientButton from "./GradientButton";
+import ConfirmButton from "./ConfirmButton";
 import { fetchPeopleConfig, PeopleConfig } from "./homeSearchApi";
-
 interface PeopleModalProps {
   visible: boolean;
   onClose: () => void;
@@ -74,7 +74,7 @@ export default function PeopleModal({
               {count}
             </Text>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={inc}
               disabled={count >= (config?.max ?? 10)}
               className="w-11 h-11 rounded-full items-center justify-center"
@@ -82,6 +82,27 @@ export default function PeopleModal({
               activeOpacity={0.7}
             >
               <Ionicons name="add" size={18} color="#FFFFFF" />
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={inc}
+              disabled={count >= (config?.max ?? 10)}
+              activeOpacity={0.7}
+              className="rounded-full overflow-hidden"
+            >
+              <LinearGradient
+                colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 22,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Ionicons name="add" size={18} color="#FFFFFF" />
+              </LinearGradient>
             </TouchableOpacity>
           </View>
           <Text className="text-xs text-[#B7B2BC] mt-3">
@@ -90,12 +111,12 @@ export default function PeopleModal({
         </View>
       )}
 
-      {/* <ConfirmButton label="Confirm" onPress={handleConfirm} /> */}
-      <GradientButton
+      <ConfirmButton label="Confirm" onPress={handleConfirm} />
+      {/* <GradientButton
         label="Confirm"
         onPress={handleConfirm}
         style={{ marginTop: 20 }}
-      />
+      /> */}
     </BottomSheetModal>
   );
 }

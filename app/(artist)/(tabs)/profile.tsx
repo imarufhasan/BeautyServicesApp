@@ -412,8 +412,8 @@ export default function ProfileScreen() {
               icon="help-circle"
               iconBg="bg-violet-50"
               iconColor="#8B5CF6"
-              label="Support"
-              onPress={() => router.push("/(common)/chatScreen")}
+              label="Contact Support"
+              onPress={() => router.push("/(artist)/contact-support")}
             />
             <MenuRow
               icon="info"

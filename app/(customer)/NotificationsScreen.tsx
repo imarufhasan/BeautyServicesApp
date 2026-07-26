@@ -7,6 +7,7 @@ import {
   Pressable,
   StatusBar,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -242,7 +243,17 @@ const NotificationCard = ({
   const config = ICON_CONFIG[item.type];
 
   return (
-    <View className="bg-white rounded-2xl p-4 mb-3 flex-row shadow-sm shadow-black/5 border border-gray-50">
+    <TouchableOpacity
+      onPress={() => {
+        console.log("item noti: ", item?.title);
+        if (item?.title === "Order complete") {
+          router.push("/(customer)/ReviewScreen");
+        } else if (item.actionLabel) {
+          onActionPress(item);
+        }
+      }}
+      className="bg-white rounded-2xl p-4 mb-3 flex-row shadow-sm shadow-black/5 border border-gray-50"
+    >
       {/* Icon */}
       <View
         className={`w-11 h-11 rounded-full items-center justify-center mr-3 ${config.bg}`}
@@ -282,7 +293,7 @@ const NotificationCard = ({
           </Pressable>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

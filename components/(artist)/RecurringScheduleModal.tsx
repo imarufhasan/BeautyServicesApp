@@ -12,9 +12,8 @@ import {
   View,
 } from "react-native";
 
-export type RecurringMode = "Weekly" | "Monthly" | "Custom";
-export type RecurringPattern =
-  "everyMonday" | "everyWeekend" | "weekdaysOnly" | "customDays";
+export type RecurringMode = "Weekly" | "Monthly";
+export type RecurringPattern = "everyMonday" | "everyWeekend" | "weekdaysOnly";
 
 export interface RecurringScheduleConfig {
   mode: RecurringMode;
@@ -26,7 +25,6 @@ const PATTERN_OPTIONS: { key: RecurringPattern; label: string }[] = [
   { key: "everyMonday", label: "Every Monday" },
   { key: "everyWeekend", label: "Every Weekend" },
   { key: "weekdaysOnly", label: "Weekdays Only" },
-  { key: "customDays", label: "Custom Days" },
 ];
 
 interface Props {
@@ -92,7 +90,7 @@ export default function RecurringScheduleModal({
           >
             {/* Mode tabs */}
             <View className="flex-row rounded-full bg-[#F1EEF1] p-1 mb-5">
-              {(["Weekly", "Monthly", "Custom"] as RecurringMode[]).map((m) => {
+              {(["Weekly", "Monthly"] as RecurringMode[]).map((m) => {
                 const active = m === mode;
                 return (
                   <TouchableOpacity
