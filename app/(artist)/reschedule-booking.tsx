@@ -279,18 +279,24 @@ export default function RescheduleBookingScreen() {
                   key={cell.key}
                   disabled={isPast}
                   onPress={() => setSelectedDate(cell.date)}
-                  style={{ width: `${100 / 7}%`, aspectRatio: 1 }}
+                  style={{
+                    width: `${100 / 7}%`,
+                    aspectRatio: 1,
+                    borderRadius: 999,
+                  }}
                   className="items-center justify-center"
                 >
                   <View
-                    className="items-center justify-center rounded-full"
                     style={{
-                      width: 32,
-                      height: 32,
+                      width: 36,
+                      height: 36,
+                      borderRadius: 18,
+                      alignItems: "center",
+                      justifyContent: "center",
                       backgroundColor: isSelected
-                        ? "#FC6C8C"
+                        ? COLORS.blueColor
                         : isToday
-                          ? "#FCD9E1"
+                          ? COLORS.blueColor2
                           : "transparent",
                     }}
                   >
@@ -303,7 +309,7 @@ export default function RescheduleBookingScreen() {
                           : isPast
                             ? "#D9D3E0"
                             : isToday
-                              ? "#E0407C"
+                              ? COLORS.blueColor
                               : "#161119",
                       }}
                     >

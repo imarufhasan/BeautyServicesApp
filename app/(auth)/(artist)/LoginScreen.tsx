@@ -1,3 +1,5 @@
+import { BookingService } from "@/app/(customer)/booking/BookingSetupScreen";
+import { Field } from "@/components/(artist)/FormField";
 import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -9,13 +11,11 @@ import {
   Platform,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BookingService } from "../(customer)/booking/BookingSetupScreen";
-import AuthBrandHeader from "./AuthBrandHeader";
+import AuthBrandHeader from "../AuthBrandHeader";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -144,7 +144,7 @@ export default function LoginScreen() {
             Welcome Back
           </Text>
           <Text className="text-base text-[#8A8590] mt-1">
-            Sign in to your account
+            Manage your bookings, clients and earnings.
           </Text>
 
           <View
@@ -157,11 +157,11 @@ export default function LoginScreen() {
               elevation: 2,
             }}
           >
-            <Text className="text-sm font-bold text-[#161119] mb-2">
+            {/* <Text className="text-sm font-bold text-[#161119] mb-2">
               Email Address
             </Text>
             <View
-              className="flex-row items-center bg-[#F5F2F7] rounded-[14px] px-4"
+              className="flex-row items-center bg-[#fffff] border-gray-200 border-2 rounded-2xl px-4"
               style={{ height: 50 }}
             >
               <Ionicons name="mail-outline" size={18} color="#B0AAB6" />
@@ -174,9 +174,16 @@ export default function LoginScreen() {
                 keyboardType="email-address"
                 className="flex-1 text-base text-[#161119] ml-2"
               />
-            </View>
+            </View> */}
+            <Field
+              label="Email Address"
+              placeholder="you@example.com"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
 
-            <Text className="text-sm font-bold text-[#161119] mb-2 mt-4">
+            {/* <Text className="text-sm font-bold text-[#161119] mb-2 mt-4">
               Password
             </Text>
             <View
@@ -200,7 +207,14 @@ export default function LoginScreen() {
                   color="#B0AAB6"
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
+            <Field
+              label="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChangeText={setPassword}
+              secure
+            />
 
             <View className="flex-row items-center justify-between mt-4">
               <TouchableOpacity
@@ -270,7 +284,7 @@ export default function LoginScreen() {
                 )}
 
                 <Text className="text-white text-lg font-extrabold">
-                  {loading ? "Signing In..." : "Sign In"}
+                  {loading ? "Login..." : "Login"}
                 </Text>
               </View>
             </LinearGradient>
@@ -284,7 +298,7 @@ export default function LoginScreen() {
 
           <View className="flex-row items-center justify-center">
             <Text className="text-sm text-[#6E6875]">
-              New to memillennial?{" "}
+              Don&apos;t have a Professional Account?{" "}
             </Text>
             <TouchableOpacity
               onPress={() => {

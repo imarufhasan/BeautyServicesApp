@@ -162,8 +162,8 @@ export const SectionCard = ({
   title,
   children,
 }: {
-  title: string;
-  children: React.ReactNode;
+  title?: string;
+  children?: React.ReactNode;
 }) => (
   <View
     className="bg-white rounded-[20px] p-5 mb-5"

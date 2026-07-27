@@ -80,7 +80,6 @@ export default function OtpVerificationScreen() {
 
   const handleResend = () => {
     if (cooldown > 0) return;
-    // TODO: call real resend-OTP mutation, passing { email }
     setCooldown(RESEND_COOLDOWN_SECONDS);
     setDigits(Array(OTP_LENGTH).fill(""));
     inputRefs.current[0]?.focus();
@@ -93,7 +92,6 @@ export default function OtpVerificationScreen() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (role === "customer") {
-        //router.replace("/(customer)/(tabs)/home");
         router.replace("/(customer)/booking/setup");
       } else {
         router.replace("/(auth)/registration/ProfessionalRegistrationScreen");
@@ -193,7 +191,7 @@ export default function OtpVerificationScreen() {
           activeOpacity={0.85}
           //disabled={!isComplete || verifying}
           onPress={handleVerify}
-          className="rounded-full overflow-hidden mt-6"
+          className="rounded-2xl overflow-hidden mt-6"
           //style={{ opacity: isComplete ? 1 : 0.5 }}
         >
           <LinearGradient

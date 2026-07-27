@@ -4,7 +4,7 @@ import AddServiceSheet, {
 } from "@/components/(artist)/AddServiceSheet";
 import GradientButton from "@/components/common/GradientButton";
 import { COLORS } from "@/constants/colors";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -218,8 +218,8 @@ export default function ServicesPortfolioScreen() {
                   style={{ borderColor: COLORS.blueColor }}
                   className="flex-1 flex-row items-center justify-center rounded-full border border-[#FBC6D0] py-2.5"
                 >
-                  <Ionicons
-                    name="pencil-outline"
+                  <FontAwesome
+                    name="pencil"
                     size={13}
                     color={COLORS.blueColor}
                   />
@@ -271,8 +271,12 @@ export default function ServicesPortfolioScreen() {
             className="items-center justify-center rounded-[18px] border border-dashed border-[#B57EDC] bg-white py-8 mb-4"
           >
             <View
-              style={{ borderColor: COLORS.blueColor2 }}
-              className="w-11 h-11 rounded-full  items-center justify-center mb-3"
+              style={{
+                borderRadius: 999,
+                borderColor: COLORS.blueColor,
+                backgroundColor: COLORS.blueColor2,
+              }}
+              className="w-11 h-11 rounded-full items-center justify-center mb-3"
             >
               <Ionicons name="cloud-upload-outline" size={20} color="#B57EDC" />
             </View>

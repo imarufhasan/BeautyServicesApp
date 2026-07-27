@@ -418,7 +418,8 @@ export default function WorkingHoursModal({
                       </Text>
                       <TouchableOpacity
                         onPress={() => addBreakTime(d.day)}
-                        className="h-5 w-5 items-center justify-center rounded-full bg-rose-400"
+                        style={{ backgroundColor: COLORS.blueColor }}
+                        className="h-5 w-5 items-center justify-center rounded-full"
                       >
                         <Feather name="plus" size={11} color="#fff" />
                       </TouchableOpacity>
@@ -503,7 +504,7 @@ export default function WorkingHoursModal({
           <View className="px-5 pb-8 pt-2 bg-[#FFF6F8]">
             <TouchableOpacity
               onPress={() => onSave(days)}
-              className="overflow-hidden rounded-full"
+              className="overflow-hidden rounded-2xl"
             >
               <LinearGradient
                 colors={[COLORS.baseColor1, COLORS.baseColor2]}

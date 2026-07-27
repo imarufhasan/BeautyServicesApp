@@ -127,15 +127,11 @@ export default function BookingSetupScreen({
         visitType: visitTypeLabel,
         dateLabel: params.dateLabel,
         timeLabel: params.timeLabel,
-        durationLabel: "3 hours", // TODO: replace with real duration from selected service
+        durationLabel: "3 hours",
         subtotal: String(total),
-        travelFee: "25", // TODO: replace with real travel fee from artist profile
+        travelFee: "25",
       },
     });
-  };
-
-  const handleSaveDraft = () => {
-    // TODO: persist draft locally or via API
   };
 
   return (

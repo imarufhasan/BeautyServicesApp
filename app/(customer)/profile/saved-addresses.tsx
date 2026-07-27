@@ -1,7 +1,7 @@
 import AppHeader from "@/components/common/AppHeader";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { COLORS } from "@/constants/colors";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -102,7 +102,7 @@ const AddressCard = ({
         className="items-center justify-center rounded-full"
         style={{ width: 32, height: 32, backgroundColor: "#FDEDF1" }}
       >
-        <Ionicons name="pencil" size={13} color="#FC6C8C" />
+        <FontAwesome name="pencil" size={13} color="#FC6C8C" />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={onDelete}

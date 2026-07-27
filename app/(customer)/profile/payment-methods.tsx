@@ -1,7 +1,7 @@
 import AppHeader from "@/components/common/AppHeader";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import { COLORS } from "@/constants/colors";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -124,7 +124,7 @@ const MethodCard = ({
         className="items-center justify-center rounded-full"
         style={{ width: 30, height: 30, backgroundColor: COLORS.blueColor2 }}
       >
-        <Ionicons name="pencil" size={13} color={COLORS.blueColor} />
+        <FontAwesome name="pencil" size={13} color={COLORS.blueColor} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={onDelete}

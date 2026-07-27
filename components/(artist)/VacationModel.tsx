@@ -25,11 +25,11 @@ interface Props {
   onSave: (config: VacationConfig) => void;
 }
 
-interface VacationModeCardProps {
-  vacationConfig: VacationConfig;
-  onToggleEnabled: (v: boolean) => void;
-  onOpenModal: () => void;
-}
+// interface VacationModeCardProps {
+//   vacationConfig: VacationConfig;
+//   onToggleEnabled: (v: boolean) => void;
+//   onOpenModal: () => void;
+// }
 
 export default function VacationModel({
   visible,
@@ -219,9 +219,6 @@ export default function VacationModel({
               <Text className="text-[10px] font-bold tracking-wider text-emerald-500 mb-1.5">
                 PREVIEW
               </Text>
-              {/* <Text className="text-[14px] font-bold text-[#161119]">
-                ☂️ Away: {previewRange}
-              </Text> */}
               <View className="flex-row items-center">
                 <Ionicons
                   name="umbrella-outline"

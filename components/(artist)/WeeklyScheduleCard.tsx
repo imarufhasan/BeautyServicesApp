@@ -69,7 +69,7 @@ export default function WeeklyScheduleCard({
           return (
             <View
               key={d.day}
-              className="mb-2 rounded-2xl border border-gray-100 bg-gray-50/60 px-4 py-3"
+              className={`mb-2 rounded-2xl border border-gray-100 ${isOn ? "bg-[#FDEFF3]" : "bg-[#F3F1F4]"} px-4 py-3`}
             >
               <TouchableOpacity
                 className="flex-row items-center justify-between"

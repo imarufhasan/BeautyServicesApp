@@ -1,13 +1,7 @@
 import GradientActionButton from "@/components/common/GradientActionButton";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { GradientSwitch } from "./SharedControls";
 
 export interface QuickBookingConfig {
@@ -121,7 +115,11 @@ export default function QuickBookingModal({
               </TouchableOpacity>
             </View>
 
-            <View className="flex-row items-center justify-between rounded-2xl bg-[#FDEFF3] px-4 py-4 mb-4">
+            <View
+              style={{ borderWidth: 0.4, borderColor: "#fecaca" }}
+
+              className="flex-row items-center justify-between rounded-2xl bg-[#FDEFF3] px-4 py-4 mb-4"
+            >
               <View className="flex-1 pr-3">
                 <Text className="text-[14px] font-bold text-[#161119]">
                   Enable Quick Booking
@@ -135,9 +133,13 @@ export default function QuickBookingModal({
               <GradientSwitch value={enabled} onValueChange={setEnabled} />
             </View>
 
-            <View className="rounded-2xl bg-emerald-50 px-4 py-3 mb-5">
+            <View
+              style={{ borderWidth: 0.4, borderColor: "#047857" }}
+              className="rounded-2xl bg-emerald-50 px-4 py-3 mb-5"
+            >
               <Text className="text-[13px] leading-5 text-emerald-700">
-                Clients can instantly confirm bookings without manual approval.
+                Clients can instantly confirm bookings without manual approval
+                from you. Configure limits below.
               </Text>
             </View>
 

@@ -16,7 +16,7 @@ export default function AvailabilityFooterActions({
     <View className="flex-row" style={{ gap: 12 }}>
       <TouchableOpacity
         style={{ borderColor: COLORS.baseColor, borderWidth: 1 }}
-        className="flex-1 h-[45px] items-center justify-center rounded-full border py-3.5"
+        className="flex-1 h-[45px] items-center justify-center rounded-2xl border py-3.5"
         onPress={onReset}
       >
         <Text
@@ -27,7 +27,7 @@ export default function AvailabilityFooterActions({
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        className="flex-1 overflow-hidden rounded-full"
+        className="flex-1 overflow-hidden rounded-2xl"
         onPress={onSave}
       >
         <LinearGradient

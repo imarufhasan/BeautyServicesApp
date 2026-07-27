@@ -16,11 +16,12 @@ interface GradientButtonProps {
   loading?: boolean;
   disabled?: boolean;
   style?: ViewStyle;
-  search?: boolean;
   height?: number;
   borderRadius?: number;
   textSize?: number;
   colors?: readonly [string, string];
+  icon?: keyof typeof Ionicons.glyphMap;
+  iconSize?: number;
 }
 
 export default function GradientButton({
@@ -29,11 +30,12 @@ export default function GradientButton({
   loading = false,
   disabled = false,
   style,
-  search,
   height = 50,
   borderRadius = 12,
   textSize = 16,
   colors = [COLORS.baseColor1, COLORS.baseColor2],
+  icon,
+  iconSize = 18,
 }: GradientButtonProps) {
   return (
     <Pressable
@@ -62,8 +64,9 @@ export default function GradientButton({
           alignItems: "center",
         }}
       >
-        <View className="flex-1 w-full justify-center items-center gap-2 flex-row">
-          {search && <Ionicons name="search" size={17} color="#FFFFFF" />}
+        <View className="flex-row items-center justify-center gap-2 w-full">
+          {icon && <Ionicons name={icon} size={iconSize} color="#FFFFFF" />}
+
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (

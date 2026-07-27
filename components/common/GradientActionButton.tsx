@@ -49,7 +49,7 @@ export default function GradientActionButton({
       activeOpacity={0.85}
       onPress={handlePress}
       disabled={disabled || isLoading}
-      className="overflow-hidden rounded-full"
+      className="overflow-hidden rounded-2xl"
       style={{
         height,
         opacity: disabled ? 0.5 : 1,

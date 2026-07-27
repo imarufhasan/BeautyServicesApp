@@ -1,4 +1,5 @@
-import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "@/constants/colors";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { GradientSwitch } from "./SharedControls";
@@ -46,19 +47,33 @@ export default function VacationCard({
           </Text>
         </View>
 
-        <GradientSwitch
-          value={vacationConfig.enabled}
-          onValueChange={onToggleEnabled}
-        />
+        <View className="flex-row items-center gap-2">
+          {vacationConfig.enabled && hasDates && (
+            <View
+              className="rounded-full px-3 py-1"
+              style={{ backgroundColor: COLORS.blueColor2 }}
+            >
+              <Text
+                className="font-semibold text-sm"
+                style={{ color: COLORS.blueColor }}
+              >
+                Active
+              </Text>
+            </View>
+          )}
+
+          <GradientSwitch
+            value={vacationConfig.enabled}
+            onValueChange={onToggleEnabled}
+          />
+        </View>
       </View>
 
       {/* Content */}
-      <View className="mt-5 rounded-2xl  px-4 py-4 items-center">
-        <Ionicons name="umbrella-outline" size={36} color="#F97316" />
-
+      <View className="mt-5 rounded-2xl  py-4 items-center">
         {vacationConfig.enabled && hasDates ? (
           <>
-            <Text className="mt-2 text-sm font-bold text-gray-800">
+            {/* <Text className="mt-2 text-sm font-bold text-gray-800">
               Away {vacationConfig.startDate}
               {" - "}
               {vacationConfig.endDate}
@@ -71,20 +86,50 @@ export default function VacationCard({
               >
                 {vacationConfig.message}
               </Text>
-            ) : null}
+            ) : null} */}
+
+            <View
+              style={{
+                borderWidth: 1,
+                borderRadius: 20,
+                borderColor: COLORS.blueColor,
+                backgroundColor: COLORS.blueColor2,
+              }}
+              className="p-5 w-full"
+            >
+              <View className="flex-row items-center">
+                <Ionicons
+                  name="umbrella-outline"
+                  size={18}
+                  color="#F97316"
+
+                  style={{ marginRight: 6 }}
+                />
+                <Text className="text-[14px] font-bold text-[#161119]">
+                  Away: {vacationConfig.endDate}
+                </Text>
+              </View>
+              <Text className="mt-1 text-[13px] text-[#4B5563]">
+                Taking a break. Back soon!
+              </Text>
+            </View>
           </>
         ) : (
-          <Text className="mt-2 text-sm text-gray-400 text-center">
-            Vacation mode is currently disabled.
-          </Text>
+          <>
+            <Ionicons name="umbrella-outline" size={36} color="#F97316" />
+            <Text className="mt-2 text-sm text-gray-400 text-center">
+              Vacation mode is currently disabled.
+            </Text>
+          </>
         )}
 
         <TouchableOpacity
           onPress={onOpenModal}
-          className="mt-3 rounded-full bg-white px-5 py-2"
+          className="mt-3 rounded-full bg-white px-5 py-2 flex-row gap-2"
         >
+          <FontAwesome name="pencil" size={14} color={"#f97316"} />
           <Text className="text-sm font-semibold text-orange-500">
-            {hasDates ? "Edit Vacation" : "Set Vacation Dates"}
+            {hasDates ? "Edit Vacation Dates" : "Set Vacation Dates"}
           </Text>
         </TouchableOpacity>
       </View>

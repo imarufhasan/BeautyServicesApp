@@ -64,10 +64,10 @@ export default function PeopleModal({
             <TouchableOpacity
               onPress={dec}
               disabled={count <= (config?.min ?? 1)}
-              className="w-11 h-11 rounded-full bg-[#F4F2F6] items-center justify-center"
+              className="w-11 h-11 border-red-500 border-2 rounded-full bg-[#fff] items-center justify-center"
               activeOpacity={0.7}
             >
-              <Ionicons name="remove" size={18} color="#161119" />
+              <Ionicons name="remove" size={18} color="red" />
             </TouchableOpacity>
 
             <Text className="text-3xl font-extrabold text-[#161119] mx-8">

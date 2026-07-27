@@ -107,7 +107,7 @@ export default function ChooseRoleScreen({ navigation }: any) {
 
     setTimeout(() => {
       router.push({
-        pathname: "/(auth)/CreateAccountScreen",
+        pathname: "/(auth)/(artist)/CreateAccountScreen",
         params: {
           role: "artist",
         },

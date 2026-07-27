@@ -14,6 +14,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AuthBrandHeader from "../AuthBrandHeader";
 
 export default function ProfessionalRegistrationScreen() {
   const [businessName, setBusinessName] = useState("");
@@ -49,31 +50,8 @@ export default function ProfessionalRegistrationScreen() {
             contentContainerStyle={{ paddingBottom: 40 }}
             showsVerticalScrollIndicator={false}
           >
-            {/* Logo */}
-            <View className="flex-row items-center mt-6 mb-6">
-              <View
-                style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: 6,
-                  transform: [{ rotate: "45deg" }],
-                  marginRight: 10,
-                  overflow: "hidden",
-                }}
-              >
-                <LinearGradient
-                  colors={["#FF5FA2", "#FFA35C"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={{ flex: 1 }}
-                />
-              </View>
-              <Text
-                style={{ color: COLORS.baseColor }}
-                className="text-lg font-bold"
-              >
-                memillennial
-              </Text>
+            <View className="py-4">
+              <AuthBrandHeader />
             </View>
 
             {/* Heading */}

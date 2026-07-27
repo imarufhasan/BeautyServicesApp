@@ -1,4 +1,5 @@
 import GradientActionButton from "@/components/common/GradientActionButton";
+import { COLORS } from "@/constants/colors";
 import { profileDummyResponse } from "@/constants/dummyData";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -468,11 +469,31 @@ export default function ProfileScreen() {
                   <Text className="font-semibold text-gray-600">Cancel</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={handleLogout}
                   className="flex-1 rounded-full bg-rose-400 py-3 items-center"
                 >
                   <Text className="font-semibold text-white">Logout</Text>
+                </TouchableOpacity> */}
+
+                <TouchableOpacity
+                  onPress={handleLogout}
+                  className="flex-1 overflow-hidden rounded-xl"
+                  activeOpacity={0.8}
+                >
+                  <LinearGradient
+                    colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingVertical: 12,
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Text className="font-semibold text-white">Logout</Text>
+                  </LinearGradient>
                 </TouchableOpacity>
               </View>
             </View>
