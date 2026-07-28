@@ -129,7 +129,7 @@ export default function WeeklyScheduleCard({
                     </View>
                   </View>
 
-                  <View className="mt-4 flex-row items-center justify-between mb-1">
+                  {/* <View className="mt-4 flex-row items-center justify-between mb-1">
                     <Text className="text-[10px] font-semibold tracking-wider text-gray-400">
                       BREAK TIME
                     </Text>
@@ -159,20 +159,7 @@ export default function WeeklyScheduleCard({
                         className="rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700"
                       />
                     </View>
-                  </View>
-
-                  {/* <TouchableOpacity
-                    onPress={() => onToggleEveningSession(!monEveningSession)}
-                    className="mt-4 flex-row items-center"
-                  >
-                    <GradientSwitch
-                      value={monEveningSession}
-                      onValueChange={onToggleEveningSession}
-                    />
-                    <Text className="ml-2 text-[13px] text-gray-500">
-                      Evening Session
-                    </Text>
-                  </TouchableOpacity> */}
+                  </View> */}
 
                   <View className="mt-4 flex-row" style={{ gap: 10 }}>
                     <View className="flex-1">

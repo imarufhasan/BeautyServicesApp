@@ -100,9 +100,16 @@ export default function AvailabilitySetupScreen() {
             onOpenModal={() => a.setVacationModalOpen(true)}
           />
 
+          {/* <RecurringScheduleCard
+            recurringConfig={a.recurringConfig}
+            onOpenModal={() => a.setRecurringModalOpen(true)}
+          /> */}
           <RecurringScheduleCard
             recurringConfig={a.recurringConfig}
             onOpenModal={() => a.setRecurringModalOpen(true)}
+            onSelectMode={(mode) =>
+              a.setRecurringConfig((prev) => ({ ...prev, mode }))
+            }
           />
 
           <QuickBookingCard

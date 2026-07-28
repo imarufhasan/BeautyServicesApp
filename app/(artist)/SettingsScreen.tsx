@@ -4,18 +4,13 @@ import { COLORS } from "@/constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import {
-  Calendar,
   ChevronRight,
   CreditCard,
   DollarSign,
-  Gift,
   Lock,
-  LogOut,
   LucideIcon,
   Shield,
-  Star,
   Trash2,
-  Zap,
 } from "lucide-react-native";
 import React, { useState } from "react";
 import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
@@ -204,7 +199,7 @@ export default function SettingsScreen() {
             </View>
 
             {/* Notifications */}
-            <View>
+            {/* <View>
               <SectionLabel>NOTIFICATIONS</SectionLabel>
               <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
                 <Row
@@ -257,7 +252,7 @@ export default function SettingsScreen() {
                   isLast
                 />
               </View>
-            </View>
+            </View> */}
 
             {/* Privacy */}
             <View>
@@ -302,7 +297,7 @@ export default function SettingsScreen() {
                     />
                   }
                 />
-                <Row
+                {/* <Row
                   Icon={Shield}
                   iconBg="bg-emerald-50"
                   iconColor="#10b981"
@@ -315,7 +310,7 @@ export default function SettingsScreen() {
                     />
                   }
                   isLast
-                />
+                /> */}
               </View>
             </View>
 
@@ -349,7 +344,7 @@ export default function SettingsScreen() {
                 DANGER ZONE
               </Text>
               <View className="overflow-hidden rounded-2xl bg-white shadow-sm">
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => openActionModal("logout")}
                   className="flex-row items-center gap-3 border-b border-rose-100 px-4 py-3.5"
                 >
@@ -362,7 +357,7 @@ export default function SettingsScreen() {
                       Sign out of your account
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                   onPress={() => openActionModal("delete")}
                   className="flex-row items-center gap-3 px-4 py-3.5"
@@ -418,7 +413,7 @@ export default function SettingsScreen() {
 
                   <TouchableOpacity
                     onPress={handleConfirmAction}
-                    className="flex-1 overflow-hidden rounded-xl"
+                    className="flex-1 overflow-hidden rounded-full"
                     activeOpacity={0.8}
                   >
                     <LinearGradient

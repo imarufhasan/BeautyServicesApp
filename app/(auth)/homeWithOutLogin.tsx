@@ -35,16 +35,10 @@ const INSPO_LUXURY = require("@/assets/images/home/home_pic1.png");
 const INSPO_FESTIVAL = require("@/assets/images/home/home_pic2.png");
 const INSPO_EXTRA = require("@/assets/images/home/home_pic3.png");
 const USER_AVATAR = require("@/assets/images/home/home_pic1.png");
-const ARTIST_1 = require("@/assets/images/home/home_pic1.png");
-const ARTIST_2 = require("@/assets/images/home/home_pic2.png");
-const ARTIST_3 = require("@/assets/images/home/home_pic3.png");
-const ARTIST_4 = require("@/assets/images/home/home_pic4.png");
 
-// ---------- Header mock data — replace with real auth/user + notifications API ----------
 const CURRENT_USER = { name: "Naz", avatar: USER_AVATAR };
 const UNREAD_NOTIFICATIONS_COUNT = 1;
 
-// ---------- Artist preview types + mock data — replace with real API ----------
 type ArtistPreview = {
   id: string;
   name: string;
@@ -59,124 +53,8 @@ type ArtistPreview = {
   isFavorite?: boolean;
 };
 
-const FEATURED_ARTISTS: ArtistPreview[] = [
-  {
-    id: "f1",
-    name: "Emma Richards",
-    specialty: "Bridal & Editorial",
-    rating: 4.9,
-    reviewCount: 312,
-    yearsExperience: 8,
-    distanceKm: 2.3,
-    priceFrom: 180,
-    image: ARTIST_1,
-    verified: true,
-  },
-  {
-    id: "f2",
-    name: "Aria Zhang",
-    specialty: "Hair & Color Specialist",
-    rating: 4.8,
-    reviewCount: 248,
-    yearsExperience: 6,
-    distanceKm: 3.1,
-    priceFrom: 150,
-    image: ARTIST_2,
-    verified: true,
-  },
-  {
-    id: "f3",
-    name: "Sophie Anderson",
-    specialty: "Luxury Makeup Artist",
-    rating: 5.0,
-    reviewCount: 421,
-    yearsExperience: 10,
-    distanceKm: 4.5,
-    priceFrom: 220,
-    image: ARTIST_3,
-    verified: true,
-  },
-  {
-    id: "f4",
-    name: "Isabella Moore",
-    specialty: "Celebrity Makeup & Styling",
-    rating: 4.9,
-    reviewCount: 356,
-    yearsExperience: 9,
-    distanceKm: 5.2,
-    priceFrom: 250,
-    image: ARTIST_4,
-    verified: true,
-  },
-];
+type FilterKey = "location" | "date" | "time" | "services" | "people";
 
-const NEARBY_ARTISTS: ArtistPreview[] = [
-  {
-    id: "n1",
-    name: "Maya Patel",
-    specialty: "Natural & Organic Makeup",
-    rating: 4.9,
-    reviewCount: 201,
-    yearsExperience: 7,
-    distanceKm: 0.8,
-    priceFrom: 145,
-    image: ARTIST_3,
-    verified: true,
-  },
-  {
-    id: "n2",
-    name: "Zara Williams",
-    specialty: "Hair Styling & Updos",
-    rating: 4.8,
-    reviewCount: 178,
-    yearsExperience: 5,
-    distanceKm: 1.2,
-    priceFrom: 135,
-    image: ARTIST_4,
-    verified: true,
-  },
-  {
-    id: "n3",
-    name: "Olivia Bennett",
-    specialty: "Bridal Hair Specialist",
-    rating: 4.7,
-    reviewCount: 145,
-    yearsExperience: 6,
-    distanceKm: 1.5,
-    priceFrom: 120,
-    image: ARTIST_1,
-    verified: true,
-  },
-  {
-    id: "n4",
-    name: "Chloe Martin",
-    specialty: "Party Makeup & Glam",
-    rating: 4.8,
-    reviewCount: 189,
-    yearsExperience: 4,
-    distanceKm: 2.1,
-    priceFrom: 110,
-    image: ARTIST_2,
-    verified: false,
-  },
-  {
-    id: "n5",
-    name: "Ava Thompson",
-    specialty: "Hair Coloring Expert",
-    rating: 4.9,
-    reviewCount: 267,
-    yearsExperience: 8,
-    distanceKm: 2.8,
-    priceFrom: 160,
-    image: ARTIST_3,
-    verified: true,
-  },
-];
-
-// ---------- Types ----------
-type FilterKey = "location" | "date" | "time" | "service" | "people";
-
-// ---------- Data ----------
 const FIND_ROWS: {
   key: FilterKey;
   icon: keyof typeof Ionicons.glyphMap;
@@ -202,10 +80,10 @@ const FIND_ROWS: {
     placeholder: "What time?",
   },
   {
-    key: "service",
+    key: "services",
     icon: "cut-outline",
-    label: "SERVICE",
-    placeholder: "What service?",
+    label: "SERVICES",
+    placeholder: "What services?",
   },
   {
     key: "people",
@@ -352,12 +230,15 @@ const FindRow = ({
       <Text className="text-[11px] font-bold tracking-[1px] text-[#9A94A0]">
         {label}
       </Text>
-      <Text
-        className="text-[15px] mt-0.5"
-        style={{ color: value ? "#161119" : "#B7B2BC" }}
-      >
-        {value ?? placeholder}
-      </Text>
+
+      {value && (
+        <Text
+          className="text-[15px] "
+          style={{ color: value ? "#161119" : "#B7B2BC" }}
+        >
+          {value}
+        </Text>
+      )}
     </View>
     <Ionicons name="chevron-forward" size={18} color="#C9C4CF" />
   </TouchableOpacity>
@@ -537,7 +418,7 @@ export default function HomeWithOutLogin() {
       : null,
     date: dateLabel,
     time: timeValue ? timeValue.label : null,
-    service: serviceValues.length
+    services: serviceValues.length
       ? serviceValues.map((s) => s.name).join(", ")
       : null,
     people: peopleCount
@@ -578,10 +459,10 @@ export default function HomeWithOutLogin() {
                 <Text style={{ color: COLORS.baseColor }}>millennial</Text>
               </Text>
               <Text className="text-3xl font-extrabold text-[#161119] mt-1">
-                Hi Beautiful!
+                Hi Stunner
               </Text>
               <Text className="text-sm text-[#8A8590] mt-1">
-                Let&apos;s find your perfect beauty artist.
+                Let&apos;s find your glam squad.
               </Text>
             </View>
           </View>
@@ -674,7 +555,7 @@ export default function HomeWithOutLogin() {
                   params,
                 });
               }}
-              search={true}
+              //search={true}
               style={{ marginTop: 40 }}
             />
           </View>
@@ -812,7 +693,7 @@ export default function HomeWithOutLogin() {
 
           <View className="flex-row items-center justify-between mt-7 mb-3">
             <Text className="text-xl font-extrabold text-[#161119]">
-              Beauty Inspiration
+              Inspiration
             </Text>
             <TouchableOpacity className="flex-row items-center">
               <Text
@@ -935,7 +816,7 @@ export default function HomeWithOutLogin() {
       />
 
       <ServiceModal
-        visible={activeModal === "service"}
+        visible={activeModal === "services"}
         onClose={closeModal}
         onSelect={setServiceValues}
         initialSelected={serviceValues}

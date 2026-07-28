@@ -132,6 +132,7 @@ export function useAvailabilityManager(
     recurringConfig,
     recurringModalOpen,
     setRecurringModalOpen,
+    setRecurringConfig,
     handleSaveRecurring,
 
     // quick booking

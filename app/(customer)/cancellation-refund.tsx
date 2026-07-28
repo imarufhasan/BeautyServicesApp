@@ -213,10 +213,7 @@ export default function CancellationRefundScreen({
   }, [tier, refundAmount, booking.lateCancellationFee]);
 
   const handleConfirmCancellation = () => {
-    //if (!selectedReason) return;
     setSubmitting(true);
-    // TODO: call cancel-booking mutation with { bookingId: booking.bookingId, reason: selectedReason }
-    // On success, navigate back or to a confirmation screen.
     setTimeout(() => {
       setSubmitting(false);
       router.push("/(customer)/(tabs)/bookings");
@@ -499,60 +496,28 @@ export default function CancellationRefundScreen({
             <InfoRow label="Wallet Refund" value="Not applicable" bold />
           </View>
         </View>
-
-        {/* Compensation Note card */}
         <View className="mt-4">
           <View
-            className="bg-white rounded-[20px] p-4"
-            style={{ borderColor: "#EFEAF3", borderWidth: 1 }}
+            className="flex-row items-center rounded-2xl px-4 py-3"
+            style={{
+              backgroundColor: "#F8F9FC",
+              borderWidth: 1,
+              borderColor: "#9AA9C1",
+            }}
           >
-            <View className="flex-row items-center mb-3">
-              <View className="w-8 h-8 rounded-full bg-[#FDEDF1] items-center justify-center mr-2.5">
-                <Ionicons name="alert-circle" size={15} color="#E0405B" />
-              </View>
-              <Text className="text-[15px] font-extrabold text-[#161119]">
-                Compensation Note
-              </Text>
-            </View>
-
-            <InfoRow label="Automatic Compensation" value="$0.00" bold />
-            <InfoRow
-              label="Late Cancellation Charge"
-              value={
-                lateFeeApplies
-                  ? `$${booking.lateCancellationFee.toFixed(2)}`
-                  : "$0.00"
-              }
-              bold
+            <Ionicons
+              name="lock-closed-outline"
+              size={17}
+              color="#9AA9C1"
+              style={{ marginRight: 10 }}
             />
-            <InfoRow label="Service Fee" value="$0.00" bold />
 
-            <Text className="text-[11px] text-[#B0AAB6] mt-2 leading-4">
-              Refund in the form of &apos;platform credit&apos; if cancelled
-              more than 48 hours
+            <Text className="flex-1 text-sm font-medium text-[#94A3B8]">
+              Refund will be in the form of{" "}
+              <Text style={{ color: "#FFB45C" }}>cancellation policy.</Text>
             </Text>
           </View>
         </View>
-
-        {/* Actions */}
-        {/* <TouchableOpacity
-          activeOpacity={0.85}
-          //disabled={!selectedReason || submitting}
-          onPress={handleConfirmCancellation}
-          className="rounded-full overflow-hidden mt-6"
-          //style={{ opacity: selectedReason ? 1 : 0.5 }}
-        >
-          <LinearGradient
-            colors={[COLORS.baseColor1, COLORS.baseColor2]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            className="py-4 items-center rounded-full"
-          >
-            <Text className="text-white text-base font-extrabold">
-              {submitting ? "Cancelling..." : "Confirm Cancellation"}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity> */}
         <View className="mt-6">
           <GradientActionButton
             title="Confirm Cancellation"
@@ -564,7 +529,7 @@ export default function CancellationRefundScreen({
         <TouchableOpacity
           activeOpacity={0.85}
           onPress={handleContactSupport}
-          className="items-center rounded-full py-4 border mt-3"
+          className="items-center rounded-2xl py-4 border mt-3"
           style={{ borderColor: "#F6C9D6" }}
         >
           <Text className="text-sm font-bold" style={{ color: "#FC6C8C" }}>

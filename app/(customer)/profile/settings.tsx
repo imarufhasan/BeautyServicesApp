@@ -1,6 +1,5 @@
 import AppHeader from "@/components/common/AppHeader";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
-import Toggle from "@/components/common/Toggle";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -96,7 +95,7 @@ export default function SettingsScreen({
           <Ionicons name="chevron-forward" size={16} color="#D9D3E0" />
         </TouchableOpacity>
 
-        <Text className="text-[11px] font-bold text-[#9A94A0] tracking-wide mb-2 uppercase">
+        {/* <Text className="text-[11px] font-bold text-[#9A94A0] tracking-wide mb-2 uppercase">
           Notifications
         </Text>
         <View
@@ -129,7 +128,7 @@ export default function SettingsScreen({
               )}
             </View>
           ))}
-        </View>
+        </View> */}
 
         <Text className="text-[11px] font-bold text-[#E0405B] tracking-wide mb-2 uppercase">
           Danger Zone

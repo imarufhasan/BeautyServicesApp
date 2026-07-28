@@ -201,6 +201,19 @@ export default function BookingConfirmedScreen({
               bold
             />
           </View>
+
+          <View className="flex-row mt-4 items-start rounded-2xl bg-gray-200 px-4 py-4 mb-6">
+            <Ionicons
+              name="shield-outline"
+              size={16}
+              color="#8A8590"
+              style={{ marginTop: 2, marginRight: 10 }}
+            />
+            <Text className="flex-1 text-[12px] leading-5 text-[#8A8590]">
+              Your booking has been confirmed. The remaining balance will be
+              payable on the day of your service.
+            </Text>
+          </View>
         </View>
 
         {/* Actions */}

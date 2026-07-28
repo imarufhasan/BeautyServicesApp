@@ -6,7 +6,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const STATUS_STYLES: Record<
@@ -91,9 +98,7 @@ const BookingCard = ({
         <View className="flex-row items-center">
           <Ionicons name="location-outline" size={13} color="#8A8590" />
           <Text className="text-[11px] text-[#8A8590] ml-1">
-            {booking.location.type === "mobile"
-              ? "Mobile Visit"
-              : "Home Studio"}
+            {booking.location.type === "mobile" ? "Mobile Visit" : "Studio"}
           </Text>
         </View>
       </View>
@@ -183,14 +188,14 @@ export default function MyBookingsScreen({
 
   const confirmCancelBooking = () => {
     if (!selectedBooking) return;
-
     console.log("Cancel booking:", selectedBooking.id);
-
-    // TODO API:
-    // await cancelBookingMutation(selectedBooking.id)
-
     setCancelModalVisible(false);
     setSelectedBooking(null);
+    router.push("/(customer)/cancellation-refund");
+    ToastAndroid.show(
+      "Refund will be issued as app credit according to the cancellation policy.",
+      ToastAndroid.SHORT,
+    );
   };
 
   return (

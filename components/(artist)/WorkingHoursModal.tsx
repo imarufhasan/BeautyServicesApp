@@ -1,5 +1,5 @@
 import { COLORS } from "@/constants/colors";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef, useState } from "react";
@@ -412,7 +412,7 @@ export default function WorkingHoursModal({
                       />
                     </View>
 
-                    <View className="mt-4 flex-row items-center justify-between mb-2">
+                    {/* <View className="mt-4 flex-row items-center justify-between mb-2">
                       <Text className="text-[10px] font-bold tracking-wider text-[#B7B2BC]">
                         BREAK TIME
                       </Text>
@@ -458,7 +458,7 @@ export default function WorkingHoursModal({
                           </TouchableOpacity>
                         )}
                       </View>
-                    ))}
+                    ))} */}
 
                     {/* <TouchableOpacity
                       onPress={() =>

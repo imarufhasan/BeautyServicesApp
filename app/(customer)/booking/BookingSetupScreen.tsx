@@ -113,8 +113,7 @@ export default function BookingSetupScreen({
     setSelectedServices((prev) => prev.filter((s) => s.id !== id));
   };
 
-  const visitTypeLabel =
-    visitType === "home_visit" ? "Home Visit" : "Home Studio";
+  const visitTypeLabel = visitType === "home_visit" ? "Home Visit" : "Studio";
   const bookingModeLabel = bookingMode === "quick" ? "Quick" : "Request";
 
   const handleConfirmBooking = () => {
@@ -183,7 +182,9 @@ export default function BookingSetupScreen({
           <View className="flex-row" style={{ gap: 12 }}>
             <TouchableOpacity
               activeOpacity={0.85}
-              onPress={() => setVisitType("home_visit")}
+              onPress={() => {
+                router.push("/(customer)/profile/add-address");
+              }}
               className="flex-1 items-center justify-center rounded-[16px] py-5 border"
               style={{
                 backgroundColor:
@@ -193,7 +194,7 @@ export default function BookingSetupScreen({
               }}
             >
               <Ionicons
-                name="home-outline"
+                name="add"
                 size={22}
                 color={visitType === "home_visit" ? "#B57EDC" : "#8A8590"}
               />
@@ -203,7 +204,7 @@ export default function BookingSetupScreen({
                   color: visitType === "home_visit" ? "#B57EDC" : "#8A8590",
                 }}
               >
-                Home Visit
+                Add Address
               </Text>
             </TouchableOpacity>
 
@@ -230,7 +231,7 @@ export default function BookingSetupScreen({
                   color: visitType === "home_studio" ? "#B57EDC" : "#8A8590",
                 }}
               >
-                Home Studio
+                Studio
               </Text>
             </TouchableOpacity>
           </View>

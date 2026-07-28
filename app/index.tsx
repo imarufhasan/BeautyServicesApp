@@ -7,7 +7,7 @@ export default function SplashScreen() {
   useFocusEffect(() => {
     const timer = setTimeout(() => {
       router.push("/(auth)/welcome");
-    }, 1000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   });

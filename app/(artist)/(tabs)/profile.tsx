@@ -478,7 +478,7 @@ export default function ProfileScreen() {
 
                 <TouchableOpacity
                   onPress={handleLogout}
-                  className="flex-1 overflow-hidden rounded-xl"
+                  className="flex-1 overflow-hidden rounded-full"
                   activeOpacity={0.8}
                 >
                   <LinearGradient

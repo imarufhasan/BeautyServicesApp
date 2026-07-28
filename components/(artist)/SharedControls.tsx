@@ -49,7 +49,7 @@ export function LegendDot({ color, label }: { color: string; label: string }) {
   );
 }
 
-export function Chip({ label, active }: { label: string; active: boolean }) {
+export function Chip2({ label, active }: { label: string; active: boolean }) {
   return (
     <View
       className={`flex-row items-center rounded-full px-3 py-2 ${active ? "bg-emerald-50" : "bg-gray-100"}`}
@@ -63,6 +63,39 @@ export function Chip({ label, active }: { label: string; active: boolean }) {
         {label}
       </Text>
     </View>
+  );
+}
+
+export function Chip({
+  label,
+  active,
+  onPress,
+}: {
+  label: string;
+  active: boolean;
+  onPress?: () => void;
+}) {
+  const content = (
+    <View
+      className={`flex-row items-center rounded-full px-3 py-2 ${active ? "bg-emerald-50" : "bg-gray-100"}`}
+    >
+      <View
+        className={`mr-1.5 h-1.5 w-1.5 rounded-full ${active ? "bg-emerald-500" : "bg-gray-400"}`}
+      />
+      <Text
+        className={`text-xs font-medium ${active ? "text-emerald-600" : "text-gray-400"}`}
+      >
+        {label}
+      </Text>
+    </View>
+  );
+
+  if (!onPress) return content;
+
+  return (
+    <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
+      {content}
+    </TouchableOpacity>
   );
 }
 

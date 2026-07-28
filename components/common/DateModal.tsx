@@ -189,7 +189,7 @@ export default function DateModal({
         disabled={!selected}
         style={{ marginTop: 20 }}
       /> */}
-      <ConfirmButton label="Submit Verification" onPress={handleConfirm} />
+      <ConfirmButton label="Confirm" onPress={handleConfirm} />
     </BottomSheetModal>
   );
 }
