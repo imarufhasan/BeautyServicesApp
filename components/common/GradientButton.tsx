@@ -32,7 +32,7 @@ export default function GradientButton({
   style,
   height = 50,
   borderRadius = 12,
-  textSize = 16,
+  textSize = 14,
   colors = [COLORS.baseColor1, COLORS.baseColor2],
   icon,
   iconSize = 18,

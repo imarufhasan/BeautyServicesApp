@@ -73,7 +73,7 @@ function startOfDay(d: Date) {
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <Text
     className="text-[11px] font-extrabold tracking-wide"
-    style={{ color: "#E0407C" }}
+    style={{ color: COLORS.blueColor }}
   >
     {children}
   </Text>
@@ -159,10 +159,14 @@ export default function RescheduleBookingScreen() {
               style={{ backgroundColor: "#FDEEF2", width: "47%" }}
             >
               <View className="flex-row items-center mb-1">
-                <Ionicons name="calendar-outline" size={12} color="#FC6C8C" />
+                <Ionicons
+                  name="calendar-outline"
+                  size={12}
+                  color={COLORS.blueColor}
+                />
                 <Text
                   className="text-[10px] font-bold ml-1"
-                  style={{ color: "#FC6C8C" }}
+                  style={{ color: COLORS.blueColor }}
                 >
                   Date
                 </Text>
@@ -177,10 +181,14 @@ export default function RescheduleBookingScreen() {
               style={{ backgroundColor: "#FDEEF2", width: "47%" }}
             >
               <View className="flex-row items-center mb-1">
-                <Ionicons name="time-outline" size={12} color="#FC6C8C" />
+                <Ionicons
+                  name="time-outline"
+                  size={12}
+                  color={COLORS.blueColor}
+                />
                 <Text
                   className="text-[10px] font-bold ml-1"
-                  style={{ color: "#FC6C8C" }}
+                  style={{ color: COLORS.blueColor }}
                 >
                   Time
                 </Text>
@@ -195,10 +203,14 @@ export default function RescheduleBookingScreen() {
               style={{ backgroundColor: "#FDEEF2", width: "47%" }}
             >
               <View className="flex-row items-center mb-1">
-                <Ionicons name="star-outline" size={12} color="#FC6C8C" />
+                <Ionicons
+                  name="star-outline"
+                  size={12}
+                  color={COLORS.blueColor}
+                />
                 <Text
                   className="text-[10px] font-bold ml-1"
-                  style={{ color: "#FC6C8C" }}
+                  style={{ color: COLORS.blueColor }}
                 >
                   Service
                 </Text>
@@ -213,10 +225,14 @@ export default function RescheduleBookingScreen() {
               style={{ backgroundColor: "#FDEEF2", width: "47%" }}
             >
               <View className="flex-row items-center mb-1">
-                <Ionicons name="person-outline" size={12} color="#FC6C8C" />
+                <Ionicons
+                  name="person-outline"
+                  size={12}
+                  color={COLORS.blueColor}
+                />
                 <Text
                   className="text-[10px] font-bold ml-1"
-                  style={{ color: "#FC6C8C" }}
+                  style={{ color: COLORS.blueColor }}
                 >
                   Client
                 </Text>
@@ -302,7 +318,7 @@ export default function RescheduleBookingScreen() {
                       width: 32,
                       height: 32,
                       backgroundColor: isSelected
-                        ? "#FC6C8C"
+                        ? COLORS.blueColor
                         : isToday
                           ? "#FCD9E1"
                           : "transparent",
@@ -311,13 +327,14 @@ export default function RescheduleBookingScreen() {
                     <Text
                       className="text-sm"
                       style={{
+                        borderRadius: isSelected ? 999 : 999,
                         fontWeight: isSelected || isToday ? "800" : "500",
                         color: isSelected
                           ? "#fff"
                           : isPast
                             ? "#D9D3E0"
                             : isToday
-                              ? "#E0407C"
+                              ? COLORS.blueColor
                               : "#161119",
                       }}
                     >

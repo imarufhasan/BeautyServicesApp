@@ -1,4 +1,6 @@
+import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
   Modal,
@@ -7,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import GradientActionButton from "../common/GradientActionButton";
 
 type Props = {
   visible: boolean;
@@ -65,14 +66,33 @@ export default function LogoutModal({ visible, onCancel, onConfirm }: Props) {
                 </TouchableOpacity>
 
                 {/* Logout */}
-                <View className="flex-1">
+                {/* <View className="flex-1">
                   <GradientActionButton
                     title="Logout"
                     onPress={() => {
                       onConfirm();
                     }}
                   />
-                </View>
+                </View> */}
+                <TouchableOpacity
+                  onPress={onConfirm}
+                  className="flex-1 overflow-hidden rounded-full"
+                  activeOpacity={0.8}
+                >
+                  <LinearGradient
+                    colors={[COLORS.baseColor1, COLORS.baseColor2]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingVertical: 12,
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Text className="font-semibold text-white">Logout</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
               </View>
             </View>
           </TouchableWithoutFeedback>

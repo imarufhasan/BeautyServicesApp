@@ -20,7 +20,7 @@ export default function GradientActionButton({
   loading = false,
   disabled = false,
   icon,
-  height = 40,
+  height = 50,
   textSize = "text-sm",
   haveLoader = true,
 }: Props) {

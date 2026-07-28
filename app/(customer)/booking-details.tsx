@@ -12,6 +12,7 @@ import {
   Linking,
   ScrollView,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -163,7 +164,7 @@ export default function BookingDetailsScreen() {
         visitType:
           item.location.type === "mobile"
             ? "Mobile — At Your Location"
-            : "Home Studio",
+            : "Studio",
 
         address: item.location.address,
 
@@ -244,6 +245,10 @@ export default function BookingDetailsScreen() {
     setCancelModalVisible(false);
     setSelectedBooking(null);
     router.push("/(customer)/cancellation-refund");
+    ToastAndroid.show(
+      "Refund will be issued as app credit according to the cancellation policy.",
+      ToastAndroid.SHORT,
+    );
   };
 
   return (
@@ -405,8 +410,8 @@ export default function BookingDetailsScreen() {
               </View>
             </View>
 
-            <View className="flex-row mt-4" style={{ gap: 10 }}>
-              <TouchableOpacity
+            <View className="w-full mt-4">
+              {/* <TouchableOpacity
                 activeOpacity={0.85}
                 onPress={handleCall}
                 className="flex-1 flex-row items-center justify-center rounded-full py-3 border"
@@ -425,12 +430,12 @@ export default function BookingDetailsScreen() {
                 >
                   {booking.artistPhone}
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <TouchableOpacity
                 activeOpacity={0.85}
                 onPress={handleMessage}
-                className="flex-1 rounded-full overflow-hidden"
+                className="w-full rounded-full overflow-hidden"
               >
                 <LinearGradient
                   colors={[COLORS.baseColor1, COLORS.baseColor2]}
