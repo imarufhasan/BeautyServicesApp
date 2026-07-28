@@ -11,13 +11,13 @@ export default function BookingSetupRoute() {
     dateLabel,
     timeLabel,
   } = useLocalSearchParams<{
-    artistId: string;
-    artistName: string;
+    artistId?: string;
+    artistName?: string;
     serviceId?: string;
     serviceName?: string;
     servicePrice?: string;
-    dateLabel: string;
-    timeLabel: string;
+    dateLabel?: string;
+    timeLabel?: string;
   }>();
 
   const services: BookingService[] = serviceId
@@ -28,16 +28,28 @@ export default function BookingSetupRoute() {
           price: Number(servicePrice) || 0,
         },
       ]
-    : [];
+    : [
+        // Dummy service data
+        {
+          id: "service-001",
+          name: "Bridal Makeup & Hair Styling",
+          price: 250,
+        },
+        {
+          id: "service-002",
+          name: "Party Makeup",
+          price: 120,
+        },
+      ];
 
   return (
     <BookingSetupScreen
       params={{
-        artistId,
-        artistName,
+        artistId: artistId ?? "artist-001",
+        artistName: artistName ?? "Sofia Laurent",
         services,
-        dateLabel,
-        timeLabel,
+        dateLabel: dateLabel ?? "Saturday, July 12, 2025",
+        timeLabel: timeLabel ?? "10:00 AM",
       }}
     />
   );

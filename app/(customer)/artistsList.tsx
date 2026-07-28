@@ -222,12 +222,6 @@ export default function ArtistListScreen() {
   const isFeatured = artistType === "featured";
   const isNearby = artistType === "nearby";
 
-  // const screenTitle = isFeatured
-  //   ? "Featured Artists"
-  //   : isNearby
-  //     ? "Nearby Artists"
-  //     : params.service || "Find My Artist";
-
   const screenTitle = "Find My Artist";
 
   const [searchText, setSearchText] = useState("");
@@ -448,7 +442,6 @@ export default function ArtistListScreen() {
       );
     }
 
-    // Default: service search / "Find My Artist" flow — keep the original warning banner
     if (artists?.length > 0) {
       return (
         <View

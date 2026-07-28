@@ -26,7 +26,7 @@ export default function ConfirmButton({
         className=" py-4 items-center justify-center"
         style={{ borderRadius: 10 }}
       >
-        <Text className="text-white text-base font-bold">{label}</Text>
+        <Text className="text-white text-lg font-bold">{label}</Text>
       </LinearGradient>
     </TouchableOpacity>
   );

@@ -1,14 +1,3 @@
-// ---------------------------------------------------------------------------
-// Mock API layer for the "Find My Artist" search flow (Location, Date, Time,
-// Service, People). Every function here simulates a network call (delay +
-// resolved promise) and returns data shaped exactly like what the real
-// backend is expected to return.
-//
-// TO SWAP IN THE REAL API: replace the body of each function with an actual
-// fetch()/axios call to your endpoint. Keep the same function signature and
-// return type and NOTHING in the UI layer (the modals) needs to change.
-// ---------------------------------------------------------------------------
-
 export interface LocationOption {
   id: string;
   name: string;
@@ -66,7 +55,8 @@ export async function fetchLocations(query = ""): Promise<LocationOption[]> {
   const q = query.toLowerCase();
   return MOCK_LOCATIONS.filter(
     (loc) =>
-      loc.name.toLowerCase().includes(q) || loc.region.toLowerCase().includes(q)
+      loc.name.toLowerCase().includes(q) ||
+      loc.region.toLowerCase().includes(q),
   );
 }
 
@@ -75,7 +65,7 @@ export async function fetchLocations(query = ""): Promise<LocationOption[]> {
 // ---------------------------------------------------------------------------
 export async function fetchAvailableMonth(
   year: number,
-  month: number
+  month: number,
 ): Promise<CalendarMonth> {
   await wait(NETWORK_DELAY);
   const today = new Date();

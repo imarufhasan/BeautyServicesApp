@@ -39,7 +39,7 @@ const ARTIST_3 = require("../../../assets/images/home/home_pic3.png");
 const ARTIST_4 = require("../../../assets/images/home/home_pic4.png");
 
 // ---------- Header mock data — replace with real auth/user + notifications API ----------
-const CURRENT_USER = { name: "Naz", avatar: USER_AVATAR };
+const CURRENT_USER = { name: "Stunner", avatar: USER_AVATAR };
 const UNREAD_NOTIFICATIONS_COUNT = 1;
 
 // ---------- Artist preview types + mock data — replace with real API ----------
@@ -172,7 +172,7 @@ const NEARBY_ARTISTS: ArtistPreview[] = [
 ];
 
 // ---------- Types ----------
-type FilterKey = "location" | "date" | "time" | "service" | "people";
+type FilterKey = "location" | "date" | "time" | "services" | "people";
 
 // ---------- Data ----------
 const FIND_ROWS: {
@@ -200,10 +200,10 @@ const FIND_ROWS: {
     placeholder: "What time?",
   },
   {
-    key: "service",
+    key: "services",
     icon: "cut-outline",
-    label: "SERVICE",
-    placeholder: "What service?",
+    label: "SERVICES",
+    placeholder: "What services?",
   },
   {
     key: "people",
@@ -329,12 +329,15 @@ const FindRow = ({
       <Text className="text-[11px] font-bold tracking-[1px] text-[#9A94A0]">
         {label}
       </Text>
-      <Text
-        className="text-[15px] mt-0.5"
-        style={{ color: value ? "#161119" : "#B7B2BC" }}
-      >
-        {value ?? placeholder}
-      </Text>
+
+      {value && (
+        <Text
+          className="text-[15px] "
+          style={{ color: value ? "#161119" : "#B7B2BC" }}
+        >
+          {value}
+        </Text>
+      )}
     </View>
     <Ionicons name="chevron-forward" size={18} color="#C9C4CF" />
   </TouchableOpacity>
@@ -510,7 +513,7 @@ export default function CustomerHomeScreen() {
       : null,
     date: dateLabel,
     time: timeValue ? timeValue.label : null,
-    service: serviceValues.length
+    services: serviceValues.length
       ? serviceValues.map((s) => s.name).join(", ")
       : null,
     people: peopleCount
@@ -553,9 +556,7 @@ export default function CustomerHomeScreen() {
               <Text className="text-3xl font-extrabold text-[#161119] mt-1">
                 Hi {userName}
               </Text>
-              <Text className="text-sm text-[#8A8590] mt-1">
-                Let&apos;s find your perfect beauty artist.
-              </Text>
+              <Text className="text-sm text-[#8A8590] mt-1">Hi Stunner</Text>
             </View>
 
             <View className="flex-row items-center" style={{ gap: 10 }}>
@@ -687,7 +688,7 @@ export default function CustomerHomeScreen() {
                   params,
                 });
               }}
-              search={true}
+              //search={true}
               style={{ marginTop: 40 }}
             />
           </View>
@@ -900,10 +901,10 @@ export default function CustomerHomeScreen() {
 
           <View className="flex-row items-center justify-between mt-7 mb-3">
             <Text className="text-xl font-extrabold text-[#161119]">
-              Beauty Inspiration
+              Inspiration
             </Text>
             <TouchableOpacity
-              // onPress={() => router.push("/(customer)/beautyInspirationScreen")}
+              onPress={() => router.push("/(customer)/beautyInspirationScreen")}
               className="flex-row items-center"
             >
               <Text
@@ -1026,7 +1027,7 @@ export default function CustomerHomeScreen() {
       />
 
       <ServiceModal
-        visible={activeModal === "service"}
+        visible={activeModal === "services"}
         onClose={closeModal}
         onSelect={setServiceValues}
         initialSelected={serviceValues}
